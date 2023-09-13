@@ -51,6 +51,22 @@ public:
         });
     };
 
+    Q_INVOKABLE void executeEditProfile() {
+        auto * watcher = restApi->editProfile();;
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
+            auto result = watcher->result();
+            if (const auto pData = get_if<UserDto>(&result)) {
+                qDebug() << "edited user: " << *pData<< "\n";
+            } else  if (const auto pError = get_if<RestError>(&result)) {
+                switch (*pError) {
+                case RestError::NetworkError: qDebug() << "NetworkError"; break;
+                case RestError::SslError: qDebug() << "SslError"; break;
+                }
+            }
+            watcher->deleteLater();
+        });
+    };
+
     Q_INVOKABLE void executeAddToDo() {
         restApi->addToDo();
     };
@@ -65,11 +81,7 @@ public:
     
     Q_INVOKABLE void executeEditToDo() {
         restApi->editToDo();
-    };
-    
-    Q_INVOKABLE void executeEditProfile() {
-        restApi->editProfile();
-    };    
+    };  
 
 signals:
 

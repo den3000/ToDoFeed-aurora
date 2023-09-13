@@ -34,6 +34,12 @@ Page {
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: "Edit Profile"
+            onClicked: { viewModel.executeEditProfile() }
+        }
+
+        Button {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Add ToDos"
             onClicked: { viewModel.executeAddToDo() }
         }
@@ -54,12 +60,6 @@ Page {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Edit ToDo"
             onClicked: { viewModel.executeEditToDo() }
-        }
-
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Edit Profile"
-            onClicked: { viewModel.executeEditProfile() }
         }
 
     }

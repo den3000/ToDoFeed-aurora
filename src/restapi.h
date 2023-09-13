@@ -151,11 +151,68 @@ public:
         return watcher;
     };
 
+    RestResultWatcher<UserDto> * editProfile(RestResultWatcher<UserDto> * watcher = new RestResultWatcher<UserDto>()) {
+        QNetworkRequest request;
+        request.setUrl(endpoint + "/edit_profile");
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        QJsonObject obj;
+        obj["token"] = token;
+        obj["firstName"] = "John edited";
+        obj["lastName"] = "Doe";
+        obj["about"] = "Blockbuster Star";
+        QJsonDocument doc(obj);
+        QByteArray data = doc.toJson();
+
+        QNetworkReply *reply = manager->post(request, data);
+
+        connect(reply, &QNetworkReply::finished, this, [this, watcher, reply]() {
+            QByteArray content = reply->readAll();
+            auto jdReply = QJsonDocument::fromJson(content);
+            if (jdReply.isNull()) {
+                qDebug() << "json doc is null";
+                return;
+            }
+            qDebug() << "registration response: " << jdReply;
+
+            auto joObject = jdReply.object();
+            token = joObject["token"].toString();
+            qDebug() << "token: " << token;
+            // TODO: save token to some preferences files
+
+            auto f = QtConcurrent::run([](QJsonObject const &jo){
+                    auto user = UserDto(jo);
+                    return RestResult<UserDto>(user);
+            }, joObject);
+
+            watcher->setFuture(f);
+        });
+
+        connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, [reply, watcher](){
+            Q_UNUSED(reply)
+            qDebug() << "registration error";
+            auto f = QtConcurrent::run([](){
+                return RestResult<UserDto>(RestError::NetworkError);
+            });
+            watcher->setFuture(f);
+        });
+
+        connect(reply, &QNetworkReply::sslErrors, this, [reply, watcher]() {
+            Q_UNUSED(reply)
+            qDebug() << "registration sslErrors";
+            auto f = QtConcurrent::run([](){
+                return RestResult<UserDto>(RestError::SslError);
+            });
+            watcher->setFuture(f);
+        });
+
+        return watcher;
+    };
+
     void addToDo() { qDebug() << "pam"; };
     void getAllToDos() { qDebug() << "pam"; };
     void getMyToDos() { qDebug() << "pam"; };
     void editToDo() { qDebug() << "pam"; };
-    void editProfile() { qDebug() << "pam"; };
 
     void registrationOld() {
         QNetworkRequest request;

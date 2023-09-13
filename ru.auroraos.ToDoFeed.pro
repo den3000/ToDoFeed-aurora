@@ -45,10 +45,12 @@ PKGCONFIG += \
 
 SOURCES += \
     src/main.cpp \
+    src/restapi.cpp \
     src/restapitestvm.cpp
 
 HEADERS += \
     src/easy_import.h \
+    src/restapi.h \
     src/restapitestvm.h \
     src/smoozyutils.h
 

@@ -2,6 +2,7 @@
 #define EASY_IMPORT_H
 
 #include <QJsonValue>
+#include <QJsonObject>
 #include <QDebug>
 #include <optional>
 #include <variant>

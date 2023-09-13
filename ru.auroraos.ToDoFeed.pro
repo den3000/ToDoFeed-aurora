@@ -46,13 +46,17 @@ PKGCONFIG += \
 SOURCES += \
     src/main.cpp \
     src/restapi.cpp \
-    src/restapitestvm.cpp
+    src/restapitestvm.cpp \
+    src/tododto.cpp \
+    src/userdto.cpp
 
 HEADERS += \
     src/easy_import.h \
     src/restapi.h \
     src/restapitestvm.h \
-    src/smoozyutils.h
+    src/smoozyutils.h \
+    src/tododto.h \
+    src/userdto.h
 
 DISTFILES += \
     qml/PageStackCppWrapper.qml \

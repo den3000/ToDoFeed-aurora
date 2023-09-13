@@ -52,6 +52,8 @@ HEADERS += \
     src/smoozyutils.h
 
 DISTFILES += \
+    qml/PageStackCppWrapper.qml \
+    qml/pages/RestApiTestPage.qml \
     rpm/ru.auroraos.ToDoFeed.spec \
     AUTHORS.md \
     CODE_OF_CONDUCT.md \

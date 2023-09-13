@@ -49,6 +49,8 @@ int main(int argc, char *argv[])
     auto s = QString(f.readAll());
     qDebug() << "file content: " << s;
 
+    auto restApi = QScopedPointer(new RestApi(s));
+
     qmlRegisterType<RestApiTestVM>("CustomCppClasses.Module", 1, 0, "RestApiTestVM");
 
     QScopedPointer<QGuiApplication> application(Aurora::Application::application(argc, argv));
@@ -62,7 +64,7 @@ int main(int argc, char *argv[])
 
     rootView->show();
 
-    auto vm = new RestApiTestVM();
+    auto vm = new RestApiTestVM(restApi.data());
     Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo("qml/pages/RestApiTestPage.qml"), Smoozy::wrapInProperties(vm));
 
     return application->exec();

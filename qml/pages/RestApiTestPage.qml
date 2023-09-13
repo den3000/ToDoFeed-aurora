@@ -28,6 +28,12 @@ Page {
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: "Get All Users"
+            onClicked: { viewModel.executeGetAllUsers() }
+        }
+
+        Button {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Add ToDos"
             onClicked: { viewModel.executeAddToDo() }
         }
@@ -56,11 +62,6 @@ Page {
             onClicked: { viewModel.executeEditProfile() }
         }
 
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Get All Users"
-            onClicked: { viewModel.executeGetAllUsers() }
-        }
     }
 
 

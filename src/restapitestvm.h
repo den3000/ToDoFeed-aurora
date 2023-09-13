@@ -18,9 +18,39 @@ public:
     { };
 
     Q_INVOKABLE void executeRegister() {
-        restApi->registration();
+        auto * watcher = restApi->registration();;
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
+            auto result = watcher->result();
+            if (const auto pData = get_if<UserDto>(&result)) {
+                qDebug() << "user: " << *pData<< "\n";
+            } else  if (const auto pError = get_if<RestError>(&result)) {
+                switch (*pError) {
+                case RestError::NetworkError: qDebug() << "NetworkError"; break;
+                case RestError::SslError: qDebug() << "SslError"; break;
+                }
+            }
+            watcher->deleteLater();
+        });
     };
     
+    Q_INVOKABLE void executeGetAllUsers() {
+        auto * watcher = restApi->getAllUsers();;
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
+            auto result = watcher->result();
+            if (const auto pData = get_if<vector<UserDto>>(&result)) {
+                for(UserDto const & user : *pData) {
+                    qDebug() << "user: " << user << "\n";
+                }
+            } else  if (const auto pError = get_if<RestError>(&result)) {
+                switch (*pError) {
+                case RestError::NetworkError: qDebug() << "NetworkError"; break;
+                case RestError::SslError: qDebug() << "SslError"; break;
+                }
+            }
+            watcher->deleteLater();
+        });
+    };
+
     Q_INVOKABLE void executeAddToDo() {
         restApi->addToDo();
     };
@@ -39,12 +69,7 @@ public:
     
     Q_INVOKABLE void executeEditProfile() {
         restApi->editProfile();
-    };
-    
-    Q_INVOKABLE void executeGetAllUsers() {
-        restApi->getAllUsers();
-    };
-    
+    };    
 
 signals:
 

@@ -10,6 +10,14 @@ struct UserDto
     QString lastName;
     QString about;
 
+    // default constructor to make it work with variant
+    explicit UserDto()
+        : id { "" }
+        , firstName { "" }
+        , lastName { "" }
+        , about { "" }
+    {};
+
     explicit UserDto(QString id, QString firstName, QString lastName, QString about)
         : id { move(id) }
         , firstName { move(firstName) }
@@ -17,7 +25,7 @@ struct UserDto
         , about { move(about) }
     {};
 
-    explicit UserDto(QJsonObject && json)
+    explicit UserDto(QJsonObject const & json)
         : id { json["id"].toString() }
         , firstName { json["firstName"].toString() }
         , lastName { json["lastName"].toString() }

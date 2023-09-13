@@ -38,7 +38,8 @@
 TARGET = ru.auroraos.ToDoFeed
 
 CONFIG += \
-    auroraapp
+    auroraapp\
+    c++1z
 
 PKGCONFIG += \
 

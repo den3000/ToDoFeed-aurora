@@ -83,6 +83,22 @@ public:
         restApi->editToDo();
     };  
 
+    Q_INVOKABLE void executeEraseAll() {
+        auto * watcher = restApi->eraseAll();;
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
+            auto result = watcher->result();
+            if (const auto pData = get_if<QString>(&result)) {
+                qDebug() << "erase_all: " << *pData<< "\n";
+            } else  if (const auto pError = get_if<RestError>(&result)) {
+                switch (*pError) {
+                case RestError::NetworkError: qDebug() << "NetworkError"; break;
+                case RestError::SslError: qDebug() << "SslError"; break;
+                }
+            }
+            watcher->deleteLater();
+        });
+    };
+
 signals:
 
 };

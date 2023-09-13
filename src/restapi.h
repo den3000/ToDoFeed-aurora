@@ -223,6 +223,55 @@ public:
     void getMyToDos() { qDebug() << "pam"; };
     void editToDo() { qDebug() << "pam"; };
 
+    RestResultWatcher<QString> * eraseAll(RestResultWatcher<QString> * watcher = new RestResultWatcher<QString>()) {
+        QNetworkRequest request;
+        request.setUrl(endpoint + "/erase_all");
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        QNetworkReply *reply = manager->get(request);
+
+        connect(reply, &QNetworkReply::finished, this, [this, watcher, reply]() {
+            QByteArray content = reply->readAll();
+            auto jdReply = QJsonDocument::fromJson(content);
+            if (jdReply.isNull()) {
+                qDebug() << "json doc is null";
+                return;
+            }
+            qDebug() << "editProfile response: " << jdReply;
+
+            // TODO: remove this outside (in VM)
+            QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+            settings.remove("token");
+            token = "";
+
+            auto f = QtConcurrent::run([](){
+                    return RestResult<QString>("ok");
+            });
+
+            watcher->setFuture(f);
+        });
+
+        connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, [reply, watcher](){
+            Q_UNUSED(reply)
+            qDebug() << "editProfile error";
+            auto f = QtConcurrent::run([](){
+                return RestResult<QString>(RestError::NetworkError);
+            });
+            watcher->setFuture(f);
+        });
+
+        connect(reply, &QNetworkReply::sslErrors, this, [reply, watcher]() {
+            Q_UNUSED(reply)
+            qDebug() << "editProfile sslErrors";
+            auto f = QtConcurrent::run([](){
+                return RestResult<QString>(RestError::SslError);
+            });
+            watcher->setFuture(f);
+        });
+
+        return watcher;
+    };
+
     void registrationOld() {
         QNetworkRequest request;
         request.setUrl(endpoint + "/register");

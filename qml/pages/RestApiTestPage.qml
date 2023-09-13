@@ -62,6 +62,12 @@ Page {
             onClicked: { viewModel.executeEditToDo() }
         }
 
+        Button {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: "Erase All"
+            onClicked: { viewModel.executeEraseAll() }
+        }
+
     }
 
 

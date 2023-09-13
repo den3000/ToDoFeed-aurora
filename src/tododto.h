@@ -62,9 +62,9 @@ struct ToDoDto
         d << "id: " << dto.id << "\n"
             << "userId: " << dto.userId << "\n"
             << "title: " << dto.title << "\n"
-            << "description: " << dto.description << "\n"
-            << "status: " << dto.status << "\n"
-            << "visibility: " << dto.visibility;
+            << "description: " << dto.description;
+//            << "status: " << dto.status << "\n"
+//            << "visibility: " << dto.visibility;
         return d;
     };
 };

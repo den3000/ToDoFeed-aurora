@@ -47,4 +47,12 @@
         <translation>Шаблон</translation>
     </message>
 </context>
+<context>
+    <name>RestApiTestPage</name>
+    <message>
+        <location filename="../qml/pages/RestApiTestPage.qml" line="14"/>
+        <source>RestApiTest</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

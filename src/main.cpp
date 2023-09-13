@@ -38,15 +38,26 @@
 #include <auroraapp.h>
 #include <QtQuick>
 
+#include "smoozyutils.h"
+#include "restapitestvm.h"
+
 int main(int argc, char *argv[])
 {
+    qmlRegisterType<RestApiTestVM>("CustomCppClasses.Module", 1, 0, "RestApiTestVM");
+
     QScopedPointer<QGuiApplication> application(Aurora::Application::application(argc, argv));
     application->setOrganizationName(QStringLiteral("ru.auroraos"));
     application->setApplicationName(QStringLiteral("ToDoFeed"));
 
-    QScopedPointer<QQuickView> view(Aurora::Application::createView());
-    view->setSource(Aurora::Application::pathTo(QStringLiteral("qml/ToDoFeed.qml")));
-    view->show();
+    QScopedPointer<QQuickView> rootView(Aurora::Application::createView());
+    rootView->setSource(Aurora::Application::pathTo(QStringLiteral("qml/ToDoFeed.qml")));
+
+    auto pageStackCppWrapper = QSharedPointer<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
+
+    rootView->show();
+
+    auto vm = new RestApiTestVM();
+    Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo("qml/pages/RestApiTestPage.qml"), Smoozy::wrapInProperties(vm));
 
     return application->exec();
 }

@@ -22,44 +22,44 @@ Page {
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "POST request"
-            onClicked: {}
+            text: "Registration"
+            onClicked: { viewModel.executeRegister() }
         }
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "POST request"
-            onClicked: {}
+            text: "Add ToDos"
+            onClicked: { viewModel.executeAddToDo() }
         }
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "POST request"
-            onClicked: {}
+            text: "Get All ToDos"
+            onClicked: { viewModel.executeGetAllToDos() }
         }
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "POST request"
-            onClicked: {}
+            text: "Get My ToDos"
+            onClicked: { viewModel.executeGetMyToDos() }
         }
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "POST request"
-            onClicked: {}
+            text: "Edit ToDo"
+            onClicked: { viewModel.executeEditToDo() }
         }
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "POST request"
-            onClicked: {}
+            text: "Edit Profile"
+            onClicked: { viewModel.executeEditProfile() }
         }
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "POST request"
-            onClicked: {}
+            text: "Get All Users"
+            onClicked: { viewModel.executeGetAllUsers() }
         }
     }
 

@@ -17,6 +17,35 @@ public:
         , restApi { restApi }
     { };
 
+    Q_INVOKABLE void executeRegister() {
+        restApi->registration();
+    };
+    
+    Q_INVOKABLE void executeAddToDo() {
+        restApi->addToDo();
+    };
+    
+    Q_INVOKABLE void executeGetAllToDos() {
+        restApi->getAllToDos();
+    };
+    
+    Q_INVOKABLE void executeGetMyToDos() {
+        restApi->getMyToDos();
+    };
+    
+    Q_INVOKABLE void executeEditToDo() {
+        restApi->editToDo();
+    };
+    
+    Q_INVOKABLE void executeEditProfile() {
+        restApi->editProfile();
+    };
+    
+    Q_INVOKABLE void executeGetAllUsers() {
+        restApi->getAllUsers();
+    };
+    
+
 signals:
 
 };

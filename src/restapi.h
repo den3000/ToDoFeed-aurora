@@ -26,6 +26,14 @@ public:
         , endpoint { endpoint }
     {};
 
+    void registration() { qDebug() << "pam"; };
+    void addToDo() { qDebug() << "pam"; };
+    void getAllToDos() { qDebug() << "pam"; };
+    void getMyToDos() { qDebug() << "pam"; };
+    void editToDo() { qDebug() << "pam"; };
+    void editProfile() { qDebug() << "pam"; };
+    void getAllUsers() { qDebug() << "pam"; };
+
 signals:
 
 };

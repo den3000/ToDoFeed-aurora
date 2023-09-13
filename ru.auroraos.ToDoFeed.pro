@@ -46,6 +46,8 @@ SOURCES += \
     src/main.cpp \
 
 HEADERS += \
+    src/easy_import.h \
+    src/smoozyutils.h
 
 DISTFILES += \
     rpm/ru.auroraos.ToDoFeed.spec \

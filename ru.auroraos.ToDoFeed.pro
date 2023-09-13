@@ -61,6 +61,9 @@ DISTFILES += \
     LICENSE.BSD-3-CLAUSE.md \
     README.md \
 
+RESOURCES += \
+    api.endpoint
+
 AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
 
 CONFIG += auroraapp_i18n

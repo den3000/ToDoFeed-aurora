@@ -43,6 +43,12 @@
 
 int main(int argc, char *argv[])
 {
+    // excluded in .git/info/exclude
+    QFile f(":api.endpoint");
+    f.open(QIODevice::ReadOnly);
+    auto s = QString(f.readAll());
+    qDebug() << "file content: " << s;
+
     qmlRegisterType<RestApiTestVM>("CustomCppClasses.Module", 1, 0, "RestApiTestVM");
 
     QScopedPointer<QGuiApplication> application(Aurora::Application::application(argc, argv));

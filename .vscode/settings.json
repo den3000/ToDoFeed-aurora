@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "qtquick": "cpp",
+        "qtquickdepends": "cpp",
+        "qtqml": "cpp",
+        "qtgui": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}

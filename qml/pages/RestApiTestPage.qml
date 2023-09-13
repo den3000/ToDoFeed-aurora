@@ -46,14 +46,14 @@ Page {
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Get All ToDos"
-            onClicked: { viewModel.executeGetAllToDos() }
+            text: "Get My ToDos"
+            onClicked: { viewModel.executeGetMyToDos() }
         }
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Get My ToDos"
-            onClicked: { viewModel.executeGetMyToDos() }
+            text: "Get All ToDos"
+            onClicked: { viewModel.executeGetAllToDos() }
         }
 
         Button {

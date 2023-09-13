@@ -274,8 +274,130 @@ public:
         return watcher;
     };
     
-    void getAllToDos() { qDebug() << "pam"; };
-    void getMyToDos() { qDebug() << "pam"; };
+    RestResultWatcher<vector<ToDoDto>> * getMyToDos(RestResultWatcher<vector<ToDoDto>> * watcher = new RestResultWatcher<vector<ToDoDto>>()) {
+        QNetworkRequest request;
+        request.setUrl(endpoint + "/get_my_todos");
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        QJsonObject obj;
+        obj["token"] = token;
+        QJsonDocument doc(obj);
+        QByteArray data = doc.toJson();
+
+        QNetworkReply *reply = manager->post(request, data);
+
+        connect(reply, &QNetworkReply::finished, this, [reply, watcher]() {
+            QByteArray content = reply->readAll();
+            auto jdReply = QJsonDocument::fromJson(content);
+            if (jdReply.isNull()) {
+                qDebug() << "json doc is null";
+                return;
+            }
+
+            qDebug() << "get_all_users response: " << jdReply;
+
+            auto jaReply = jdReply.array();
+            if (jaReply.isEmpty()) {
+                qDebug() << "json array is null";
+                return;
+            }
+
+            auto f = QtConcurrent::run([](QJsonArray const &ja){
+                    vector<ToDoDto> models;
+                    for(QJsonValue const & value : ja) {
+                        qDebug() << value;
+                        ToDoDto model(value.toObject());
+                        models.emplace_back(model);
+                    }
+                    return RestResult<vector<ToDoDto>>(models);
+            }, jaReply);
+
+            watcher->setFuture(f);
+        });
+
+        connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, [reply, watcher](){
+            Q_UNUSED(reply)
+            qDebug() << "getAllUsers error";
+            auto f = QtConcurrent::run([](){
+                return RestResult<vector<ToDoDto>>(RestError::SslError);
+            });
+            watcher->setFuture(f);
+        });
+
+        connect(reply, &QNetworkReply::sslErrors, this, [reply, watcher]() {
+            Q_UNUSED(reply)
+            qDebug() << "getAllUsers sslErrors";
+            auto f = QtConcurrent::run([](){
+                return RestResult<vector<ToDoDto>>(RestError::SslError);
+            });
+            watcher->setFuture(f);
+        });
+
+        return watcher;
+    };
+
+    RestResultWatcher<vector<ToDoDto>> * getAllToDos(RestResultWatcher<vector<ToDoDto>> * watcher = new RestResultWatcher<vector<ToDoDto>>()) {
+        QNetworkRequest request;
+        request.setUrl(endpoint + "/get_my_and_public_todos");
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        QJsonObject obj;
+        obj["token"] = token;
+        QJsonDocument doc(obj);
+        QByteArray data = doc.toJson();
+
+        QNetworkReply *reply = manager->post(request, data);
+
+        connect(reply, &QNetworkReply::finished, this, [reply, watcher]() {
+            QByteArray content = reply->readAll();
+            auto jdReply = QJsonDocument::fromJson(content);
+            if (jdReply.isNull()) {
+                qDebug() << "json doc is null";
+                return;
+            }
+
+            qDebug() << "get_all_users response: " << jdReply;
+
+            auto jaReply = jdReply.array();
+            if (jaReply.isEmpty()) {
+                qDebug() << "json array is null";
+                return;
+            }
+
+            auto f = QtConcurrent::run([](QJsonArray const &ja){
+                    vector<ToDoDto> models;
+                    for(QJsonValue const & value : ja) {
+                        qDebug() << value;
+                        ToDoDto model(value.toObject());
+                        models.emplace_back(model);
+                    }
+                    return RestResult<vector<ToDoDto>>(models);
+            }, jaReply);
+
+            watcher->setFuture(f);
+        });
+
+        connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, [reply, watcher](){
+            Q_UNUSED(reply)
+            qDebug() << "getAllUsers error";
+            auto f = QtConcurrent::run([](){
+                return RestResult<vector<ToDoDto>>(RestError::SslError);
+            });
+            watcher->setFuture(f);
+        });
+
+        connect(reply, &QNetworkReply::sslErrors, this, [reply, watcher]() {
+            Q_UNUSED(reply)
+            qDebug() << "getAllUsers sslErrors";
+            auto f = QtConcurrent::run([](){
+                return RestResult<vector<ToDoDto>>(RestError::SslError);
+            });
+            watcher->setFuture(f);
+        });
+
+        return watcher;
+    };
+
     void editToDo() { qDebug() << "pam"; };
 
     RestResultWatcher<QString> * eraseAll(RestResultWatcher<QString> * watcher = new RestResultWatcher<QString>()) {

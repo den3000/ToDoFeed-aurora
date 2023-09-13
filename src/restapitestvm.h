@@ -83,12 +83,40 @@ public:
         });
     };
     
-    Q_INVOKABLE void executeGetAllToDos() {
-        restApi->getAllToDos();
-    };
-    
     Q_INVOKABLE void executeGetMyToDos() {
-        restApi->getMyToDos();
+        auto * watcher = restApi->getMyToDos();
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
+            auto result = watcher->result();
+            if (const auto pData = get_if<vector<ToDoDto>>(&result)) {
+                for(ToDoDto const & todo : *pData) {
+                    qDebug() << "todo: " << todo << "\n";
+                }
+            } else  if (const auto pError = get_if<RestError>(&result)) {
+                switch (*pError) {
+                case RestError::NetworkError: qDebug() << "NetworkError"; break;
+                case RestError::SslError: qDebug() << "SslError"; break;
+                }
+            }
+            watcher->deleteLater();
+        });
+    };
+
+    Q_INVOKABLE void executeGetAllToDos() {
+        auto * watcher = restApi->getAllToDos();
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
+            auto result = watcher->result();
+            if (const auto pData = get_if<vector<ToDoDto>>(&result)) {
+                for(ToDoDto const & todo : *pData) {
+                    qDebug() << "todo: " << todo << "\n";
+                }
+            } else  if (const auto pError = get_if<RestError>(&result)) {
+                switch (*pError) {
+                case RestError::NetworkError: qDebug() << "NetworkError"; break;
+                case RestError::SslError: qDebug() << "SslError"; break;
+                }
+            }
+            watcher->deleteLater();
+        });
     };
     
     Q_INVOKABLE void executeEditToDo() {

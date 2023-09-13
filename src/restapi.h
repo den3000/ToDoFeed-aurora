@@ -35,7 +35,17 @@ public:
         : QObject(parent)
         , manager { new QNetworkAccessManager(this) }
         , endpoint { endpoint }
-    {};
+    {
+        // TODO: inject token properly
+        QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+        auto t = settings.value("token").toString();
+        this->token = t;
+        qDebug() << "token is" << this->token;
+    };
+
+    ~RestApi() {
+        delete manager;
+    }
 
     RestResultWatcher<UserDto> * registration(RestResultWatcher<UserDto> * watcher = new RestResultWatcher<UserDto>()) {
         QNetworkRequest request;
@@ -64,7 +74,10 @@ public:
             auto joObject = jdReply.object();
             token = joObject["token"].toString();
             qDebug() << "token: " << token;
-            // TODO: save token to some preferences files
+
+            // TODO: save this outside (in VM)
+            QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+            settings.setValue("token", QVariant::fromValue(token));
 
             auto f = QtConcurrent::run([](QJsonObject const &jo){
                     auto user = UserDto(jo);
@@ -137,6 +150,7 @@ public:
             auto f = QtConcurrent::run([](){
                 return RestResult<vector<UserDto>>(RestError::SslError);
             });
+            watcher->setFuture(f);
         });
 
         connect(reply, &QNetworkReply::sslErrors, this, [reply, watcher]() {
@@ -160,37 +174,32 @@ public:
         obj["token"] = token;
         obj["firstName"] = "John edited";
         obj["lastName"] = "Doe";
-        obj["about"] = "Blockbuster Star";
+        obj["about"] = "Blockbuster MegaSuperStar";
         QJsonDocument doc(obj);
         QByteArray data = doc.toJson();
 
         QNetworkReply *reply = manager->post(request, data);
 
-        connect(reply, &QNetworkReply::finished, this, [this, watcher, reply]() {
+        connect(reply, &QNetworkReply::finished, this, [watcher, reply]() {
             QByteArray content = reply->readAll();
             auto jdReply = QJsonDocument::fromJson(content);
             if (jdReply.isNull()) {
                 qDebug() << "json doc is null";
                 return;
             }
-            qDebug() << "registration response: " << jdReply;
-
-            auto joObject = jdReply.object();
-            token = joObject["token"].toString();
-            qDebug() << "token: " << token;
-            // TODO: save token to some preferences files
+            qDebug() << "editProfile response: " << jdReply;
 
             auto f = QtConcurrent::run([](QJsonObject const &jo){
                     auto user = UserDto(jo);
                     return RestResult<UserDto>(user);
-            }, joObject);
+            }, jdReply.object());
 
             watcher->setFuture(f);
         });
 
         connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, [reply, watcher](){
             Q_UNUSED(reply)
-            qDebug() << "registration error";
+            qDebug() << "editProfile error";
             auto f = QtConcurrent::run([](){
                 return RestResult<UserDto>(RestError::NetworkError);
             });
@@ -199,7 +208,7 @@ public:
 
         connect(reply, &QNetworkReply::sslErrors, this, [reply, watcher]() {
             Q_UNUSED(reply)
-            qDebug() << "registration sslErrors";
+            qDebug() << "editProfile sslErrors";
             auto f = QtConcurrent::run([](){
                 return RestResult<UserDto>(RestError::SslError);
             });

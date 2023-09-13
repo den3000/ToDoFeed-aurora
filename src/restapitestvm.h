@@ -56,7 +56,7 @@ public:
         connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
             auto result = watcher->result();
             if (const auto pData = get_if<UserDto>(&result)) {
-                qDebug() << "edited user: " << *pData<< "\n";
+                qDebug() << "user: " << *pData<< "\n";
             } else  if (const auto pError = get_if<RestError>(&result)) {
                 switch (*pError) {
                 case RestError::NetworkError: qDebug() << "NetworkError"; break;

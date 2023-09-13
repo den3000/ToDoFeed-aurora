@@ -13,6 +13,7 @@
 #include "easy_import.h"
 
 #include "userdto.h"
+#include "tododto.h"
 
 enum class RestError { NetworkError, SslError };
 
@@ -218,7 +219,61 @@ public:
         return watcher;
     };
 
-    void addToDo() { qDebug() << "pam"; };
+    RestResultWatcher<ToDoDto> * addToDo(RestResultWatcher<ToDoDto> * watcher = new RestResultWatcher<ToDoDto>()) {
+        QNetworkRequest request;
+        request.setUrl(endpoint + "/add_todo");
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        QJsonObject obj;
+        obj["token"] = token;
+        obj["title"] = "Buy some milk";
+        obj["description"] = "Get that ffff milk";
+        obj["status"] = "todo";
+        obj["visibility"] = "public";
+
+        QJsonDocument doc(obj);
+        QByteArray data = doc.toJson();
+
+        QNetworkReply *reply = manager->post(request, data);
+
+        connect(reply, &QNetworkReply::finished, this, [watcher, reply]() {
+            QByteArray content = reply->readAll();
+            auto jdReply = QJsonDocument::fromJson(content);
+            if (jdReply.isNull()) {
+                qDebug() << "json doc is null";
+                return;
+            }
+            qDebug() << "response: " << jdReply;
+
+            auto f = QtConcurrent::run([](QJsonObject const &jo){
+                    auto user = ToDoDto(jo);
+                    return RestResult<ToDoDto>(user);
+            }, jdReply.object());
+
+            watcher->setFuture(f);
+        });
+
+        connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, [reply, watcher](){
+            Q_UNUSED(reply)
+            qDebug() << "error";
+            auto f = QtConcurrent::run([](){
+                return RestResult<ToDoDto>(RestError::NetworkError);
+            });
+            watcher->setFuture(f);
+        });
+
+        connect(reply, &QNetworkReply::sslErrors, this, [reply, watcher]() {
+            Q_UNUSED(reply)
+            qDebug() << "sslErrors";
+            auto f = QtConcurrent::run([](){
+                return RestResult<ToDoDto>(RestError::SslError);
+            });
+            watcher->setFuture(f);
+        });
+
+        return watcher;
+    };
+    
     void getAllToDos() { qDebug() << "pam"; };
     void getMyToDos() { qDebug() << "pam"; };
     void editToDo() { qDebug() << "pam"; };

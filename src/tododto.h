@@ -7,7 +7,7 @@ struct ToDoDto
 {
     // TODO: improve enums handling
     enum class Status { Todo, InProgress, Done };
-    enum class Visibility { own, forAll };
+    enum class Visibility { Own, ForAll };
 
     static optional<ToDoDto::Status> parse_status(QJsonValue && value) {
         auto s = value.toString();
@@ -25,9 +25,9 @@ struct ToDoDto
     static optional<ToDoDto::Visibility> parse_visibility(QJsonValue && value) {
         auto s = value.toString();
         if (s == "public") {
-            return ToDoDto::Visibility::forAll;
+            return ToDoDto::Visibility::ForAll;
         } else if (s == "private") {
-            return ToDoDto::Visibility::own;
+            return ToDoDto::Visibility::Own;
         } else {
             return nullopt;
         }
@@ -40,6 +40,16 @@ struct ToDoDto
     optional<ToDoDto::Status> status;
     optional<ToDoDto::Visibility> visibility;
 
+    // default constructor to make it work with variant
+    explicit ToDoDto()
+        : id { "" }
+        , userId { "" }
+        , title { "" }
+        , description { "" }
+        , status { ToDoDto::Status::Todo }
+        , visibility { ToDoDto::Visibility::Own }
+    {};
+
     explicit ToDoDto(QString id, QString userId, QString title, QString description, ToDoDto::Status status, Visibility visibility)
         : id { move(id) }
         , userId { move(userId) }
@@ -49,7 +59,7 @@ struct ToDoDto
         , visibility { move(visibility) }
     {};
 
-    explicit ToDoDto(QJsonObject && json)
+    explicit ToDoDto(QJsonObject const & json)
         : id { json["id"].toString() }
         , userId { json["userId"].toString() }
         , title { json["title"].toString() }
@@ -62,7 +72,7 @@ struct ToDoDto
         d << "id: " << dto.id << "\n"
             << "userId: " << dto.userId << "\n"
             << "title: " << dto.title << "\n"
-            << "description: " << dto.description;
+            << "description: " << dto.description;// << "\n"
 //            << "status: " << dto.status << "\n"
 //            << "visibility: " << dto.visibility;
         return d;

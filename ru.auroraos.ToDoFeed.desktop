@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=ru.auroraos.ToDoFeed
+Exec=/usr/bin/ru.auroraos.ToDoFeed
+Name=To Do Feed
+Name[ru]=Лента Задач
+
+[X-Application]
+Permissions=
+OrganizationName=ru.auroraos
+ApplicationName=ToDoFeed
+ExecDBus=/usr/bin/ru.auroraos.ToDoFeed

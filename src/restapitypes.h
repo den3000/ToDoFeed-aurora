@@ -2,6 +2,7 @@
 #define RESTAPITYPES_H
 
 #include "easy_import.h"
+#include "functional"
 
 #include <QFutureWatcher>
 
@@ -12,6 +13,22 @@ using RestResult = variant<Result, RestError>;
 
 template <typename Result>
 using RestResultWatcher = QFutureWatcher<RestResult<Result>>;
+
+template <typename Result, typename OnResult, typename OnError>
+void resOrErr(RestResultWatcher<Result> * watcher, QObject * obj, OnResult && onResult, OnError && onError, bool deleteLater = true) {
+    obj->connect(watcher, &QFutureWatcher<void>::finished, obj, [watcher, onResult, onError, deleteLater](){
+        auto result = watcher->result();
+        if (const auto * pResponse = get_if<Result>(&result)) {
+            onResult(pResponse);
+        } else  if (const auto * pError = get_if<RestError>(&result)) {
+            onError(pError);
+        }
+
+        if (deleteLater) {
+            watcher->deleteLater();
+        }
+    });
+};
 
 enum class RestReqType{ GET, POST };
 

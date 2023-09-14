@@ -398,7 +398,60 @@ public:
         return watcher;
     };
 
-    void editToDo() { qDebug() << "pam"; };
+    RestResultWatcher<ToDoDto> *  editToDo(RestResultWatcher<ToDoDto> * watcher = new RestResultWatcher<ToDoDto>()) {
+        QNetworkRequest request;
+        request.setUrl(endpoint + "/edit_todo");
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        QJsonObject obj;
+        obj["token"] = token;
+        obj["id"] = "83fd36c0-bcb3-4c5b-b136-39b69c2d32c8";
+        obj["title"] = "Buy some milk!!!";
+        obj["description"] = "GET THAT FFFF MILK";
+        obj["status"] = "in_progress";
+        obj["visibility"] = "private";
+        QJsonDocument doc(obj);
+        QByteArray data = doc.toJson();
+
+        QNetworkReply *reply = manager->post(request, data);
+
+        connect(reply, &QNetworkReply::finished, this, [watcher, reply]() {
+            QByteArray content = reply->readAll();
+            auto jdReply = QJsonDocument::fromJson(content);
+            if (jdReply.isNull()) {
+                qDebug() << "json doc is null";
+                return;
+            }
+            qDebug() << "editProfile response: " << jdReply;
+
+            auto f = QtConcurrent::run([](QJsonObject const &jo){
+                    auto user = ToDoDto(jo);
+                    return RestResult<ToDoDto>(user);
+            }, jdReply.object());
+
+            watcher->setFuture(f);
+        });
+
+        connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, [reply, watcher](){
+            Q_UNUSED(reply)
+            qDebug() << "editProfile error";
+            auto f = QtConcurrent::run([](){
+                return RestResult<ToDoDto>(RestError::NetworkError);
+            });
+            watcher->setFuture(f);
+        });
+
+        connect(reply, &QNetworkReply::sslErrors, this, [reply, watcher]() {
+            Q_UNUSED(reply)
+            qDebug() << "editProfile sslErrors";
+            auto f = QtConcurrent::run([](){
+                return RestResult<ToDoDto>(RestError::SslError);
+            });
+            watcher->setFuture(f);
+        });
+
+        return watcher;
+    };
 
     RestResultWatcher<QString> * eraseAll(RestResultWatcher<QString> * watcher = new RestResultWatcher<QString>()) {
         QNetworkRequest request;

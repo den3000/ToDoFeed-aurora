@@ -120,7 +120,19 @@ public:
     };
     
     Q_INVOKABLE void executeEditToDo() {
-        restApi->editToDo();
+        auto * watcher = restApi->editToDo();
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
+            auto result = watcher->result();
+            if (const auto pData = get_if<ToDoDto>(&result)) {
+                qDebug() << "todo: " << *pData<< "\n";
+            } else  if (const auto pError = get_if<RestError>(&result)) {
+                switch (*pError) {
+                case RestError::NetworkError: qDebug() << "NetworkError"; break;
+                case RestError::SslError: qDebug() << "SslError"; break;
+                }
+            }
+            watcher->deleteLater();
+        });
     };  
 
     Q_INVOKABLE void executeEraseAll() {

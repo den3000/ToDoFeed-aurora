@@ -9,6 +9,7 @@
 #include "editprofile.h"
 #include "eraseall.h"
 #include "addtodo.h"
+#include "getmytodos.h"
 
 class RestApiTestVM : public QObject
 {
@@ -107,20 +108,17 @@ public:
     };
     
     Q_INVOKABLE void executeGetMyToDos() {
-        auto * watcher = restApi->getMyToDos();
-        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
-            auto result = watcher->result();
-            if (const auto pData = get_if<vector<ToDoDto>>(&result)) {
-                for(ToDoDto const & todo : *pData) {
-                    qDebug() << "todo: " << todo << "\n";
-                }
-            } else  if (const auto pError = get_if<RestError>(&result)) {
-                switch (*pError) {
-                case RestError::NetworkError: qDebug() << "NetworkError"; break;
-                case RestError::SslError: qDebug() << "SslError"; break;
-                }
+        QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+        QString t = settings.value("token").toString();
+
+        auto * watcher = restApi->execute<GetMyToDosResponse>(GetMyToDosRequest(), t);
+        resOrErr(watcher, this, [](auto * response){
+            qDebug() << "get my todos";
+            for(ToDoDto const & user : response->todos) {
+                qDebug() << "todo\n" << user << "\n";
             }
-            watcher->deleteLater();
+        }, [](auto * error){
+            Q_UNUSED(error)
         });
     };
 

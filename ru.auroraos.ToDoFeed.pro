@@ -56,6 +56,7 @@ HEADERS += \
     src/editprofile.h \
     src/eraseall.h \
     src/getallusers.h \
+    src/getmytodos.h \
     src/login.h \
     src/restapi.h \
     src/restapitestvm.h \

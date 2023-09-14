@@ -55,6 +55,7 @@ HEADERS += \
     src/easy_import.h \
     src/editprofile.h \
     src/eraseall.h \
+    src/getalltodos.h \
     src/getallusers.h \
     src/getmytodos.h \
     src/login.h \

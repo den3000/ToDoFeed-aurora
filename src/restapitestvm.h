@@ -10,6 +10,7 @@
 #include "eraseall.h"
 #include "addtodo.h"
 #include "getmytodos.h"
+#include "getalltodos.h"
 
 class RestApiTestVM : public QObject
 {
@@ -123,20 +124,17 @@ public:
     };
 
     Q_INVOKABLE void executeGetAllToDos() {
-        auto * watcher = restApi->getAllToDos();
-        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
-            auto result = watcher->result();
-            if (const auto pData = get_if<vector<ToDoDto>>(&result)) {
-                for(ToDoDto const & todo : *pData) {
-                    qDebug() << "todo: " << todo << "\n";
-                }
-            } else  if (const auto pError = get_if<RestError>(&result)) {
-                switch (*pError) {
-                case RestError::NetworkError: qDebug() << "NetworkError"; break;
-                case RestError::SslError: qDebug() << "SslError"; break;
-                }
+        QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+        QString t = settings.value("token").toString();
+
+        auto * watcher = restApi->execute<GetAllToDosResponse>(GetAllToDosRequest(), t);
+        resOrErr(watcher, this, [](auto * response){
+            qDebug() << "get all todos";
+            for(ToDoDto const & user : response->todos) {
+                qDebug() << "todo\n" << user << "\n";
             }
-            watcher->deleteLater();
+        }, [](auto * error){
+            Q_UNUSED(error)
         });
     };
     

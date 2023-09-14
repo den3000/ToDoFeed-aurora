@@ -4,6 +4,7 @@
 #include <QObject>
 #include "restapi.h"
 #include "getallusers.h"
+#include "signup.h"
 
 class RestApiTestVM : public QObject
 {
@@ -19,29 +20,32 @@ public:
     { };
 
     Q_INVOKABLE void executeRegister() {
-        auto * watcher = restApi->registration();;
-        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
-            auto result = watcher->result();
-            if (const auto pData = get_if<UserDto>(&result)) {
-                qDebug() << "user: " << *pData<< "\n";
-            } else  if (const auto pError = get_if<RestError>(&result)) {
-                switch (*pError) {
-                case RestError::NetworkError: qDebug() << "NetworkError"; break;
-                case RestError::SslError: qDebug() << "SslError"; break;
-                }
-            }
-            watcher->deleteLater();
+        auto * watcher = restApi->execute<SignUpResponse>(SignUpRequest(
+            "qwer123",
+            "John",
+            "Doe",
+            "Movie Star"
+        ));
+        resOrErr(watcher, this, [](auto * response){
+            qDebug() << "sign up";
+            qDebug() << "user\n" << response->user << "\n";
+
+            QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+            settings.setValue("token", QVariant::fromValue(response->token));
+        }, [](auto * error){
+            Q_UNUSED(error)
         });
     };
     
     Q_INVOKABLE void executeGetAllUsers() {
         QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
         QString t = settings.value("token").toString();
-        qDebug() << "token: " << t << "\n";
+
         auto * watcher = restApi->execute<GetAllUsersResponse>(GetAllUsersRequest(), t);
         resOrErr(watcher, this, [](auto * response){
+            qDebug() << "get all users";
             for(UserDto const & user : response->users) {
-                qDebug() << "user: " << user << "\n";
+                qDebug() << "user\n" << user << "\n";
             }
         }, [](auto * error){
             Q_UNUSED(error)

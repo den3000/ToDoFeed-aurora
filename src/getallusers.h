@@ -33,4 +33,5 @@ struct GetAllUsersResponse: public RestApiResponse {
         return true;
     }
 };
+
 #endif // GETALLUSERS_H

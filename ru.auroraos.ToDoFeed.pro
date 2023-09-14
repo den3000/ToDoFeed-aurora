@@ -56,6 +56,7 @@ HEADERS += \
     src/restapi.h \
     src/restapitestvm.h \
     src/restapitypes.h \
+    src/signup.h \
     src/smoozyutils.h \
     src/tododto.h \
     src/userdto.h

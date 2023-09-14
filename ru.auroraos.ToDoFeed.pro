@@ -54,6 +54,7 @@ HEADERS += \
     src/easy_import.h \
     src/restapi.h \
     src/restapitestvm.h \
+    src/restapitypes.h \
     src/smoozyutils.h \
     src/tododto.h \
     src/userdto.h

@@ -23,7 +23,7 @@ Page {
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "LogIn"
-            onClicked: { viewModel.login() }
+            onClicked: { viewModel.loginPressed() }
         }
     }
 }

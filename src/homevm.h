@@ -3,12 +3,20 @@
 
 #include <QObject>
 
+#include "easy_import.h"
+#include "ilogouttokenprovider.h"
+
 class HomeVM : public QObject
 {
     Q_OBJECT
+    shared_ptr<ILogoutTokenProvider> tokenProvider;
 
 public:
     explicit HomeVM(QObject *parent = nullptr): QObject(parent) { };
+    explicit HomeVM(shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
+        : QObject(parent)
+        , tokenProvider { tokenProvider }
+    { };
 
     Q_INVOKABLE void logoutPressed() { emit logout(); };
 

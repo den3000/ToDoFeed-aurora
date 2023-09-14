@@ -66,11 +66,11 @@ int main(int argc, char *argv[])
     QScopedPointer<QQuickView> rootView(Aurora::Application::createView());
     rootView->setSource(Aurora::Application::pathTo(PagePaths::root));
 
-    auto pageStackCppWrapper = QSharedPointer<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
+    auto pageStackCppWrapper = shared_ptr<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
     rootView->show();
 
-    QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper));
-    QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper));
+    QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper, appDataProvider));
+    QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper, appDataProvider));
     QObject::connect(startCoordinator.data(), &StartCoordinator::authorized, homeCoordinator.data(), &HomeCoordinator::restart);
     QObject::connect(homeCoordinator.data(), &HomeCoordinator::logout, startCoordinator.data(), &StartCoordinator::restart);
 

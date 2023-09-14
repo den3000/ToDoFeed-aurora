@@ -1,6 +1,8 @@
 #ifndef STARTCOORDINATOR_H
 #define STARTCOORDINATOR_H
 
+#include "easy_import.h"
+
 #include <QObject>
 #include <QtQuick>
 
@@ -11,16 +13,20 @@
 #include "loginvm.h"
 #include "signupvm.h"
 
+#include "ilogintokenprovider.h"
+
 class StartCoordinator : public QObject
 {
     Q_OBJECT
 
-    QSharedPointer<QQuickItem> pageStackCppWrapper;
+    shared_ptr<QQuickItem> pageStackCppWrapper;
+    shared_ptr<ILoginTokenProvider> tokenProvider;
 
 public:
-    explicit StartCoordinator(QSharedPointer<QQuickItem> pageStackCppWrapper, QObject *parent = nullptr)
+    explicit StartCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<ILoginTokenProvider> tokenProvider, QObject *parent = nullptr)
         : QObject(parent)
         , pageStackCppWrapper { pageStackCppWrapper }
+        , tokenProvider { tokenProvider }
     {};
 
     ~StartCoordinator(){};
@@ -31,9 +37,9 @@ public:
         QObject::connect(vm, &StartVM::signup, this, &StartCoordinator::goSignup);
 
         if (isReplace) {
-            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
+            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
         } else {
-            Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
+            Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
         }
     };
 
@@ -42,14 +48,14 @@ public slots:
         auto vm = new LoginVM();
         QObject::connect(vm, &LoginVM::authorized, this, &StartCoordinator::authDone);
 
-        Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::loginPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::loginPage), Smoozy::wrapInProperties(vm));
     };
 
     void goSignup() {
         auto vm = new SignupVM();
         QObject::connect(vm, &SignupVM::authorized, this, &StartCoordinator::authDone);
 
-        Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::signupPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::signupPage), Smoozy::wrapInProperties(vm));
     };
 
     void authDone(QString const & token) {

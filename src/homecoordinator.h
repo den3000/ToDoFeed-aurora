@@ -1,6 +1,8 @@
 #ifndef HOMECOORDINATOR_H
 #define HOMECOORDINATOR_H
 
+#include "easy_import.h"
+
 #include <QObject>
 #include <QtQuick>
 
@@ -9,28 +11,32 @@
 
 #include "homevm.h"
 
+#include "ilogouttokenprovider.h"
+
 class HomeCoordinator : public QObject
 {
     Q_OBJECT
 
-    QSharedPointer<QQuickItem> pageStackCppWrapper;
+    shared_ptr<QQuickItem> pageStackCppWrapper;
+    shared_ptr<ILogoutTokenProvider> tokenProvider;
 
 public:
-    explicit HomeCoordinator(QSharedPointer<QQuickItem> pageStackCppWrapper, QObject *parent = nullptr)
+    explicit HomeCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
         : QObject(parent)
         , pageStackCppWrapper { pageStackCppWrapper }
+        , tokenProvider { tokenProvider }
     {};
 
     ~HomeCoordinator(){};
 
     void start(bool isReplace = false){
-        auto vm = new HomeVM();
+        auto vm = new HomeVM(tokenProvider);
         QObject::connect(vm, &HomeVM::logout, this, &HomeCoordinator::logout);
 
         if (isReplace) {
-            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::homePage), Smoozy::wrapInProperties(vm));
+            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::homePage), Smoozy::wrapInProperties(vm));
         } else {
-            Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::homePage), Smoozy::wrapInProperties(vm));
+            Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::homePage), Smoozy::wrapInProperties(vm));
         }
     };
 

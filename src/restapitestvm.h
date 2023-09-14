@@ -7,6 +7,7 @@
 #include "signup.h"
 #include "login.h"
 #include "editprofile.h"
+#include "eraseall.h"
 
 class RestApiTestVM : public QObject
 {
@@ -155,18 +156,15 @@ public:
     };  
 
     Q_INVOKABLE void executeEraseAll() {
-        auto * watcher = restApi->eraseAll();;
-        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
-            auto result = watcher->result();
-            if (const auto pData = get_if<QString>(&result)) {
-                qDebug() << "erase_all: " << *pData<< "\n";
-            } else  if (const auto pError = get_if<RestError>(&result)) {
-                switch (*pError) {
-                case RestError::NetworkError: qDebug() << "NetworkError"; break;
-                case RestError::SslError: qDebug() << "SslError"; break;
-                }
-            }
-            watcher->deleteLater();
+        QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+        QString t = settings.value("token").toString();
+
+        auto * watcher = restApi->execute<EraseAllResponse>(EraseAllRequest(), t);
+        resOrErr(watcher, this, [](auto * response){
+            Q_UNUSED(response)
+            qDebug() << "erase all on";
+        }, [](auto * error){
+            Q_UNUSED(error)
         });
     };
 

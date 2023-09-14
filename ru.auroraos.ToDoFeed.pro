@@ -53,6 +53,7 @@ SOURCES += \
 HEADERS += \
     src/easy_import.h \
     src/editprofile.h \
+    src/eraseall.h \
     src/getallusers.h \
     src/login.h \
     src/restapi.h \

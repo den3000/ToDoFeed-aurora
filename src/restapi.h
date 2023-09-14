@@ -116,6 +116,8 @@ public:
         return watcher;
     };
 
+    /* Left here for historical reasons
+
     RestResultWatcher<UserDto> * registration(RestResultWatcher<UserDto> * watcher = new RestResultWatcher<UserDto>()) {
         QNetworkRequest request;
         request.setUrl(endpoint + "/register");
@@ -655,7 +657,7 @@ public:
             qDebug() << "get_all_users sslErrors: " << reply->errorString();
         });
     };
-
+*/
 signals:
 
 };

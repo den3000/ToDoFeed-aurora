@@ -63,6 +63,8 @@ HEADERS += \
     src/getmytodos.h \
     src/homecoordinator.h \
     src/homevm.h \
+    src/ilogintokenprovider.h \
+    src/ilogouttokenprovider.h \
     src/login.h \
     src/loginvm.h \
     src/pagepaths.h \

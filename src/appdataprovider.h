@@ -6,13 +6,8 @@
 
 #include "easy_import.h"
 
-struct ILoginTokenProvider {
-    virtual void login(QString const & token) = 0;
-};
-
-struct ILogoutTokenProvider {
-    virtual void logout() = 0;
-};
+#include "ilogintokenprovider.h"
+#include "ilogouttokenprovider.h"
 
 struct IApiUrlProvider{
     virtual QString apiUrl() = 0;

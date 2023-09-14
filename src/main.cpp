@@ -44,6 +44,8 @@
 #include "smoozyutils.h"
 #include "restapitestvm.h"
 
+#include "startcoordinator.h"
+
 int main(int argc, char *argv[])
 {
     // excluded in .git/info/exclude
@@ -63,11 +65,10 @@ int main(int argc, char *argv[])
     rootView->setSource(Aurora::Application::pathTo(PagePaths::root));
 
     auto pageStackCppWrapper = QSharedPointer<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
-
     rootView->show();
 
-    auto vm = new RestApiTestVM(restApi.data());
-    Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo("qml/pages/RestApiTestPage.qml"), Smoozy::wrapInProperties(vm));
+    QScopedPointer<StartCoordinator> rootCoordinator(new StartCoordinator(pageStackCppWrapper));
+    rootCoordinator->start();
 
     return application->exec();
 }

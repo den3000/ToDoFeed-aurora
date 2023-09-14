@@ -70,6 +70,7 @@ HEADERS += \
     src/signup.h \
     src/signupvm.h \
     src/smoozyutils.h \
+    src/startcoordinator.h \
     src/startvm.h \
     src/tododto.h \
     src/userdto.h

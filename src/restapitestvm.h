@@ -11,6 +11,7 @@
 #include "addtodo.h"
 #include "getmytodos.h"
 #include "getalltodos.h"
+#include "edittodo.h"
 
 class RestApiTestVM : public QObject
 {
@@ -139,18 +140,21 @@ public:
     };
     
     Q_INVOKABLE void executeEditToDo() {
-        auto * watcher = restApi->editToDo();
-        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
-            auto result = watcher->result();
-            if (const auto pData = get_if<ToDoDto>(&result)) {
-                qDebug() << "todo: " << *pData<< "\n";
-            } else  if (const auto pError = get_if<RestError>(&result)) {
-                switch (*pError) {
-                case RestError::NetworkError: qDebug() << "NetworkError"; break;
-                case RestError::SslError: qDebug() << "SslError"; break;
-                }
-            }
-            watcher->deleteLater();
+        QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+        QString t = settings.value("token").toString();
+
+        auto * watcher = restApi->execute<EditToDoResponse>(EditToDoRequest(
+            "c4f709f2-b295-4487-8848-d561de3301c2",
+            "Buy some milk",
+            "Get that ffff milk",
+            ToDoDto::Status::InProgress,
+            ToDoDto::Visibility::Own
+        ), t);
+        resOrErr(watcher, this, [](auto * response){
+            qDebug() << "edit todo";
+            qDebug() << "todo\n" << response->todo << "\n";
+        }, [](auto * error){
+            Q_UNUSED(error)
         });
     };  
 

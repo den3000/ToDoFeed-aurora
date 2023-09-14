@@ -1,45 +1,41 @@
-#ifndef SIGNUP_H
-#define SIGNUP_H
+#ifndef EDITPROFILE_H
+#define EDITPROFILE_H
 
 #include "restapitypes.h"
 #include "userdto.h"
 
-struct SignUpRequest: public RestApiRequest {
+struct EditProfileRequest: public RestApiRequest {
 
     QString password;
     QString firstName;
     QString lastName;
     QString about;
 
-    QString endpoint() const override { return "/register"; };
+    QString endpoint() const override { return "/edit_profile"; };
 
     RestReqType reqType() const override { return RestReqType::POST; };
 
-    SignUpRequest(QString password,
-            QString firstName,
+    EditProfileRequest( QString firstName,
             QString lastName,
             QString about)
-        : password { move(password) }
-        , firstName { move(firstName) }
+        : firstName { move(firstName) }
         , lastName { move(lastName) }
         , about { move(about) }
     {};
 
     void fill(QJsonObject &jo) const override {
-        jo["password"] = password;
         jo["firstName"] = firstName;
         jo["lastName"] = lastName;
         jo["about"] = about;
     };
 };
 
-struct SignUpResponse: public RestApiResponse {
+struct EditProfileResponse: public RestApiResponse {
     UserDto user;
-    QString token;
     QString errorMsg;
 
     // required to make it work with variant
-    explicit SignUpResponse(){};
+    explicit EditProfileResponse(){};
 
     bool parse(const QJsonDocument &jd) override {
         auto jo= jd.object();
@@ -49,7 +45,6 @@ struct SignUpResponse: public RestApiResponse {
             return false;
         }
 
-        token = jo["token"].toString();
         user = UserDto(jo);
         return true;
     }
@@ -57,4 +52,4 @@ struct SignUpResponse: public RestApiResponse {
     QString const & error() const override { return errorMsg; }
 };
 
-#endif // SIGNUP_H
+#endif // EDITPROFILE_H

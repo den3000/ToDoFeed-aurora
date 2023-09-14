@@ -40,7 +40,7 @@ public:
     }
 
     template<class T, typename=enable_if_t<is_base_of<RestApiResponse,T>::value>>
-    RestResultWatcher<T> * execute(RestApiRequest const & request, RestResultWatcher<RestApiResponse> * watcher = new RestResultWatcher<RestApiResponse>()) {
+    RestResultWatcher<T> * execute(RestApiRequest const & request, RestResultWatcher<T> * watcher = new RestResultWatcher<T>()) {
         QNetworkRequest networkRequest;
         networkRequest.setUrl(endpoint + request.endpoint());
         networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -48,18 +48,18 @@ public:
         QNetworkReply *reply;
         switch (request.reqType()) {
         case RestReqType::GET:
-            manager->get(networkRequest);
+            reply = manager->get(networkRequest);
             break;
         case RestReqType::POST:
             QJsonObject obj;
             request.fill(obj);
             QJsonDocument doc(obj);
             QByteArray data = doc.toJson();
-            manager->post(networkRequest, data);
+            reply = manager->post(networkRequest, data);
             break;
         }
 
-        connect(reply, &QNetworkReply::finished, this, [this, watcher, reply]() {
+        connect(reply, &QNetworkReply::finished, this, [watcher, reply]() {
             QByteArray content = reply->readAll();
             auto jdReply = QJsonDocument::fromJson(content);
             if (jdReply.isNull()) {

@@ -18,6 +18,9 @@ struct GetAllUsersRequest: public RestApiRequest {
 struct GetAllUsersResponse: public RestApiResponse {
     vector<UserDto> users;
 
+    // required to make it work with variant
+    explicit GetAllUsersResponse(){};
+
     bool parse(const QJsonDocument &jd) override {
         auto ja= jd.array();
         if (ja.isEmpty()) { return false; }

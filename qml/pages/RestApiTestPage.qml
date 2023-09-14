@@ -22,8 +22,14 @@ Page {
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Registration"
+            text: "Signup"
             onClicked: { viewModel.executeRegister() }
+        }
+
+        Button {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: "LogIn"
+            onClicked: { viewModel.executeLogin() }
         }
 
         Button {

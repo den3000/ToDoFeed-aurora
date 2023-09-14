@@ -17,6 +17,7 @@ struct GetAllUsersRequest: public RestApiRequest {
 
 struct GetAllUsersResponse: public RestApiResponse {
     vector<UserDto> users;
+    QString errorMsg = "";
 
     // required to make it work with variant
     explicit GetAllUsersResponse(){};
@@ -24,7 +25,6 @@ struct GetAllUsersResponse: public RestApiResponse {
     bool parse(const QJsonDocument &jd) override {
         auto ja= jd.array();
         if (ja.isEmpty()) { return false; }
-
         for(QJsonValue const & value : ja) {
             UserDto user(value.toObject());
             users.emplace_back(user);
@@ -32,6 +32,8 @@ struct GetAllUsersResponse: public RestApiResponse {
 
         return true;
     }
+
+    QString const & error() const override { return errorMsg; }
 };
 
 #endif // GETALLUSERS_H

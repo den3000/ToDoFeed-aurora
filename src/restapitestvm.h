@@ -5,6 +5,7 @@
 #include "restapi.h"
 #include "getallusers.h"
 #include "signup.h"
+#include "login.h"
 
 class RestApiTestVM : public QObject
 {
@@ -37,6 +38,21 @@ public:
         });
     };
     
+    Q_INVOKABLE void executeLogin() {
+        auto * watcher = restApi->execute<LogInResponse>(LogInRequest(
+            "qwer123"
+        ));
+        resOrErr(watcher, this, [](auto * response){
+            qDebug() << "log in";
+            qDebug() << "user\n" << response->user << "\n";
+
+            QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+            settings.setValue("token", QVariant::fromValue(response->token));
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
+    };
+
     Q_INVOKABLE void executeGetAllUsers() {
         QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
         QString t = settings.value("token").toString();

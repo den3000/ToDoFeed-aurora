@@ -89,6 +89,7 @@ public:
                     if (result) {
                         return RestResult<T>(model);
                     } else {
+                        qDebug() << model.error();
                         return RestResult<T>(RestError::JsonParsingError);
                     }
             }, jdReply);

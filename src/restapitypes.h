@@ -40,6 +40,7 @@ struct RestApiRequest {
 
 struct RestApiResponse {
     virtual bool parse(QJsonDocument const & jd) = 0;
+    virtual QString const & error() const = 0;
 };
 
 #endif // RESTAPITYPES_H

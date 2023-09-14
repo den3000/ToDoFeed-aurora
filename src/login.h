@@ -1,45 +1,33 @@
-#ifndef SIGNUP_H
-#define SIGNUP_H
+#ifndef LOGIN_H
+#define LOGIN_H
 
 #include "restapitypes.h"
 #include "userdto.h"
 
-struct SignUpRequest: public RestApiRequest {
+struct LogInRequest: public RestApiRequest {
 
     QString password;
-    QString firstName;
-    QString lastName;
-    QString about;
 
-    QString endpoint() const override { return "/register"; };
+    QString endpoint() const override { return "/login"; };
 
     RestReqType reqType() const override { return RestReqType::POST; };
 
-    SignUpRequest(QString password,
-            QString firstName,
-            QString lastName,
-            QString about)
+    LogInRequest(QString password)
         : password { move(password) }
-        , firstName { move(firstName) }
-        , lastName { move(lastName) }
-        , about { move(about) }
     {};
 
     void fill(QJsonObject &jo) const override {
         jo["password"] = password;
-        jo["firstName"] = firstName;
-        jo["lastName"] = lastName;
-        jo["about"] = "Movie Star";
     };
 };
 
-struct SignUpResponse: public RestApiResponse {
+struct LogInResponse: public RestApiResponse {
     UserDto user;
     QString token;
     QString errorMsg;
 
     // required to make it work with variant
-    explicit SignUpResponse(){};
+    explicit LogInResponse(){};
 
     bool parse(const QJsonDocument &jd) override {
         auto jo= jd.object();
@@ -57,4 +45,4 @@ struct SignUpResponse: public RestApiResponse {
     QString const & error() const override { return errorMsg; }
 };
 
-#endif // SIGNUP_H
+#endif // LOGIN_H

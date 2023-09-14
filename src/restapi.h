@@ -15,13 +15,25 @@
 #include "userdto.h"
 #include "tododto.h"
 
-enum class RestError { NetworkError, SslError };
+enum class RestError { NetworkError, SslError, EmptyJsonResponse, JsonParsingError };
 
 template <typename Result>
 using RestResult = variant<Result, RestError>;
 
 template <typename Result>
 using RestResultWatcher = QFutureWatcher<RestResult<Result>>;
+
+enum class RestReqType{ GET, POST };
+
+struct RestApiRequest {
+    virtual QString endpoint() const = 0;
+    virtual bool fill(QJsonObject & jo) const = 0;
+    virtual RestReqType reqType() const = 0;
+};
+
+struct RestApiResponse {
+    virtual void parse(QJsonDocument const & jd) = 0;
+};
 
 class RestApi : public QObject
 {
@@ -47,6 +59,82 @@ public:
     ~RestApi() {
         delete manager;
     }
+
+    template<class T, typename=enable_if_t<is_base_of<RestApiResponse,T>::value>>
+    RestResultWatcher<T> * execute(RestApiRequest const & request, RestResultWatcher<RestApiResponse> * watcher = new RestResultWatcher<RestApiResponse>()) {
+        QNetworkRequest networkRequest;
+        networkRequest.setUrl(endpoint + request.endpoint());
+        networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        QJsonObject obj;
+        request.fill(obj);
+        QJsonDocument doc(obj);
+        QByteArray data = doc.toJson();
+
+        QNetworkReply *reply;
+        switch (request.reqType()) {
+        case RestReqType::GET:
+            manager->get(networkRequest);
+            break;
+        case RestReqType::POST:
+            manager->post(networkRequest, data);
+            break;
+        }
+
+        connect(reply, &QNetworkReply::finished, this, [this, watcher, reply]() {
+            QByteArray content = reply->readAll();
+            auto jdReply = QJsonDocument::fromJson(content);
+            if (jdReply.isNull()) {
+                qDebug() << "json doc is null";
+                auto f = QtConcurrent::run([](){
+                    return RestResult<T>(RestError::EmptyJsonResponse);
+                });
+                watcher->setFuture(f);
+                return;
+            }
+            qDebug() << "registration response: " << jdReply;
+
+            auto joObject = jdReply.object();
+            token = joObject["token"].toString();
+            qDebug() << "token: " << token;
+
+            // TODO: save this outside (in VM)
+            QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+            settings.setValue("token", QVariant::fromValue(token));
+
+            auto f = QtConcurrent::run([](QJsonObject const &jo){
+                    auto model = T();
+                    auto result = model.parse(jo);
+                    if (result) {
+                        return RestResult<T>(model);
+                    } else {
+                        return RestResult<T>(RestError::JsonParsingError);
+                    }
+            }, joObject);
+
+            watcher->setFuture(f);
+        });
+
+        connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, [reply, watcher](){
+            Q_UNUSED(reply)
+            qDebug() << "registration error";
+            auto f = QtConcurrent::run([](){
+                return RestResult<T>(RestError::NetworkError);
+            });
+            watcher->setFuture(f);
+        });
+
+        connect(reply, &QNetworkReply::sslErrors, this, [reply, watcher]() {
+            Q_UNUSED(reply)
+            qDebug() << "registration sslErrors";
+            auto f = QtConcurrent::run([](){
+                return RestResult<T>(RestError::SslError);
+            });
+            watcher->setFuture(f);
+        });
+
+        return watcher;
+    };
 
     RestResultWatcher<UserDto> * registration(RestResultWatcher<UserDto> * watcher = new RestResultWatcher<UserDto>()) {
         QNetworkRequest request;

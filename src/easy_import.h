@@ -19,6 +19,9 @@ using std::vector;
 
 using std::move;
 
+using std::enable_if_t;
+using std::is_base_of;
+
 template <typename  T>
 std::ostream & operator<<(std::ostream & os, optional<T> const & opt) {
     if (opt) {

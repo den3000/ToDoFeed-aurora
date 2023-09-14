@@ -44,7 +44,6 @@ Item {
     }
 
     function replaceAll(page, properties) {
-        pageStack.clear()
-        pageStack.push(page, properties)
+        pageStack.replaceAbove(null, page, properties)
     }
 }

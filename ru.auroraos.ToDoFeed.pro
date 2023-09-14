@@ -76,7 +76,11 @@ HEADERS += \
 
 DISTFILES += \
     qml/PageStackCppWrapper.qml \
+    qml/pages/HomePage.qml \
+    qml/pages/LoginPage.qml \
     qml/pages/RestApiTestPage.qml \
+    qml/pages/SignupPage.qml \
+    qml/pages/StartPage.qml \
     rpm/ru.auroraos.ToDoFeed.spec \
     AUTHORS.md \
     CODE_OF_CONDUCT.md \

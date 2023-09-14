@@ -24,7 +24,6 @@ struct GetAllUsersResponse: public RestApiResponse {
 
     bool parse(const QJsonDocument &jd) override {
         auto ja= jd.array();
-        if (ja.isEmpty()) { errorMsg = "json array is empty"; return false; }
         for(QJsonValue const & value : ja) {
             UserDto user(value.toObject());
             users.emplace_back(user);

@@ -9,6 +9,13 @@ struct ToDoDto
     enum class Status { Todo, InProgress, Done };
     enum class Visibility { Own, ForAll };
 
+    static QString status_to_string(ToDoDto::Status status) {
+        switch (status) {
+        case ToDoDto::Status::Todo: return "todo"; break;
+        case ToDoDto::Status::InProgress: return "in_progress"; break;
+        case ToDoDto::Status::Done: return "done"; break;
+        }
+    }
     static optional<ToDoDto::Status> parse_status(QJsonValue && value) {
         auto s = value.toString();
         if (s == "todo") {
@@ -16,12 +23,18 @@ struct ToDoDto
         } else if (s == "in_progress") {
             return ToDoDto::Status::InProgress;
         } else if (s == "done") {
-            return ToDoDto::Status::InProgress;
+            return ToDoDto::Status::Done;
         } else {
             return nullopt;
         }
     }
 
+    static QString visibility_to_string(ToDoDto::Visibility status) {
+        switch (status) {
+        case ToDoDto::Visibility::Own: return "private"; break;
+        case ToDoDto::Visibility::ForAll: return "public"; break;
+        }
+    }
     static optional<ToDoDto::Visibility> parse_visibility(QJsonValue && value) {
         auto s = value.toString();
         if (s == "public") {
@@ -69,12 +82,27 @@ struct ToDoDto
     {};
 
     friend QDebug & operator<<(QDebug & d, ToDoDto const & dto) {
+        // TODO: Improve this
+        QString statStr;
+        if (dto.status.has_value()) {
+            statStr = ToDoDto::status_to_string(dto.status.value());
+        } else {
+            statStr = "none";
+        }
+
+        QString visStr;
+        if (dto.visibility.has_value()) {
+            visStr = ToDoDto::visibility_to_string(dto.visibility.value());
+        } else {
+            visStr = "none";
+        }
+
         d << "id: " << dto.id << "\n"
             << "userId: " << dto.userId << "\n"
             << "title: " << dto.title << "\n"
-            << "description: " << dto.description;// << "\n"
-//            << "status: " << dto.status << "\n"
-//            << "visibility: " << dto.visibility;
+            << "description: " << dto.description << "\n"
+            << "status: " << statStr << "\n"
+            << "visibility: " << visStr;
         return d;
     };
 };

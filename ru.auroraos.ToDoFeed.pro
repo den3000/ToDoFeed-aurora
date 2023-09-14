@@ -51,6 +51,7 @@ SOURCES += \
     src/userdto.cpp
 
 HEADERS += \
+    src/addtodo.h \
     src/easy_import.h \
     src/editprofile.h \
     src/eraseall.h \

@@ -13,4 +13,17 @@ Page {
         objectName: "pageHeader"
         title: qsTr("Home Page")
     }
+
+    Column {
+        id: layout
+        width: parent.width
+        spacing: 16
+        anchors.centerIn: parent
+
+        Button {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: "Logout"
+            onClicked: { viewModel.logout() }
+        }
+    }
 }

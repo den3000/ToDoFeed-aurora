@@ -10,7 +10,10 @@ class HomeVM : public QObject
 public:
     explicit HomeVM(QObject *parent = nullptr): QObject(parent) { };
 
+    Q_INVOKABLE void logoutPressed() { emit logout(); };
+
 signals:
+    void logout();
 
 };
 

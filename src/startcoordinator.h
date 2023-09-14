@@ -25,12 +25,16 @@ public:
 
     ~StartCoordinator(){};
 
-    void start(){
+    void start(bool isReplace = false){
         auto vm = new StartVM();
         QObject::connect(vm, &StartVM::login, this, &StartCoordinator::goToLogin);
         QObject::connect(vm, &StartVM::signup, this, &StartCoordinator::goSignup);
 
-        Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
+        if (isReplace) {
+            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
+        } else {
+            Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
+        }
     };
 
 public slots:
@@ -55,6 +59,8 @@ public slots:
 
 signals:
     void authorized();
+public slots:
+    void restart() { start(true); };
 };
 
 #endif // STARTCOORDINATOR_H

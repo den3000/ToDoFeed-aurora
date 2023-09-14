@@ -38,6 +38,8 @@
 #include <auroraapp.h>
 #include <QtQuick>
 
+#include "easy_import.h"
+
 #include "pagepaths.h"
 #include "customcppclasses.h"
 
@@ -69,10 +71,10 @@ int main(int argc, char *argv[])
     rootView->show();
 
     QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper));
-    QObject::connect(startCoordinator.data(), &StartCoordinator::authorized, [pageStackCppWrapper](){
-        QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper));
-        homeCoordinator->start(true);
-    });
+    QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper));
+    QObject::connect(startCoordinator.data(), &StartCoordinator::authorized, homeCoordinator.data(), &HomeCoordinator::restart);
+    QObject::connect(homeCoordinator.data(), &HomeCoordinator::logout, startCoordinator.data(), &StartCoordinator::restart);
+
     startCoordinator->start();
 
     return application->exec();

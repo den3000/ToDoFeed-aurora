@@ -23,8 +23,9 @@ public:
 
     ~HomeCoordinator(){};
 
-    void start(bool isReplace = true){
+    void start(bool isReplace = false){
         auto vm = new HomeVM();
+        QObject::connect(vm, &HomeVM::logout, this, &HomeCoordinator::logout);
 
         if (isReplace) {
             Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::homePage), Smoozy::wrapInProperties(vm));
@@ -32,5 +33,11 @@ public:
             Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::homePage), Smoozy::wrapInProperties(vm));
         }
     };
+
+signals:
+    void logout();
+public slots:
+    void restart() { start(true); };
+
 };
 #endif // HOMECOORDINATOR_H

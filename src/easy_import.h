@@ -1,14 +1,20 @@
 #ifndef EASY_IMPORT_H
 #define EASY_IMPORT_H
 
+#include <QDebug>
+
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QDebug>
+
+#include <vector>
+
 #include <optional>
 #include <variant>
-#include <vector>
+#include <memory>
+
+using std::vector;
 
 using std::optional;
 using std::make_optional;
@@ -17,10 +23,14 @@ using std::nullopt;
 using std::variant;
 using std::get_if;
 
-using std::vector;
+using std::shared_ptr;
+using std::make_shared;
+using std::weak_ptr;
+using std::unique_ptr;
+using std::make_unique;
 
 using std::move;
-
+using std::forward;
 using std::enable_if_t;
 using std::is_base_of;
 

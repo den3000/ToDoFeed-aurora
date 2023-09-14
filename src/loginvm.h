@@ -18,10 +18,13 @@ public:
         , tokenProvider { tokenProvider }
     { };
 
-    Q_INVOKABLE void loginPressed() { emit authorized("login_token_value"); };
+    Q_INVOKABLE void loginPressed() {
+        tokenProvider.get()->login("login_token_value");
+        emit authorized();
+    };
 
 signals:
-    void authorized(QString const & token);
+    void authorized();
 };
 
 #endif // LOGINVM_H

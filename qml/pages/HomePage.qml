@@ -23,7 +23,7 @@ Page {
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Logout"
-            onClicked: { viewModel.logout() }
+            onClicked: { viewModel.logoutPressed() }
         }
     }
 }

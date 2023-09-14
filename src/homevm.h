@@ -18,11 +18,13 @@ public:
         , tokenProvider { tokenProvider }
     { };
 
-    Q_INVOKABLE void logoutPressed() { emit logout(); };
+    Q_INVOKABLE void logoutPressed() {
+        tokenProvider.get()->logout();
+        emit logout();
+    };
 
 signals:
     void logout();
-
 };
 
 #endif // HOMEVM_H

@@ -45,23 +45,20 @@ public:
 
 public slots:
     void goToLogin() {
-        auto vm = new LoginVM();
+        auto vm = new LoginVM(tokenProvider);
         QObject::connect(vm, &LoginVM::authorized, this, &StartCoordinator::authDone);
 
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::loginPage), Smoozy::wrapInProperties(vm));
     };
 
     void goSignup() {
-        auto vm = new SignupVM();
+        auto vm = new SignupVM(tokenProvider);
         QObject::connect(vm, &SignupVM::authorized, this, &StartCoordinator::authDone);
 
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::signupPage), Smoozy::wrapInProperties(vm));
     };
 
-    void authDone(QString const & token) {
-        qDebug() << "token" << token;
-        emit authorized();
-    };
+    void authDone() { emit authorized(); };
 
 signals:
     void authorized();

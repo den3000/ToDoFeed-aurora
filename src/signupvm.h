@@ -18,10 +18,13 @@ public:
         , tokenProvider { tokenProvider }
     { };
 
-    Q_INVOKABLE void signupPressed() { emit authorized("signup_token_value"); };
+    Q_INVOKABLE void signupPressed() {
+        tokenProvider.get()->login("signup_token_value");
+        emit authorized();
+    };
 
 signals:
-    void authorized(QString const & token);
+    void authorized();
 };
 
 #endif // SIGNUPVM_H

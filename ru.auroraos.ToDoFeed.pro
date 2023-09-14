@@ -60,13 +60,17 @@ HEADERS += \
     src/getalltodos.h \
     src/getallusers.h \
     src/getmytodos.h \
+    src/homevm.h \
     src/login.h \
+    src/loginvm.h \
     src/pagepaths.h \
     src/restapi.h \
     src/restapitestvm.h \
     src/restapitypes.h \
     src/signup.h \
+    src/signupvm.h \
     src/smoozyutils.h \
+    src/startvm.h \
     src/tododto.h \
     src/userdto.h
 

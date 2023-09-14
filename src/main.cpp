@@ -44,19 +44,18 @@
 #include "customcppclasses.h"
 
 #include "smoozyutils.h"
-#include "restapitestvm.h"
 
+#include "appdataprovider.h"
+
+#include "restapitestvm.h"
 #include "startcoordinator.h"
 #include "homecoordinator.h"
 
 int main(int argc, char *argv[])
 {
-    // excluded in .git/info/exclude
-    QFile f(":api.endpoint");
-    f.open(QIODevice::ReadOnly);
-    auto s = QString(f.readAll());
-
-    auto restApi = QScopedPointer(new RestApi(s));
+    auto appDataProvider = make_shared<AppDataProvider>();
+    auto apiUrl = appDataProvider.get()->apiUrl();
+    auto restApi = QScopedPointer(new RestApi(apiUrl));
 
     CustomCppClasses::registerModuleInQml();
 
@@ -75,7 +74,11 @@ int main(int argc, char *argv[])
     QObject::connect(startCoordinator.data(), &StartCoordinator::authorized, homeCoordinator.data(), &HomeCoordinator::restart);
     QObject::connect(homeCoordinator.data(), &HomeCoordinator::logout, startCoordinator.data(), &StartCoordinator::restart);
 
-    startCoordinator->start();
+    if (appDataProvider.get()->isLoggedIn()){
+        homeCoordinator->start();
+    } else {
+        startCoordinator->start();
+    }
 
     return application->exec();
 }

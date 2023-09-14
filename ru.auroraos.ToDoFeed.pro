@@ -52,6 +52,7 @@ SOURCES += \
 
 HEADERS += \
     src/addtodo.h \
+    src/customcppclasses.h \
     src/easy_import.h \
     src/editprofile.h \
     src/edittodo.h \
@@ -60,6 +61,7 @@ HEADERS += \
     src/getallusers.h \
     src/getmytodos.h \
     src/login.h \
+    src/pagepaths.h \
     src/restapi.h \
     src/restapitestvm.h \
     src/restapitypes.h \

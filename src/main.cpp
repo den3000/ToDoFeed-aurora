@@ -38,6 +38,9 @@
 #include <auroraapp.h>
 #include <QtQuick>
 
+#include "pagepaths.h"
+#include "customcppclasses.h"
+
 #include "smoozyutils.h"
 #include "restapitestvm.h"
 
@@ -47,18 +50,17 @@ int main(int argc, char *argv[])
     QFile f(":api.endpoint");
     f.open(QIODevice::ReadOnly);
     auto s = QString(f.readAll());
-    qDebug() << "file content: " << s;
 
     auto restApi = QScopedPointer(new RestApi(s));
 
-    qmlRegisterType<RestApiTestVM>("CustomCppClasses.Module", 1, 0, "RestApiTestVM");
+    CustomCppClasses::registerModuleInQml();
 
     QScopedPointer<QGuiApplication> application(Aurora::Application::application(argc, argv));
     application->setOrganizationName(QStringLiteral("ru.auroraos"));
     application->setApplicationName(QStringLiteral("ToDoFeed"));
 
     QScopedPointer<QQuickView> rootView(Aurora::Application::createView());
-    rootView->setSource(Aurora::Application::pathTo(QStringLiteral("qml/ToDoFeed.qml")));
+    rootView->setSource(Aurora::Application::pathTo(PagePaths::root));
 
     auto pageStackCppWrapper = QSharedPointer<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
 

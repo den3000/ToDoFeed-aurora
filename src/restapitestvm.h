@@ -35,7 +35,10 @@ public:
     };
     
     Q_INVOKABLE void executeGetAllUsers() {
-        auto * watcher = restApi->execute<GetAllUsersResponse>(GetAllUsersRequest());
+        QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+        QString t = settings.value("token").toString();
+        qDebug() << "token: " << t << "\n";
+        auto * watcher = restApi->execute<GetAllUsersResponse>(GetAllUsersRequest(), t);
         resOrErr(watcher, this, [](auto * response){
             for(UserDto const & user : response->users) {
                 qDebug() << "user: " << user << "\n";

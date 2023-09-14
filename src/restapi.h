@@ -40,9 +40,13 @@ public:
     }
 
     template<class T, typename=enable_if_t<is_base_of<RestApiResponse,T>::value>>
-    RestResultWatcher<T> * execute(RestApiRequest const & request, RestResultWatcher<T> * watcher = new RestResultWatcher<T>()) {
+    RestResultWatcher<T> * execute(RestApiRequest const & request, optional<QString> token = nullopt, RestResultWatcher<T> * watcher = new RestResultWatcher<T>()) {
         QNetworkRequest networkRequest;
-        networkRequest.setUrl(endpoint + request.endpoint());
+        if (token.has_value()) {
+            networkRequest.setUrl(endpoint + request.endpoint() + "?token=" + token.value());
+        } else {
+            networkRequest.setUrl(endpoint + request.endpoint());
+        }
         networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
         QNetworkReply *reply;
@@ -93,8 +97,7 @@ public:
         });
 
         connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, [reply, watcher](){
-            Q_UNUSED(reply)
-            qDebug() << "registration error";
+            qDebug() << "request error: " << reply->errorString();
             auto f = QtConcurrent::run([](){
                 return RestResult<T>(RestError::NetworkError);
             });
@@ -102,8 +105,7 @@ public:
         });
 
         connect(reply, &QNetworkReply::sslErrors, this, [reply, watcher]() {
-            Q_UNUSED(reply)
-            qDebug() << "registration sslErrors";
+            qDebug() << "request sslErrors: " << reply->errorString();
             auto f = QtConcurrent::run([](){
                 return RestResult<T>(RestError::SslError);
             });

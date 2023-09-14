@@ -52,6 +52,7 @@ SOURCES += \
 
 HEADERS += \
     src/addtodo.h \
+    src/appdataprovider.h \
     src/customcppclasses.h \
     src/easy_import.h \
     src/editprofile.h \

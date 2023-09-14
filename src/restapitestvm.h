@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "restapi.h"
+#include "getallusers.h"
 
 class RestApiTestVM : public QObject
 {
@@ -34,15 +35,18 @@ public:
     };
     
     Q_INVOKABLE void executeGetAllUsers() {
-        auto * watcher = restApi->getAllUsers();;
+        auto * watcher = restApi->execute<GetAllUsersResponse>(GetAllUsersRequest());
         connect(watcher, &QFutureWatcher<void>::finished, this, [watcher](){
             auto result = watcher->result();
-            if (const auto pData = get_if<vector<UserDto>>(&result)) {
-                for(UserDto const & user : *pData) {
+            if (const auto pResponse = get_if<GetAllUsersResponse>(&result)) {
+                for(UserDto const & user : pResponse->users) {
                     qDebug() << "user: " << user << "\n";
                 }
             } else  if (const auto pError = get_if<RestError>(&result)) {
                 switch (*pError) {
+                case RestError::NullResponse: qDebug() << "NullResponse"; break;
+                case RestError::EmptyJsonResponse: qDebug() << "EmptyJsonResponse"; break;
+                case RestError::JsonParsingError: qDebug() << "JsonParsingError"; break;
                 case RestError::NetworkError: qDebug() << "NetworkError"; break;
                 case RestError::SslError: qDebug() << "SslError"; break;
                 }

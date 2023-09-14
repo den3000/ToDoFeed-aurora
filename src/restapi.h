@@ -2,8 +2,8 @@
 #define RESTAPI_H
 
 #include <QObject>
-#include <QtNetwork>
 
+#include <QtNetwork>
 #include <QCoreApplication>
 #include <QtConcurrent/QtConcurrent>
 #include <QFuture>
@@ -45,17 +45,16 @@ public:
         networkRequest.setUrl(endpoint + request.endpoint());
         networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-        QJsonObject obj;
-        request.fill(obj);
-        QJsonDocument doc(obj);
-        QByteArray data = doc.toJson();
-
         QNetworkReply *reply;
         switch (request.reqType()) {
         case RestReqType::GET:
             manager->get(networkRequest);
             break;
         case RestReqType::POST:
+            QJsonObject obj;
+            request.fill(obj);
+            QJsonDocument doc(obj);
+            QByteArray data = doc.toJson();
             manager->post(networkRequest, data);
             break;
         }
@@ -64,32 +63,30 @@ public:
             QByteArray content = reply->readAll();
             auto jdReply = QJsonDocument::fromJson(content);
             if (jdReply.isNull()) {
-                qDebug() << "json doc is null";
+                auto f = QtConcurrent::run([](){
+                    return RestResult<T>(RestError::NullResponse);
+                });
+                watcher->setFuture(f);
+                return;
+            }
+
+            if (jdReply.isEmpty()) {
                 auto f = QtConcurrent::run([](){
                     return RestResult<T>(RestError::EmptyJsonResponse);
                 });
                 watcher->setFuture(f);
                 return;
             }
-            qDebug() << "registration response: " << jdReply;
 
-            auto joObject = jdReply.object();
-            token = joObject["token"].toString();
-            qDebug() << "token: " << token;
-
-            // TODO: save this outside (in VM)
-            QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
-            settings.setValue("token", QVariant::fromValue(token));
-
-            auto f = QtConcurrent::run([](QJsonObject const &jo){
+            auto f = QtConcurrent::run([](QJsonDocument const &jd){
                     auto model = T();
-                    auto result = model.parse(jo);
+                    auto result = model.parse(jd);
                     if (result) {
                         return RestResult<T>(model);
                     } else {
                         return RestResult<T>(RestError::JsonParsingError);
                     }
-            }, joObject);
+            }, jdReply);
 
             watcher->setFuture(f);
         });

@@ -14,6 +14,9 @@
 class StartCoordinator : public QObject
 {
     Q_OBJECT
+
+    QSharedPointer<QQuickItem> pageStackCppWrapper;
+
 public:
     explicit StartCoordinator(QSharedPointer<QQuickItem> pageStackCppWrapper, QObject *parent = nullptr)
         : QObject(parent)
@@ -30,12 +33,7 @@ public:
         Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
     };
 
-private:
-    QSharedPointer<QQuickView> rootView;
-    QSharedPointer<QQuickItem> pageStackCppWrapper;
-
 public slots:
-
     void goToLogin() {
         auto vm = new LoginVM();
         QObject::connect(vm, &LoginVM::authorized, this, &StartCoordinator::authDone);
@@ -52,7 +50,11 @@ public slots:
 
     void authDone(QString const & token) {
         qDebug() << "token" << token;
+        emit authorized();
     };
+
+signals:
+    void authorized();
 };
 
 #endif // STARTCOORDINATOR_H

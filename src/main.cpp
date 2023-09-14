@@ -45,6 +45,7 @@
 #include "restapitestvm.h"
 
 #include "startcoordinator.h"
+#include "homecoordinator.h"
 
 int main(int argc, char *argv[])
 {
@@ -67,8 +68,12 @@ int main(int argc, char *argv[])
     auto pageStackCppWrapper = QSharedPointer<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
     rootView->show();
 
-    QScopedPointer<StartCoordinator> rootCoordinator(new StartCoordinator(pageStackCppWrapper));
-    rootCoordinator->start();
+    QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper));
+    QObject::connect(startCoordinator.data(), &StartCoordinator::authorized, [pageStackCppWrapper](){
+        QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper));
+        homeCoordinator->start(true);
+    });
+    startCoordinator->start();
 
     return application->exec();
 }

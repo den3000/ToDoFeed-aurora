@@ -26,19 +26,28 @@ namespace Smoozy
                     );
     }
 
-    inline bool pushPage(QQuickItem * qmlCoordinatorInstance, QQmlComponent * page, QMap<QString, QVariant> properties){
+    inline bool pushPage(QQuickItem * pageStackCppWrapper, QQmlComponent * page, QMap<QString, QVariant> properties){
         return QMetaObject::invokeMethod(
-                    qmlCoordinatorInstance,
+                    pageStackCppWrapper,
                     "push",
                     Q_ARG(QVariant, QVariant::fromValue(page)),
                     Q_ARG(QVariant, QVariant::fromValue(properties))
                     );
     }
 
-    inline bool pushNamedPage(QQuickItem * qmlCoordinatorInstance, QUrl pageName, QMap<QString, QVariant> properties){
+    inline bool pushNamedPage(QQuickItem * pageStackCppWrapper, QUrl pageName, QMap<QString, QVariant> properties){
         return QMetaObject::invokeMethod(
-                    qmlCoordinatorInstance,
+                    pageStackCppWrapper,
                     "push",
+                    Q_ARG(QVariant, QVariant::fromValue(pageName)),
+                    Q_ARG(QVariant, QVariant::fromValue(properties))
+                    );
+    }
+
+    inline bool replaceAllWithNamedPage(QQuickItem * pageStackCppWrapper, QUrl pageName, QMap<QString, QVariant> properties){
+        return QMetaObject::invokeMethod(
+                    pageStackCppWrapper,
+                    "replaceAll",
                     Q_ARG(QVariant, QVariant::fromValue(pageName)),
                     Q_ARG(QVariant, QVariant::fromValue(properties))
                     );

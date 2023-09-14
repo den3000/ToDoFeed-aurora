@@ -60,6 +60,7 @@ HEADERS += \
     src/getalltodos.h \
     src/getallusers.h \
     src/getmytodos.h \
+    src/homecoordinator.h \
     src/homevm.h \
     src/login.h \
     src/loginvm.h \

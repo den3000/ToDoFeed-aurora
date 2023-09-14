@@ -42,4 +42,9 @@ Item {
     function push(page, properties) {
         pageStack.push(page, properties)
     }
+
+    function replaceAll(page, properties) {
+        pageStack.clear()
+        pageStack.push(page, properties)
+    }
 }

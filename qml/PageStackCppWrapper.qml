@@ -46,4 +46,8 @@ Item {
     function replaceAll(page, properties) {
         pageStack.replaceAbove(null, page, properties)
     }
+
+    function pop() {
+        pageStack.pop()
+    }
 }

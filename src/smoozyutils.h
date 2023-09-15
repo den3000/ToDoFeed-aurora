@@ -58,6 +58,13 @@ namespace Smoozy
                     );
     }
 
+    inline bool popPage(QQuickItem * pageStackCppWrapper){
+        return QMetaObject::invokeMethod(
+                    pageStackCppWrapper,
+                    "pop"
+                    );
+    }
+
     template<typename T>
     inline QMap<QString, QVariant> wrapInProperties(T * vm){
         QMap<QString, QVariant> properties;

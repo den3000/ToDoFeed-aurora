@@ -1,7 +1,7 @@
 #ifndef APPDATAPROVIDER_H
 #define APPDATAPROVIDER_H
 
-#include "QFile"
+#include <QFile>
 
 #include "easy_import.h"
 

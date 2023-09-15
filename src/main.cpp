@@ -45,7 +45,7 @@
 
 #include "smoozyutils.h"
 
-#include "appdataprovider.h"
+#include "diprovider.h"
 
 #include "restapitestvm.h"
 #include "startcoordinator.h"
@@ -64,7 +64,9 @@ int main(int argc, char *argv[])
     auto pageStackCppWrapper = shared_ptr<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
     rootView->show();
 
-    auto appDataProvider = make_shared<AppDataProvider>();
+    auto diProvider = make_shared<DiProvider>();
+    shared_ptr<AppDataProvider> appDataProvider = diProvider->appDataProviderInstance();
+
     auto apiUrl = appDataProvider.get()->apiUrl();
     auto restApi = QScopedPointer(new RestApi(apiUrl));
 

@@ -54,6 +54,7 @@ HEADERS += \
     src/addtodo.h \
     src/appdataprovider.h \
     src/customcppclasses.h \
+    src/diprovider.h \
     src/easy_import.h \
     src/editprofile.h \
     src/edittodo.h \
@@ -63,8 +64,10 @@ HEADERS += \
     src/getmytodos.h \
     src/homecoordinator.h \
     src/homevm.h \
+    src/ihomediprovider.h \
     src/ilogintokenprovider.h \
     src/ilogouttokenprovider.h \
+    src/istartdiprovider.h \
     src/login.h \
     src/loginvm.h \
     src/pagepaths.h \

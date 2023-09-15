@@ -23,7 +23,7 @@ Page {
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Show ToDo"
-            onClicked: { viewModel.showToDo() }
+            onClicked: { viewModel.showToDo("some_id") }
         }
 
         Button {

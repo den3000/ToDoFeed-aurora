@@ -7,9 +7,14 @@
 class ToDoDetailsVM : public QObject, public IEditToDoDelegate
 {
     Q_OBJECT
+    QString toDoId;
 
 public:
     explicit ToDoDetailsVM(QObject *parent = nullptr): QObject(parent) { };
+    explicit ToDoDetailsVM(QString const & toDoId, QObject *parent = nullptr)
+        : QObject(parent)
+        , toDoId { toDoId }
+    { };
 
     // IEditToDoDelegate interface
     void onFinished(const QString &toDoId) override {

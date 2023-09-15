@@ -15,6 +15,7 @@
 #include "tododetailsvm.h"
 #include "edittodovm.h"
 #include "userslistvm.h"
+#include "userdetailsvm.h"
 
 class HomeCoordinator : public QObject
 {
@@ -51,8 +52,8 @@ signals:
 public slots:
     void restart() { start(true); };
 
-    void showToDo() {
-        auto vm = new ToDoDetailsVM();
+    void showToDo(QString const & toDoId) {
+        auto vm = new ToDoDetailsVM(toDoId);
         QObject::connect(vm, &ToDoDetailsVM::editToDo, this, &HomeCoordinator::editToDo);
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoDetailsPage), Smoozy::wrapInProperties(vm));
     };
@@ -72,7 +73,9 @@ public slots:
     };
 
     void showUserDetails() {
-        qDebug();
+        auto vm = new UserDetailsVM();
+        QObject::connect(vm, &UserDetailsVM::showToDo, this, &HomeCoordinator::showToDo);
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::userDetailsPage), Smoozy::wrapInProperties(vm));
     };
 
     void showSettings() {

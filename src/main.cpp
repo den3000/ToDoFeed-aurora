@@ -53,10 +53,6 @@
 
 int main(int argc, char *argv[])
 {
-    auto appDataProvider = make_shared<AppDataProvider>();
-    auto apiUrl = appDataProvider.get()->apiUrl();
-    auto restApi = QScopedPointer(new RestApi(apiUrl));
-
     CustomCppClasses::registerModuleInQml();
 
     QScopedPointer<QGuiApplication> application(Aurora::Application::application(argc, argv));
@@ -65,9 +61,12 @@ int main(int argc, char *argv[])
 
     QScopedPointer<QQuickView> rootView(Aurora::Application::createView());
     rootView->setSource(Aurora::Application::pathTo(PagePaths::root));
-
     auto pageStackCppWrapper = shared_ptr<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
     rootView->show();
+
+    auto appDataProvider = make_shared<AppDataProvider>();
+    auto apiUrl = appDataProvider.get()->apiUrl();
+    auto restApi = QScopedPointer(new RestApi(apiUrl));
 
     QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper, appDataProvider));
     QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper, appDataProvider));

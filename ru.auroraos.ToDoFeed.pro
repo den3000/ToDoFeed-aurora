@@ -58,6 +58,7 @@ HEADERS += \
     src/easy_import.h \
     src/editprofile.h \
     src/edittodo.h \
+    src/edittodovm.h \
     src/eraseall.h \
     src/getalltodos.h \
     src/getallusers.h \
@@ -89,6 +90,7 @@ HEADERS += \
 
 DISTFILES += \
     qml/PageStackCppWrapper.qml \
+    qml/pages/EditToDoPage.qml \
     qml/pages/LoginPage.qml \
     qml/pages/RestApiTestPage.qml \
     qml/pages/SignupPage.qml \

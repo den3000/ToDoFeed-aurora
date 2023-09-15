@@ -10,6 +10,7 @@ namespace PagePaths {
     QString const signupPage = "qml/pages/SignupPage.qml";
     QString const toDoListPage = "qml/pages/ToDoListPage.qml";
     QString const toDoDetailsPage = "qml/pages/ToDoDetailsPage.qml";
+    QString const editToDoPage = "qml/pages/EditToDoPage.qml";
 }
 
 #endif // PAGEPATHS_H

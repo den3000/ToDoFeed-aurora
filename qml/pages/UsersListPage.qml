@@ -5,25 +5,26 @@ import CustomCppClasses.Module 1.0
 Page {
     property UsersListVM viewModel
     onViewModelChanged: viewModel.parent = this
-
-    objectName: "signupPage"
     allowedOrientations: Orientation.All
 
-    PageHeader {
-        objectName: "pageHeader"
-        title: qsTr("Users List Page")
-    }
-
-    Column {
-        id: layout
-        width: parent.width
-        spacing: 16
-        anchors.centerIn: parent
-
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Show User Details"
-            onClicked: { viewModel.viewUserDetails() }
+    SilicaListView {
+        anchors.fill: parent
+        header: PageHeader {
+            title: qsTr("Users List Page")
         }
+        delegate: ListItem {
+            Label {
+                id: label
+                text: qsTr("User %1").arg(model.index + 1)
+                anchors.verticalCenter: parent.verticalCenter
+                x: Theme.horizontalPageMargin
+                color: Theme.primaryColor
+            }
+            onClicked: {
+                viewModel.viewUserDetails(qsTr("userId_%1").arg(model.index + 1))
+            }
+        }
+        model: 17
+        VerticalScrollDecorator { }
     }
 }

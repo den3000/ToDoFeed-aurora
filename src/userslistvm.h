@@ -11,7 +11,7 @@ public:
     explicit UsersListVM(QObject *parent = nullptr): QObject(parent) { };
 
 signals:
-    void viewUserDetails();
+    void viewUserDetails(QString userId);
 };
 
 

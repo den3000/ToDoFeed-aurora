@@ -11,7 +11,7 @@ Page {
 
     PageHeader {
         objectName: "pageHeader"
-        title: qsTr("User Details Page")
+        title: qsTr("User Details %1 Page").arg(viewModel.userName())
     }
 
     Column {

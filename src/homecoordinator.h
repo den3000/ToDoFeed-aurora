@@ -73,8 +73,8 @@ public slots:
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::usersListPage), Smoozy::wrapInProperties(vm));
     };
 
-    void showUserDetails() {
-        auto vm = new UserDetailsVM();
+    void showUserDetails(QString const & userId) {
+        auto vm = new UserDetailsVM(userId);
         QObject::connect(vm, &UserDetailsVM::showToDo, this, &HomeCoordinator::showToDo);
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::userDetailsPage), Smoozy::wrapInProperties(vm));
     };

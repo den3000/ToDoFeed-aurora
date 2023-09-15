@@ -22,6 +22,7 @@ public:
         qDebug();
     }
 
+    Q_INVOKABLE QString title() { return toDoId; }
     Q_INVOKABLE void callEditToDo(QString const & toDoId) {
         emit editToDo(toDoId, this);
     };

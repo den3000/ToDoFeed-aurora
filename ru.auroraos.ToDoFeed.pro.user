@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.15.2, 2023-09-15T18:07:40. -->
+<!-- Written by QtCreator 4.15.2, 2023-09-15T20:56:27. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -8,7 +8,7 @@
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
-  <value type="int">0</value>
+  <value type="int">1</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
@@ -409,7 +409,7 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="bool" key="MerRunConfiguration.DebugBypassOpenSslArmCapEnabled">true</value>
     <value type="QString" key="MerRunConfiguration.QmlLiveBenchWorkspace">C:/Users/supru/AuroraSdkProjects/ToDoFeed/ToDoFeed</value>
-    <value type="bool" key="MerRunConfiguration.QmlLiveEnabled">true</value>
+    <value type="bool" key="MerRunConfiguration.QmlLiveEnabled">false</value>
     <value type="int" key="MerRunConfiguration.QmlLiveIpcPort">-1</value>
     <value type="int" key="MerRunConfiguration.QmlLiveOptions">3</value>
     <value type="QString" key="MerRunConfiguration.QmlLiveTargetWorkspace"></value>
@@ -455,7 +455,7 @@
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">QtProjectManager.QMakeBuildStep</value>
-      <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">true</value>
+      <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">false</value>
       <valuelist type="QVariantList" key="QtProjectManager.QMakeBuildStep.SelectedAbis"/>
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.2">

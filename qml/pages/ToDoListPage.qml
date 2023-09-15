@@ -5,42 +5,39 @@ import CustomCppClasses.Module 1.0
 Page {
     property ToDoListVM viewModel
     onViewModelChanged: viewModel.parent = this
-
-    objectName: "signupPage"
     allowedOrientations: Orientation.All
 
-    PageHeader {
-        objectName: "pageHeader"
-        title: qsTr("ToDo List Page")
-    }
-
-    Column {
-        id: layout
-        width: parent.width
-        spacing: 16
-        anchors.centerIn: parent
-
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Show ToDo"
-            onClicked: { viewModel.showToDo("some_id") }
+    SilicaListView {
+        anchors.fill: parent
+        header: PageHeader {
+            title: qsTr("ToDoList Page")
         }
-
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Add Todo"
-            onClicked: { viewModel.callAddToDo() }
+        delegate: ListItem {
+            Label {
+                id: label
+                text: qsTr("ToDo %1").arg(model.index + 1)
+                anchors.verticalCenter: parent.verticalCenter
+                x: Theme.horizontalPageMargin
+                color: Theme.primaryColor
+            }
+            onClicked: { viewModel.showToDo(qsTr("toDoId_%1").arg(model.index + 1)) }
         }
+        model: 17
+        VerticalScrollDecorator { }
 
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Go to users"
-            onClicked: { viewModel.showUsersList() }
-        }
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Go to settings"
-            onClicked: { viewModel.showSettings() }
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Go to settings")
+                onClicked: viewModel.showSettings()
+            }
+            MenuItem {
+                text: qsTr("Go to users")
+                onClicked: viewModel.showUsersList()
+            }
+            MenuItem {
+                text: qsTr("Add Todo")
+                onClicked: viewModel.callAddToDo()
+            }
         }
     }
 }

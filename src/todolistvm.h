@@ -22,7 +22,7 @@ public:
     };
 
 signals:
-    void showToDo(QString const & toDoId);
+    void showToDo(QString toDoId);
     void addToDo(IEditToDoDelegate * delegate);
     void showUsersList();
     void showSettings();

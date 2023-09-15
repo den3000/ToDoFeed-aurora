@@ -38,34 +38,46 @@
 #include <auroraapp.h>
 #include <QtQuick>
 
+#include "easy_import.h"
+
+#include "pagepaths.h"
+#include "customcppclasses.h"
+
 #include "smoozyutils.h"
+
+#include "diprovider.h"
+
 #include "restapitestvm.h"
+#include "startcoordinator.h"
+#include "homecoordinator.h"
 
 int main(int argc, char *argv[])
 {
-    // excluded in .git/info/exclude
-    QFile f(":api.endpoint");
-    f.open(QIODevice::ReadOnly);
-    auto s = QString(f.readAll());
-    qDebug() << "file content: " << s;
-
-    auto restApi = QScopedPointer(new RestApi(s));
-
-    qmlRegisterType<RestApiTestVM>("CustomCppClasses.Module", 1, 0, "RestApiTestVM");
+    CustomCppClasses::registerModuleInQml();
 
     QScopedPointer<QGuiApplication> application(Aurora::Application::application(argc, argv));
     application->setOrganizationName(QStringLiteral("ru.auroraos"));
     application->setApplicationName(QStringLiteral("ToDoFeed"));
 
     QScopedPointer<QQuickView> rootView(Aurora::Application::createView());
-    rootView->setSource(Aurora::Application::pathTo(QStringLiteral("qml/ToDoFeed.qml")));
-
-    auto pageStackCppWrapper = QSharedPointer<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
-
+    rootView->setSource(Aurora::Application::pathTo(PagePaths::root));
+    auto pageStackCppWrapper = shared_ptr<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
     rootView->show();
 
-    auto vm = new RestApiTestVM(restApi.data());
-    Smoozy::pushNamedPage(pageStackCppWrapper.data(), Aurora::Application::pathTo("qml/pages/RestApiTestPage.qml"), Smoozy::wrapInProperties(vm));
+    auto diProvider = make_shared<DiProvider>();
+    shared_ptr<AppDataProvider> appDataProvider = diProvider->appDataProviderInstance();
+    shared_ptr<RestApi> restApi = diProvider->restApiInstance(appDataProvider.get()->apiUrl());
+
+    QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper, appDataProvider));
+    QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper, appDataProvider));
+    QObject::connect(startCoordinator.data(), &StartCoordinator::authorized, homeCoordinator.data(), &HomeCoordinator::restart);
+    QObject::connect(homeCoordinator.data(), &HomeCoordinator::logout, startCoordinator.data(), &StartCoordinator::restart);
+
+    if (appDataProvider.get()->isLoggedIn()){
+        homeCoordinator->start();
+    } else {
+        startCoordinator->start();
+    }
 
     return application->exec();
 }

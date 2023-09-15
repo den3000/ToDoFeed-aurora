@@ -42,4 +42,12 @@ Item {
     function push(page, properties) {
         pageStack.push(page, properties)
     }
+
+    function replaceAll(page, properties) {
+        pageStack.replaceAbove(null, page, properties)
+    }
+
+    function pop() {
+        pageStack.pop()
+    }
 }

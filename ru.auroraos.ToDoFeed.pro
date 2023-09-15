@@ -52,25 +52,55 @@ SOURCES += \
 
 HEADERS += \
     src/addtodo.h \
+    src/appdataprovider.h \
+    src/customcppclasses.h \
+    src/diprovider.h \
     src/easy_import.h \
     src/editprofile.h \
+    src/editprofilevm.h \
     src/edittodo.h \
+    src/edittodovm.h \
     src/eraseall.h \
     src/getalltodos.h \
     src/getallusers.h \
     src/getmytodos.h \
+    src/homecoordinator.h \
+    src/ihomediprovider.h \
+    src/ilogintokenprovider.h \
+    src/ilogouttokenprovider.h \
+    src/istartdiprovider.h \
     src/login.h \
+    src/loginvm.h \
+    src/pagepaths.h \
+    src/profileservice.h \
     src/restapi.h \
     src/restapitestvm.h \
     src/restapitypes.h \
     src/signup.h \
     src/smoozyutils.h \
+    src/startcoordinator.h \
+    src/startservice.h \
+    src/startvm.h \
+    src/tododetailsvm.h \
     src/tododto.h \
-    src/userdto.h
+    src/todolistvm.h \
+    src/todosservice.h \
+    src/userdetailsvm.h \
+    src/userdto.h \
+    src/userslistvm.h \
+    src/usersservice.h
 
 DISTFILES += \
     qml/PageStackCppWrapper.qml \
+    qml/pages/EditProfilePage.qml \
+    qml/pages/EditToDoPage.qml \
+    qml/pages/LoginPage.qml \
+    qml/pages/UserDetailsPage.qml \
+    qml/pages/UsersListPage.qml \
     qml/pages/RestApiTestPage.qml \
+    qml/pages/StartPage.qml \
+    qml/pages/ToDoDetailsPage.qml \
+    qml/pages/ToDoListPage.qml \
     rpm/ru.auroraos.ToDoFeed.spec \
     AUTHORS.md \
     CODE_OF_CONDUCT.md \

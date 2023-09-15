@@ -2,36 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en">
 <context>
-    <name>AboutPage</name>
-    <message>
-        <location filename="../qml/pages/AboutPage.qml" line="57"/>
-        <source>About Application</source>
-        <translation>About Application</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/AboutPage.qml" line="67"/>
-        <source>#descriptionText</source>
-        <translation>&lt;p&gt;Short description of my Aurora OS Application&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/AboutPage.qml" line="72"/>
-        <source>3-Clause BSD License</source>
-        <translation>3-Clause BSD License</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/AboutPage.qml" line="82"/>
-        <source>#licenseText</source>
-        <translation>&lt;p&gt;&lt;i&gt;Copyright (C) 2022 ru.auroraos&lt;/i&gt;&lt;/p&gt;
-&lt;p&gt;Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:&lt;/p&gt;
-&lt;ol&gt;
-	&lt;li&gt;Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.&lt;/li&gt;
-	&lt;li&gt;Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.&lt;/li&gt;
-	&lt;li&gt;Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/p&gt;</translation>
-    </message>
-</context>
-<context>
     <name>DefaultCoverPage</name>
     <message>
         <location filename="../qml/cover/DefaultCoverPage.qml" line="46"/>
@@ -40,11 +10,47 @@
     </message>
 </context>
 <context>
-    <name>MainPage</name>
+    <name>EditProfilePage</name>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="47"/>
-        <source>Template</source>
-        <translation>Template</translation>
+        <location filename="../qml/pages/EditProfilePage.qml" line="16"/>
+        <source>Sign Up Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="18"/>
+        <source>Edit Profile Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="33"/>
+        <source>Sign Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="35"/>
+        <source>Log Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EditToDoPage</name>
+    <message>
+        <location filename="../qml/pages/EditToDoPage.qml" line="16"/>
+        <source>Edit ToDo Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditToDoPage.qml" line="18"/>
+        <source>Add ToDo Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LoginPage</name>
+    <message>
+        <location filename="../qml/pages/LoginPage.qml" line="14"/>
+        <source>LoginPage</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -52,6 +58,46 @@
     <message>
         <location filename="../qml/pages/RestApiTestPage.qml" line="14"/>
         <source>RestApiTest</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StartPage</name>
+    <message>
+        <location filename="../qml/pages/StartPage.qml" line="14"/>
+        <source>Start Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ToDoDetailsPage</name>
+    <message>
+        <location filename="../qml/pages/ToDoDetailsPage.qml" line="14"/>
+        <source>ToDo Details Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ToDoListPage</name>
+    <message>
+        <location filename="../qml/pages/ToDoListPage.qml" line="14"/>
+        <source>ToDo List Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UserDetailsPage</name>
+    <message>
+        <location filename="../qml/pages/UserDetailsPage.qml" line="14"/>
+        <source>User Details Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UsersListPage</name>
+    <message>
+        <location filename="../qml/pages/UsersListPage.qml" line="14"/>
+        <source>Users List Page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

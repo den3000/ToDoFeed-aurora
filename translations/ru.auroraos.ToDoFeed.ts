@@ -10,6 +10,29 @@
     </message>
 </context>
 <context>
+    <name>EditProfilePage</name>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="16"/>
+        <source>Sign Up Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="18"/>
+        <source>Edit Profile Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="33"/>
+        <source>Sign Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="35"/>
+        <source>Log Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EditToDoPage</name>
     <message>
         <location filename="../qml/pages/EditToDoPage.qml" line="16"/>
@@ -35,14 +58,6 @@
     <message>
         <location filename="../qml/pages/RestApiTestPage.qml" line="14"/>
         <source>RestApiTest</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SignupPage</name>
-    <message>
-        <location filename="../qml/pages/SignupPage.qml" line="14"/>
-        <source>Signup Page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

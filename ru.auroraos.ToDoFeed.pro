@@ -57,6 +57,7 @@ HEADERS += \
     src/diprovider.h \
     src/easy_import.h \
     src/editprofile.h \
+    src/editprofilevm.h \
     src/edittodo.h \
     src/edittodovm.h \
     src/eraseall.h \
@@ -76,7 +77,6 @@ HEADERS += \
     src/restapitestvm.h \
     src/restapitypes.h \
     src/signup.h \
-    src/signupvm.h \
     src/smoozyutils.h \
     src/startcoordinator.h \
     src/startservice.h \
@@ -92,12 +92,12 @@ HEADERS += \
 
 DISTFILES += \
     qml/PageStackCppWrapper.qml \
+    qml/pages/EditProfilePage.qml \
     qml/pages/EditToDoPage.qml \
     qml/pages/LoginPage.qml \
     qml/pages/UserDetailsPage.qml \
     qml/pages/UsersListPage.qml \
     qml/pages/RestApiTestPage.qml \
-    qml/pages/SignupPage.qml \
     qml/pages/StartPage.qml \
     qml/pages/ToDoDetailsPage.qml \
     qml/pages/ToDoListPage.qml \

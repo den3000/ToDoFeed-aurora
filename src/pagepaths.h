@@ -7,7 +7,7 @@ namespace PagePaths {
     QString const root = "qml/ToDoFeed.qml";
     QString const startPage = "qml/pages/StartPage.qml";
     QString const loginPage = "qml/pages/LoginPage.qml";
-    QString const signupPage = "qml/pages/SignupPage.qml";
+    QString const editProfilePage = "qml/pages/EditProfilePage.qml";
     QString const toDoListPage = "qml/pages/ToDoListPage.qml";
     QString const toDoDetailsPage = "qml/pages/ToDoDetailsPage.qml";
     QString const editToDoPage = "qml/pages/EditToDoPage.qml";

@@ -9,7 +9,7 @@
 
 namespace Smoozy
 {
-    inline QSettings settings(QString const & fileName = "/settings.init") {
+    inline QSettings settings(QString const & fileName = "/settings.ini") {
         return QSettings (QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation).append(fileName), QSettings::IniFormat);
     };
 

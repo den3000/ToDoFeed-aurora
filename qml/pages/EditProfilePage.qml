@@ -3,7 +3,7 @@ import Sailfish.Silica 1.0
 import CustomCppClasses.Module 1.0
 
 Page {
-    property SignupVM viewModel
+    property EditProfileVM viewModel
     onViewModelChanged: viewModel.parent = this
 
     objectName: "signupPage"
@@ -11,7 +11,13 @@ Page {
 
     PageHeader {
         objectName: "pageHeader"
-        title: qsTr("Signup Page")
+        title: {
+            if (viewModel.signup()) {
+                return qsTr("Sign Up Page")
+            } else {
+                return qsTr("Edit Profile Page")
+            }
+        }
     }
 
     Column {
@@ -22,8 +28,14 @@ Page {
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Signup"
-            onClicked: { viewModel.signupPressed() }
+            text: {
+                if (viewModel.signup()) {
+                    return qsTr("Sign Up")
+                } else {
+                    return qsTr("Log Out")
+                }
+            }
+            onClicked: { viewModel.confirmPressed() }
         }
     }
 }

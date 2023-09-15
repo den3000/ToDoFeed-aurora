@@ -16,6 +16,7 @@
 #include "edittodovm.h"
 #include "userslistvm.h"
 #include "userdetailsvm.h"
+#include "editprofilevm.h"
 
 class HomeCoordinator : public QObject
 {
@@ -79,11 +80,12 @@ public slots:
     };
 
     void showSettings() {
-        qDebug();
+        auto vm = new EditProfileVM(tokenProvider);
+        QObject::connect(vm, &EditProfileVM::unauthorized, this, &HomeCoordinator::logout);
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editProfilePage), Smoozy::wrapInProperties(vm));
     };
 
     void confirmed() {
-        qDebug();
         Smoozy::popPage(pageStackCppWrapper.get());
     };
 

@@ -11,7 +11,7 @@
 
 #include "startvm.h"
 #include "loginvm.h"
-#include "signupvm.h"
+#include "editprofilevm.h"
 
 #include "ilogintokenprovider.h"
 
@@ -52,10 +52,10 @@ public slots:
     };
 
     void goSignup() {
-        auto vm = new SignupVM(tokenProvider);
-        QObject::connect(vm, &SignupVM::authorized, this, &StartCoordinator::authDone);
+        auto vm = new EditProfileVM(tokenProvider);
+        QObject::connect(vm, &EditProfileVM::authorized, this, &StartCoordinator::authDone);
 
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::signupPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editProfilePage), Smoozy::wrapInProperties(vm));
     };
 
     void authDone() { emit authorized(); };

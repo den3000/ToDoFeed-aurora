@@ -71,6 +71,7 @@ HEADERS += \
     src/login.h \
     src/loginvm.h \
     src/pagepaths.h \
+    src/profileservice.h \
     src/restapi.h \
     src/restapitestvm.h \
     src/restapitypes.h \
@@ -78,9 +79,12 @@ HEADERS += \
     src/signupvm.h \
     src/smoozyutils.h \
     src/startcoordinator.h \
+    src/startservice.h \
     src/startvm.h \
     src/tododto.h \
-    src/userdto.h
+    src/todosservice.h \
+    src/userdto.h \
+    src/usersservice.h
 
 DISTFILES += \
     qml/PageStackCppWrapper.qml \

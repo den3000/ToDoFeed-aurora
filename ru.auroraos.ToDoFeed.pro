@@ -63,7 +63,6 @@ HEADERS += \
     src/getallusers.h \
     src/getmytodos.h \
     src/homecoordinator.h \
-    src/homevm.h \
     src/ihomediprovider.h \
     src/ilogintokenprovider.h \
     src/ilogouttokenprovider.h \
@@ -82,17 +81,18 @@ HEADERS += \
     src/startservice.h \
     src/startvm.h \
     src/tododto.h \
+    src/todolistvm.h \
     src/todosservice.h \
     src/userdto.h \
     src/usersservice.h
 
 DISTFILES += \
     qml/PageStackCppWrapper.qml \
-    qml/pages/HomePage.qml \
     qml/pages/LoginPage.qml \
     qml/pages/RestApiTestPage.qml \
     qml/pages/SignupPage.qml \
     qml/pages/StartPage.qml \
+    qml/pages/ToDoListPage.qml \
     rpm/ru.auroraos.ToDoFeed.spec \
     AUTHORS.md \
     CODE_OF_CONDUCT.md \

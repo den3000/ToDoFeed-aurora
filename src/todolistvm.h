@@ -1,19 +1,19 @@
-#ifndef HOMEVM_H
-#define HOMEVM_H
+#ifndef TODOLISTVM_H
+#define TODOLISTVM_H
 
 #include <QObject>
 
 #include "easy_import.h"
 #include "ilogouttokenprovider.h"
 
-class HomeVM : public QObject
+class ToDoListVM : public QObject
 {
     Q_OBJECT
     shared_ptr<ILogoutTokenProvider> tokenProvider;
 
 public:
-    explicit HomeVM(QObject *parent = nullptr): QObject(parent) { };
-    explicit HomeVM(shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
+    explicit ToDoListVM(QObject *parent = nullptr): QObject(parent) { };
+    explicit ToDoListVM(shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
         : QObject(parent)
         , tokenProvider { tokenProvider }
     { };
@@ -27,4 +27,4 @@ signals:
     void logout();
 };
 
-#endif // HOMEVM_H
+#endif // TODOLISTVM_H

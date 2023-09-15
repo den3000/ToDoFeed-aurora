@@ -6,7 +6,7 @@
 #include "startvm.h"
 #include "loginvm.h"
 #include "signupvm.h"
-#include "homevm.h"
+#include "todolistvm.h"
 
 namespace CustomCppClasses {
     void registerModuleInQml() {
@@ -14,7 +14,7 @@ namespace CustomCppClasses {
         qmlRegisterType<StartVM>("CustomCppClasses.Module", 1, 0, "StartVM");
         qmlRegisterType<LoginVM>("CustomCppClasses.Module", 1, 0, "LoginVM");
         qmlRegisterType<SignupVM>("CustomCppClasses.Module", 1, 0, "SignupVM");
-        qmlRegisterType<HomeVM>("CustomCppClasses.Module", 1, 0, "HomeVM");
+        qmlRegisterType<ToDoListVM>("CustomCppClasses.Module", 1, 0, "ToDoListVM");
     }
 }
 #endif // CUSTOMCPPCLASSES_H

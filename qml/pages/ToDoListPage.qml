@@ -3,7 +3,7 @@ import Sailfish.Silica 1.0
 import CustomCppClasses.Module 1.0
 
 Page {
-    property HomeVM viewModel
+    property ToDoListVM viewModel
     onViewModelChanged: viewModel.parent = this
 
     objectName: "signupPage"
@@ -11,7 +11,7 @@ Page {
 
     PageHeader {
         objectName: "pageHeader"
-        title: qsTr("Home Page")
+        title: qsTr("ToDoList Page")
     }
 
     Column {

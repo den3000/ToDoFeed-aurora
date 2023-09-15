@@ -9,7 +9,7 @@
 #include "smoozyutils.h"
 #include "pagepaths.h"
 
-#include "homevm.h"
+#include "todolistvm.h"
 
 #include "ilogouttokenprovider.h"
 
@@ -30,8 +30,8 @@ public:
     ~HomeCoordinator(){};
 
     void start(bool isReplace = false){
-        auto vm = new HomeVM(tokenProvider);
-        QObject::connect(vm, &HomeVM::logout, this, &HomeCoordinator::logout);
+        auto vm = new ToDoListVM(tokenProvider);
+        QObject::connect(vm, &ToDoListVM::logout, this, &HomeCoordinator::logout);
 
         if (isReplace) {
             Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::homePage), Smoozy::wrapInProperties(vm));

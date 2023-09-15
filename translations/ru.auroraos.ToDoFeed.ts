@@ -10,14 +10,6 @@
     </message>
 </context>
 <context>
-    <name>HomePage</name>
-    <message>
-        <location filename="../qml/pages/HomePage.qml" line="14"/>
-        <source>Home Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>LoginPage</name>
     <message>
         <location filename="../qml/pages/LoginPage.qml" line="14"/>
@@ -46,6 +38,14 @@
     <message>
         <location filename="../qml/pages/StartPage.qml" line="14"/>
         <source>Start Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ToDoListPage</name>
+    <message>
+        <location filename="../qml/pages/ToDoListPage.qml" line="14"/>
+        <source>ToDoList Page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

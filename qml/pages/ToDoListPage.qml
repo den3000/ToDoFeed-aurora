@@ -22,8 +22,25 @@ Page {
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Logout"
-            onClicked: { viewModel.logoutPressed() }
+            text: "Show ToDo"
+            onClicked: { viewModel.showToDo() }
+        }
+
+        Button {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: "Add Todo"
+            onClicked: { viewModel.editToDo() }
+        }
+
+        Button {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: "Go to users"
+            onClicked: { viewModel.showUsersList() }
+        }
+        Button {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: "Go to settings"
+            onClicked: { viewModel.showSettings() }
         }
     }
 }

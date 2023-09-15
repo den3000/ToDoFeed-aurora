@@ -9,22 +9,15 @@
 class ToDoListVM : public QObject
 {
     Q_OBJECT
-    shared_ptr<ILogoutTokenProvider> tokenProvider;
 
 public:
     explicit ToDoListVM(QObject *parent = nullptr): QObject(parent) { };
-    explicit ToDoListVM(shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
-        : QObject(parent)
-        , tokenProvider { tokenProvider }
-    { };
-
-    Q_INVOKABLE void logoutPressed() {
-        tokenProvider.get()->logout();
-        emit logout();
-    };
 
 signals:
-    void logout();
+    void showToDo();
+    void editToDo();
+    void showUsersList();
+    void showSettings();
 };
 
 #endif // TODOLISTVM_H

@@ -30,8 +30,11 @@ public:
     ~HomeCoordinator(){};
 
     void start(bool isReplace = false){
-        auto vm = new ToDoListVM(tokenProvider);
-        QObject::connect(vm, &ToDoListVM::logout, this, &HomeCoordinator::logout);
+        auto vm = new ToDoListVM();
+        QObject::connect(vm, &ToDoListVM::showToDo, this, &HomeCoordinator::showToDo);
+        QObject::connect(vm, &ToDoListVM::editToDo, this, &HomeCoordinator::editToDo);
+        QObject::connect(vm, &ToDoListVM::showUsersList, this, &HomeCoordinator::showUsersList);
+        QObject::connect(vm, &ToDoListVM::showSettings, this, &HomeCoordinator::showSettings);
 
         if (isReplace) {
             Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::homePage), Smoozy::wrapInProperties(vm));
@@ -44,6 +47,22 @@ signals:
     void logout();
 public slots:
     void restart() { start(true); };
+
+    void showToDo() {
+        qDebug();
+    };
+
+    void editToDo() {
+        qDebug();
+    };
+
+    void showUsersList() {
+        qDebug();
+    };
+
+    void showSettings() {
+        qDebug();
+    };
 
 };
 #endif // HOMECOORDINATOR_H

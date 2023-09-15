@@ -18,7 +18,8 @@ public:
         , tokenProvider { tokenProvider }
     { };
 
-    Q_INVOKABLE void loginPressed() {
+    Q_INVOKABLE void loginPressed(QString const & password) {
+        qDebug () << "password: " << password;
         tokenProvider.get()->login("login_token_value");
         emit authorized();
     };

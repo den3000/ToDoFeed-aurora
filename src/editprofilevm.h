@@ -13,6 +13,7 @@ class EditProfileVM : public QObject
     shared_ptr<ILoginTokenProvider> loginTokenProvider;
     shared_ptr<ILogoutTokenProvider> logoutTokenProvider;
     bool isEditProfile = true;
+    bool isAdmin = false;
 public:
     explicit EditProfileVM(QObject *parent = nullptr): QObject(parent) { };
 
@@ -25,18 +26,40 @@ public:
     explicit EditProfileVM(shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
         : QObject(parent)
         , logoutTokenProvider { tokenProvider }
+        , isAdmin { true }
     { };
 
-    Q_INVOKABLE bool signup() { return !isEditProfile; }
+    Q_INVOKABLE bool edit() { return isEditProfile; }
 
-    Q_INVOKABLE void confirmPressed() {
+    Q_INVOKABLE bool admin() { return isAdmin; }
+
+    Q_INVOKABLE void onConfirm(
+            QString const & password,
+            QString const & firstName,
+            QString const & lastName,
+            QString const & about
+    ) {
         if (isEditProfile) {
-            logoutTokenProvider.get()->logout();
-            emit unauthorized();
+            qDebug() << "password: " << password;
+            qDebug() << "firstName: " << firstName;
+            qDebug() << "lastName: " << lastName;
+            qDebug() << "about: " << about;
         } else {
+            qDebug() << "firstName: " << firstName;
+            qDebug() << "lastName: " << lastName;
+            qDebug() << "about: " << about;
             loginTokenProvider.get()->login("signup_token_value");
             emit authorized();
         }
+    };
+
+    Q_INVOKABLE void onLogOut() {
+        logoutTokenProvider.get()->logout();
+        emit unauthorized();
+    };
+
+    Q_INVOKABLE void onEraseAll() {
+        qDebug();
     };
 
 signals:

@@ -10,6 +10,19 @@
     </message>
 </context>
 <context>
+    <name>EditToDoPage</name>
+    <message>
+        <location filename="../qml/pages/EditToDoPage.qml" line="16"/>
+        <source>Edit ToDo Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditToDoPage.qml" line="18"/>
+        <source>Add ToDo Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LoginPage</name>
     <message>
         <location filename="../qml/pages/LoginPage.qml" line="14"/>
@@ -45,7 +58,7 @@
     <name>ToDoDetailsPage</name>
     <message>
         <location filename="../qml/pages/ToDoDetailsPage.qml" line="14"/>
-        <source>ToDoList Page</source>
+        <source>ToDo Details Page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

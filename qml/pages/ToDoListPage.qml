@@ -29,7 +29,7 @@ Page {
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Add Todo"
-            onClicked: { viewModel.editToDo() }
+            onClicked: { viewModel.callAddToDo() }
         }
 
         Button {

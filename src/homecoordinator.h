@@ -11,6 +11,7 @@
 
 #include "todolistvm.h"
 #include "tododetailsvm.h"
+#include "edittodovm.h"
 
 #include "ilogouttokenprovider.h"
 
@@ -33,7 +34,7 @@ public:
     void start(bool isReplace = false){
         auto vm = new ToDoListVM();
         QObject::connect(vm, &ToDoListVM::showToDo, this, &HomeCoordinator::showToDo);
-        QObject::connect(vm, &ToDoListVM::editToDo, this, &HomeCoordinator::editToDo);
+        QObject::connect(vm, &ToDoListVM::addToDo, this, &HomeCoordinator::addToDo);
         QObject::connect(vm, &ToDoListVM::showUsersList, this, &HomeCoordinator::showUsersList);
         QObject::connect(vm, &ToDoListVM::showSettings, this, &HomeCoordinator::showSettings);
 
@@ -55,8 +56,12 @@ public slots:
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoDetailsPage), Smoozy::wrapInProperties(vm));
     };
 
-    void editToDo() {
-        qDebug();
+    void addToDo(IEditToDoDelegate * delegate) { editToDo("", delegate); }
+
+    void editToDo(QString const & toDoId, IEditToDoDelegate * delegate) {
+        auto vm = new EditToDoVM(toDoId, delegate);
+        QObject::connect(vm, &EditToDoVM::confirmed, this, &HomeCoordinator::confirmed);
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editToDoPage), Smoozy::wrapInProperties(vm));
     };
 
     void showUsersList() {
@@ -65,6 +70,11 @@ public slots:
 
     void showSettings() {
         qDebug();
+    };
+
+    void confirmed() {
+        qDebug();
+        Smoozy::popPage(pageStackCppWrapper.get());
     };
 
 };

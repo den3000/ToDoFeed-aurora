@@ -11,7 +11,7 @@ Page {
 
     PageHeader {
         objectName: "pageHeader"
-        title: qsTr("ToDoList Page")
+        title: qsTr("ToDo Details Page")
     }
 
     Column {
@@ -23,7 +23,7 @@ Page {
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Edit Todo"
-            onClicked: { viewModel.editToDo() }
+            onClicked: { viewModel.callEditToDo("some_id") }
         }
     }
 }

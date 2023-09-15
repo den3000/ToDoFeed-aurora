@@ -123,8 +123,18 @@
 <context>
     <name>UserDetailsPage</name>
     <message>
-        <location filename="../qml/pages/UserDetailsPage.qml" line="14"/>
+        <location filename="../qml/pages/UserDetailsPage.qml" line="15"/>
         <source>User Details %1 Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/UserDetailsPage.qml" line="20"/>
+        <source>ToDo %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/UserDetailsPage.qml" line="25"/>
+        <source>toDoId_%1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

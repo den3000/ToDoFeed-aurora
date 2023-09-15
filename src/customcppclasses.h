@@ -9,6 +9,7 @@
 #include "todolistvm.h"
 #include "tododetailsvm.h"
 #include "edittodovm.h"
+#include "userslistvm.h"
 
 namespace CustomCppClasses {
     void registerModuleInQml() {
@@ -19,6 +20,7 @@ namespace CustomCppClasses {
         qmlRegisterType<ToDoListVM>("CustomCppClasses.Module", 1, 0, "ToDoListVM");
         qmlRegisterType<ToDoDetailsVM>("CustomCppClasses.Module", 1, 0, "ToDoDetailsVM");
         qmlRegisterType<EditToDoVM>("CustomCppClasses.Module", 1, 0, "EditToDoVM");
+        qmlRegisterType<UsersListVM>("CustomCppClasses.Module", 1, 0, "UsersListVM");
     }
 }
 #endif // CUSTOMCPPCLASSES_H

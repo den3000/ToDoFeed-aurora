@@ -66,7 +66,15 @@
     <name>ToDoListPage</name>
     <message>
         <location filename="../qml/pages/ToDoListPage.qml" line="14"/>
-        <source>ToDoList Page</source>
+        <source>ToDo List Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UsersListPage</name>
+    <message>
+        <location filename="../qml/pages/UsersListPage.qml" line="14"/>
+        <source>Users List Page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

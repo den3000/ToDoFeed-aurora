@@ -86,12 +86,14 @@ HEADERS += \
     src/todolistvm.h \
     src/todosservice.h \
     src/userdto.h \
+    src/userslistvm.h \
     src/usersservice.h
 
 DISTFILES += \
     qml/PageStackCppWrapper.qml \
     qml/pages/EditToDoPage.qml \
     qml/pages/LoginPage.qml \
+    qml/pages/UsersListPage.qml \
     qml/pages/RestApiTestPage.qml \
     qml/pages/SignupPage.qml \
     qml/pages/StartPage.qml \

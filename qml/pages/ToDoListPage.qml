@@ -11,7 +11,7 @@ Page {
 
     PageHeader {
         objectName: "pageHeader"
-        title: qsTr("ToDoList Page")
+        title: qsTr("ToDo List Page")
     }
 
     Column {

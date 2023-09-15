@@ -9,11 +9,12 @@
 #include "smoozyutils.h"
 #include "pagepaths.h"
 
+#include "ilogouttokenprovider.h"
+
 #include "todolistvm.h"
 #include "tododetailsvm.h"
 #include "edittodovm.h"
-
-#include "ilogouttokenprovider.h"
+#include "userslistvm.h"
 
 class HomeCoordinator : public QObject
 {
@@ -65,6 +66,12 @@ public slots:
     };
 
     void showUsersList() {
+        auto vm = new UsersListVM();
+        QObject::connect(vm, &UsersListVM::viewUserDetails, this, &HomeCoordinator::showUserDetails);
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::usersListPage), Smoozy::wrapInProperties(vm));
+    };
+
+    void showUserDetails() {
         qDebug();
     };
 

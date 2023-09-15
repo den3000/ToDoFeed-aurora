@@ -7,7 +7,8 @@
 class StartService {
     shared_ptr<RestApi> restApi;
 
-    StartService(shared_ptr<RestApi> restApi)
+public:
+    explicit StartService(shared_ptr<RestApi> restApi)
         : restApi { restApi }
     {};
 

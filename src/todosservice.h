@@ -7,7 +7,7 @@
 class ToDosService {
     shared_ptr<RestApi> restApi;
     QString token;
-
+public:
     ToDosService(shared_ptr<RestApi> restApi, QString const & token)
         : restApi { restApi }
         , token { token }

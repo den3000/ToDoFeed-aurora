@@ -2,10 +2,11 @@
 #define ISTARTDIPROVIDER_H
 
 #include "easy_import.h"
+#include "startservice.h"
 
 struct IStartDiProvider {
-    unique_ptr<QString> someStart() {
-        return make_unique<QString>("start");
+    unique_ptr<StartService> startServiceInstance(shared_ptr<RestApi> restApi) {
+        return make_unique<StartService>(restApi);
     }
 };
 

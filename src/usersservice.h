@@ -7,7 +7,7 @@
 class UsersService {
     shared_ptr<RestApi> restApi;
     QString token;
-
+public:
     UsersService(shared_ptr<RestApi> restApi, QString const & token)
         : restApi { restApi }
         , token { token }

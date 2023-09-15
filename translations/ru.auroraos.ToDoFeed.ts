@@ -42,6 +42,14 @@
     </message>
 </context>
 <context>
+    <name>ToDoDetailsPage</name>
+    <message>
+        <location filename="../qml/pages/ToDoDetailsPage.qml" line="14"/>
+        <source>ToDoList Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ToDoListPage</name>
     <message>
         <location filename="../qml/pages/ToDoListPage.qml" line="14"/>

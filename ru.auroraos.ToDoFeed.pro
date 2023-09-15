@@ -80,6 +80,7 @@ HEADERS += \
     src/startcoordinator.h \
     src/startservice.h \
     src/startvm.h \
+    src/tododetailsvm.h \
     src/tododto.h \
     src/todolistvm.h \
     src/todosservice.h \
@@ -92,6 +93,7 @@ DISTFILES += \
     qml/pages/RestApiTestPage.qml \
     qml/pages/SignupPage.qml \
     qml/pages/StartPage.qml \
+    qml/pages/ToDoDetailsPage.qml \
     qml/pages/ToDoListPage.qml \
     rpm/ru.auroraos.ToDoFeed.spec \
     AUTHORS.md \

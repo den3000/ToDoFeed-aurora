@@ -10,6 +10,7 @@
 #include "pagepaths.h"
 
 #include "todolistvm.h"
+#include "tododetailsvm.h"
 
 #include "ilogouttokenprovider.h"
 
@@ -37,9 +38,9 @@ public:
         QObject::connect(vm, &ToDoListVM::showSettings, this, &HomeCoordinator::showSettings);
 
         if (isReplace) {
-            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::homePage), Smoozy::wrapInProperties(vm));
+            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoListPage), Smoozy::wrapInProperties(vm));
         } else {
-            Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::homePage), Smoozy::wrapInProperties(vm));
+            Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoListPage), Smoozy::wrapInProperties(vm));
         }
     };
 
@@ -49,7 +50,9 @@ public slots:
     void restart() { start(true); };
 
     void showToDo() {
-        qDebug();
+        auto vm = new ToDoDetailsVM();
+        QObject::connect(vm, &ToDoDetailsVM::editToDo, this, &HomeCoordinator::editToDo);
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoDetailsPage), Smoozy::wrapInProperties(vm));
     };
 
     void editToDo() {

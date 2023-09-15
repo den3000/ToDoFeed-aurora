@@ -3,9 +3,6 @@
 
 #include <QObject>
 
-#include "easy_import.h"
-#include "ilogouttokenprovider.h"
-
 class ToDoListVM : public QObject
 {
     Q_OBJECT

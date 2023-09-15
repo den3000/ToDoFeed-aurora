@@ -8,7 +8,8 @@ namespace PagePaths {
     QString const startPage = "qml/pages/StartPage.qml";
     QString const loginPage = "qml/pages/LoginPage.qml";
     QString const signupPage = "qml/pages/SignupPage.qml";
-    QString const homePage = "qml/pages/ToDoListPage.qml";
+    QString const toDoListPage = "qml/pages/ToDoListPage.qml";
+    QString const toDoDetailsPage = "qml/pages/ToDoDetailsPage.qml";
 }
 
 #endif // PAGEPATHS_H

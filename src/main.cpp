@@ -66,9 +66,7 @@ int main(int argc, char *argv[])
 
     auto diProvider = make_shared<DiProvider>();
     shared_ptr<AppDataProvider> appDataProvider = diProvider->appDataProviderInstance();
-
-    auto apiUrl = appDataProvider.get()->apiUrl();
-    auto restApi = QScopedPointer(new RestApi(apiUrl));
+    shared_ptr<RestApi> restApi = diProvider->restApiInstance(appDataProvider.get()->apiUrl());
 
     QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper, appDataProvider));
     QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper, appDataProvider));

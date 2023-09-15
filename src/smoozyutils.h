@@ -3,11 +3,16 @@
 
 #include <QObject>
 #include <QtQuick>
+#include <QSettings>
 
 #include <auroraapp.h>
 
 namespace Smoozy
 {
+    inline QSettings settings(QString const & fileName = "/settings.init") {
+        return QSettings (QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation).append(fileName), QSettings::IniFormat);
+    };
+
     inline QQuickItem * findQuickViewChildByObjectName(QQuickView * quickView, const char * objectName) {
         return quickView->rootObject()->findChild<QQuickItem *>(objectName);
     }

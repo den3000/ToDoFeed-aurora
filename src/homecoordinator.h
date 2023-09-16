@@ -11,20 +11,26 @@ class HomeCoordinator : public QObject
     Q_OBJECT
 
     shared_ptr<QQuickItem> m_pageStackCppWrapper;
+
     shared_ptr<IHomeDiProvider> m_diProvider;
 
     shared_ptr<ToDosService> m_toDoService;
     shared_ptr<UsersService> m_usersService;
     shared_ptr<ProfileService> m_profileService;
+    shared_ptr<ProfileService> lazyProfileService() {
+        if(!m_profileService) {
+            m_profileService = m_diProvider->profileServiceInstance();
+        }
+        return m_profileService;
+    };
 
 public:
     explicit HomeCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<IHomeDiProvider> diProvider, QObject *parent = nullptr)
         : QObject(parent)
         , m_pageStackCppWrapper { pageStackCppWrapper }
         , m_diProvider { diProvider }
-        , m_toDoService { diProvider->todosServiceInstance() }
-        , m_usersService { diProvider->usersServiceInstance() }
-        , m_profileService{ diProvider->profileServiceInstance() }
+        , m_toDoService { m_diProvider->todosServiceInstance() }
+        , m_usersService { m_diProvider->usersServiceInstance() }
     { qDebug(); };
 
     ~HomeCoordinator() { qDebug(); };
@@ -75,7 +81,7 @@ public slots:
     };
 
     void showSettings() {
-        auto vm = unique_unwrap(m_diProvider->editProfileVmInstance(m_profileService));
+        auto vm = unique_unwrap(m_diProvider->editProfileVmInstance(lazyProfileService()));
         QObject::connect(vm, &EditProfileVM::unauthorized, this, &HomeCoordinator::logout);
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::editProfilePage, vm);
     };
@@ -83,6 +89,5 @@ public slots:
     void confirmed() {
         Smoozy::popPage(m_pageStackCppWrapper.get());
     };
-
 };
 #endif // HOMECOORDINATOR_H

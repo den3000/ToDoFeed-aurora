@@ -11,15 +11,22 @@ class StartCoordinator : public QObject
     Q_OBJECT
 
     shared_ptr<QQuickItem> m_pageStackCppWrapper;
+
     shared_ptr<IStartDiProvider> m_diProvider;
+
     shared_ptr<StartService> m_startService;
+    shared_ptr<StartService> lazyStartService() {
+        if(!m_startService) {
+            m_startService = m_diProvider->startServiceInstance();
+        }
+        return m_startService;
+    };
 
 public:
     explicit StartCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<IStartDiProvider> diProvider, QObject *parent = nullptr)
         : QObject(parent)
         , m_pageStackCppWrapper { pageStackCppWrapper }
         , m_diProvider { diProvider }
-        , m_startService { diProvider->startServiceInstance() }
     { qDebug(); };
 
     ~StartCoordinator() { qDebug(); };
@@ -39,14 +46,14 @@ public:
 
 public slots:
     void goToLogin() {
-        auto vm = unique_unwrap(m_diProvider->loginVmInstance(m_startService));
+        auto vm = unique_unwrap(m_diProvider->loginVmInstance(lazyStartService()));
         QObject::connect(vm, &LoginVM::authorized, this, &StartCoordinator::authDone);
 
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::loginPage, vm);
     };
 
     void goSignup() {
-        auto vm = unique_unwrap(m_diProvider->editProfileInstance(m_startService));
+        auto vm = unique_unwrap(m_diProvider->editProfileInstance(lazyStartService()));
         QObject::connect(vm, &EditProfileVM::authorized, this, &StartCoordinator::authDone);
 
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::editProfilePage, vm);

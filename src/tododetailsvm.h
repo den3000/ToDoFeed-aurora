@@ -7,6 +7,8 @@
 class ToDoDetailsVM : public QObject, public IEditToDoDelegate
 {
     Q_OBJECT
+    Q_PROPERTY(QObject * parent READ parent WRITE setParent)
+
     QString toDoId;
 
 public:

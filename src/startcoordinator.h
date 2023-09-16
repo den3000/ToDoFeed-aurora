@@ -30,9 +30,9 @@ public:
         , pageStackCppWrapper { pageStackCppWrapper }
         , diProvider { diProvider }
         , m_startService { diProvider->startServiceInstance() }
-    {};
+    { qDebug(); };
 
-    ~StartCoordinator(){};
+    ~StartCoordinator() { qDebug(); };
 
     void start(bool isReplace = false) {
         auto vm = unique_unwrap(diProvider->startVmInstance());

@@ -7,6 +7,7 @@
 class ToDoListVM : public QObject, public IEditToDoDelegate
 {
     Q_OBJECT
+    Q_PROPERTY(QObject * parent READ parent WRITE setParent)
 
 public:
     explicit ToDoListVM(QObject *parent = nullptr): QObject(parent) { };

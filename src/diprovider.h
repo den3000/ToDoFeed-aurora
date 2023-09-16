@@ -17,7 +17,9 @@ public:
     explicit DiProvider()
         : m_appDataProvider { make_shared<AppDataProvider>() }
         , m_restApi { make_shared<RestApi>(m_appDataProvider.get()->apiUrl()) }
-    {}
+    { qDebug(); }
+
+    ~DiProvider() { qDebug(); }
 
     shared_ptr<ILoginStateProvider> loginStateProvider() { return m_appDataProvider; };
 

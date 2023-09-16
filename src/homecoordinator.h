@@ -30,9 +30,9 @@ public:
         : QObject(parent)
         , pageStackCppWrapper { pageStackCppWrapper }
         , diProvider { diProvider }
-    {};
+    { qDebug(); };
 
-    ~HomeCoordinator(){};
+    ~HomeCoordinator() { qDebug(); };
 
     void start(bool isReplace = false){
         auto vm = new ToDoListVM();

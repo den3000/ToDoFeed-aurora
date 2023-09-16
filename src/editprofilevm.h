@@ -12,6 +12,8 @@
 class EditProfileVM : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QObject * parent READ parent WRITE setParent)
+
     shared_ptr<ILoginTokenProvider> m_loginTokenProvider;
     shared_ptr<StartService> m_startService;
 
@@ -20,20 +22,22 @@ class EditProfileVM : public QObject
     bool isEditProfile = true;
     bool isAdmin = false;
 public:
-    explicit EditProfileVM(QObject *parent = nullptr): QObject(parent) { };
+    explicit EditProfileVM(QObject *parent = nullptr) : QObject(parent) { qDebug(); };
 
     explicit EditProfileVM(shared_ptr<ILoginTokenProvider> tokenProvider, shared_ptr<StartService> service, QObject *parent = nullptr)
         : QObject(parent)
         , m_loginTokenProvider { tokenProvider }
         , m_startService{ service }
         , isEditProfile { false }
-    { };
+    { qDebug(); };
 
     explicit EditProfileVM(shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
         : QObject(parent)
         , m_logoutTokenProvider { tokenProvider }
         , isAdmin { true }
-    { };
+    { qDebug(); };
+
+    ~EditProfileVM() { qDebug(); }
 
     Q_INVOKABLE bool edit() { return isEditProfile; }
 

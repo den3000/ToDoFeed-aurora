@@ -12,6 +12,8 @@ struct IEditToDoDelegate {
 class EditToDoVM : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QObject * parent READ parent WRITE setParent)
+
     QString toDoId;
     IEditToDoDelegate * delegate;
 

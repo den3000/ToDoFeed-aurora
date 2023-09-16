@@ -3,8 +3,8 @@ import Sailfish.Silica 1.0
 import CustomCppClasses.Module 1.0
 
 Page {
-    property StartVM viewModel
-    onViewModelChanged: viewModel.parent = this
+    property StartVM viewModel                  // !!! IMPORTANT !!!
+    onViewModelChanged: viewModel.parent = this // !!! IMPORTANT !!!
 
     objectName: "startPage"
     allowedOrientations: Orientation.All

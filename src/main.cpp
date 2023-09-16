@@ -59,11 +59,10 @@ int main(int argc, char *argv[])
     rootView->show();
 
     auto diProvider = make_shared<DiProvider>();
-
-    QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper, diProvider));
-    QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper, diProvider));
-    QObject::connect(startCoordinator.data(), &StartCoordinator::authorized, homeCoordinator.data(), &HomeCoordinator::restart);
-    QObject::connect(homeCoordinator.data(), &HomeCoordinator::logout, startCoordinator.data(), &StartCoordinator::restart);
+    auto startCoordinator = make_shared<StartCoordinator>(pageStackCppWrapper, diProvider);
+    auto homeCoordinator = make_shared<HomeCoordinator>(pageStackCppWrapper, diProvider);
+    QObject::connect(startCoordinator.get(), &StartCoordinator::authorized, homeCoordinator.get(), &HomeCoordinator::restart);
+    QObject::connect(homeCoordinator.get(), &HomeCoordinator::logout, startCoordinator.get(), &StartCoordinator::restart);
 
     if (diProvider->loginStateProvider()->isLoggedIn()){
         homeCoordinator->start();

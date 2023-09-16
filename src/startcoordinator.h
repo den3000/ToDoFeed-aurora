@@ -14,19 +14,20 @@
 #include "editprofilevm.h"
 
 #include "ilogintokenprovider.h"
+#include "istartdiprovider.h"
 
 class StartCoordinator : public QObject
 {
     Q_OBJECT
 
     shared_ptr<QQuickItem> pageStackCppWrapper;
-    shared_ptr<ILoginTokenProvider> tokenProvider;
+    shared_ptr<IStartDiProvider> diProvider;
 
 public:
-    explicit StartCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<ILoginTokenProvider> tokenProvider, QObject *parent = nullptr)
+    explicit StartCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<IStartDiProvider> diProvider, QObject *parent = nullptr)
         : QObject(parent)
         , pageStackCppWrapper { pageStackCppWrapper }
-        , tokenProvider { tokenProvider }
+        , diProvider { diProvider }
     {};
 
     ~StartCoordinator(){};
@@ -45,14 +46,14 @@ public:
 
 public slots:
     void goToLogin() {
-        auto vm = new LoginVM(tokenProvider);
+        auto vm = new LoginVM(diProvider->loginTokenProvider());
         QObject::connect(vm, &LoginVM::authorized, this, &StartCoordinator::authDone);
 
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::loginPage), Smoozy::wrapInProperties(vm));
     };
 
     void goSignup() {
-        auto vm = new EditProfileVM(tokenProvider);
+        auto vm = new EditProfileVM(diProvider->loginTokenProvider());
         QObject::connect(vm, &EditProfileVM::authorized, this, &StartCoordinator::authDone);
 
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editProfilePage), Smoozy::wrapInProperties(vm));

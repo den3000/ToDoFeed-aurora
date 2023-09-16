@@ -40,14 +40,8 @@
 
 #include "easy_import.h"
 
-#include "pagepaths.h"
 #include "customcppclasses.h"
-
-#include "smoozyutils.h"
-
 #include "diprovider.h"
-
-#include "restapitestvm.h"
 #include "startcoordinator.h"
 #include "homecoordinator.h"
 
@@ -65,15 +59,13 @@ int main(int argc, char *argv[])
     rootView->show();
 
     auto diProvider = make_shared<DiProvider>();
-    shared_ptr<AppDataProvider> appDataProvider = diProvider->appDataProviderInstance();
-    shared_ptr<RestApi> restApi = diProvider->restApiInstance(appDataProvider.get()->apiUrl());
 
-    QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper, appDataProvider));
-    QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper, appDataProvider));
+    QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper, diProvider));
+    QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper, diProvider));
     QObject::connect(startCoordinator.data(), &StartCoordinator::authorized, homeCoordinator.data(), &HomeCoordinator::restart);
     QObject::connect(homeCoordinator.data(), &HomeCoordinator::logout, startCoordinator.data(), &StartCoordinator::restart);
 
-    if (appDataProvider.get()->isLoggedIn()){
+    if (diProvider->loginStateProvider()->isLoggedIn()){
         homeCoordinator->start();
     } else {
         startCoordinator->start();

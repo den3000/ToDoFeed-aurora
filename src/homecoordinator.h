@@ -9,7 +9,7 @@
 #include "smoozyutils.h"
 #include "pagepaths.h"
 
-#include "ilogouttokenprovider.h"
+#include "ihomediprovider.h"
 
 #include "todolistvm.h"
 #include "tododetailsvm.h"
@@ -23,13 +23,13 @@ class HomeCoordinator : public QObject
     Q_OBJECT
 
     shared_ptr<QQuickItem> pageStackCppWrapper;
-    shared_ptr<ILogoutTokenProvider> tokenProvider;
+    shared_ptr<IHomeDiProvider> diProvider;
 
 public:
-    explicit HomeCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
+    explicit HomeCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<IHomeDiProvider> diProvider, QObject *parent = nullptr)
         : QObject(parent)
         , pageStackCppWrapper { pageStackCppWrapper }
-        , tokenProvider { tokenProvider }
+        , diProvider { diProvider }
     {};
 
     ~HomeCoordinator(){};
@@ -80,7 +80,7 @@ public slots:
     };
 
     void showSettings() {
-        auto vm = new EditProfileVM(tokenProvider);
+        auto vm = new EditProfileVM(diProvider->logoutTokenProvider());
         QObject::connect(vm, &EditProfileVM::unauthorized, this, &HomeCoordinator::logout);
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editProfilePage), Smoozy::wrapInProperties(vm));
     };

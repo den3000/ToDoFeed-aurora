@@ -22,18 +22,21 @@ class StartCoordinator : public QObject
 
     shared_ptr<QQuickItem> pageStackCppWrapper;
     shared_ptr<IStartDiProvider> diProvider;
+    shared_ptr<StartService> m_startService;
 
 public:
     explicit StartCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<IStartDiProvider> diProvider, QObject *parent = nullptr)
         : QObject(parent)
         , pageStackCppWrapper { pageStackCppWrapper }
         , diProvider { diProvider }
+        , m_startService { diProvider->startServiceInstance() }
     {};
 
     ~StartCoordinator(){};
 
-    void start(bool isReplace = false){
-        auto vm = new StartVM();
+    void start(bool isReplace = false) {
+        auto vm = unique_unwrap(diProvider->startVmInstance());
+
         QObject::connect(vm, &StartVM::login, this, &StartCoordinator::goToLogin);
         QObject::connect(vm, &StartVM::signup, this, &StartCoordinator::goSignup);
 
@@ -46,14 +49,14 @@ public:
 
 public slots:
     void goToLogin() {
-        auto vm = new LoginVM(diProvider->loginTokenProvider());
+        auto vm = unique_unwrap(diProvider->loginVmInstance(m_startService));
         QObject::connect(vm, &LoginVM::authorized, this, &StartCoordinator::authDone);
 
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::loginPage), Smoozy::wrapInProperties(vm));
     };
 
     void goSignup() {
-        auto vm = new EditProfileVM(diProvider->loginTokenProvider());
+        auto vm = unique_unwrap(diProvider->editProfileInstance(m_startService));
         QObject::connect(vm, &EditProfileVM::authorized, this, &StartCoordinator::authDone);
 
         Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editProfilePage), Smoozy::wrapInProperties(vm));

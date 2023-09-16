@@ -8,6 +8,7 @@
 #include "startservice.h"
 
 #include "ilogouttokenprovider.h"
+#include "profileservice.h"
 
 class EditProfileVM : public QObject
 {
@@ -18,9 +19,11 @@ class EditProfileVM : public QObject
     shared_ptr<StartService> m_startService;
 
     shared_ptr<ILogoutTokenProvider> m_logoutTokenProvider;
+    shared_ptr<ProfileService> m_profileService;
 
     bool isEditProfile = true;
     bool isAdmin = false;
+
 public:
     explicit EditProfileVM(QObject *parent = nullptr) : QObject(parent) { qDebug(); };
 
@@ -31,9 +34,10 @@ public:
         , isEditProfile { false }
     { qDebug(); };
 
-    explicit EditProfileVM(shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
+    explicit EditProfileVM(shared_ptr<ILogoutTokenProvider> tokenProvider, shared_ptr<ProfileService> service, QObject *parent = nullptr)
         : QObject(parent)
         , m_logoutTokenProvider { tokenProvider }
+        , m_profileService { service }
         , isAdmin { true }
     { qDebug(); };
 

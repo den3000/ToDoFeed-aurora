@@ -11,7 +11,8 @@ public:
     ToDosService(shared_ptr<RestApi> restApi, QString const & token)
         : restApi { restApi }
         , token { token }
-    {};
+    { qDebug(); };
+    ~ToDosService() { qDebug(); }
 
     void addToDo(){
 

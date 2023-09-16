@@ -11,7 +11,8 @@ public:
     UsersService(shared_ptr<RestApi> restApi, QString const & token)
         : restApi { restApi }
         , token { token }
-    {};
+    { qDebug(); };
+    ~UsersService() { qDebug(); }
 
     void getUsers(){
 

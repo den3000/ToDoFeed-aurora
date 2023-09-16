@@ -4,6 +4,8 @@
 #include "easy_import.h"
 #include "restapi.h"
 
+#include "login.h"
+
 class StartService {
     shared_ptr<RestApi> restApi;
 
@@ -13,9 +15,8 @@ public:
     { qDebug(); };
     ~StartService() { qDebug(); }
 
-    void login(){
-
-    };
+    auto * login(QString const & password)
+        { return restApi->execute<LogInResponse>(LogInRequest(password)); };
 
     void signup(){
 

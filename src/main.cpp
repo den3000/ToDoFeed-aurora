@@ -40,14 +40,8 @@
 
 #include "easy_import.h"
 
-#include "pagepaths.h"
 #include "customcppclasses.h"
-
-#include "smoozyutils.h"
-
 #include "diprovider.h"
-
-#include "restapitestvm.h"
 #include "startcoordinator.h"
 #include "homecoordinator.h"
 
@@ -61,19 +55,16 @@ int main(int argc, char *argv[])
 
     QScopedPointer<QQuickView> rootView(Aurora::Application::createView());
     rootView->setSource(Aurora::Application::pathTo(PagePaths::root));
-    auto pageStackCppWrapper = shared_ptr<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
+    auto pageStackCppWrapper = shared_ptr<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data()));
     rootView->show();
 
     auto diProvider = make_shared<DiProvider>();
-    shared_ptr<AppDataProvider> appDataProvider = diProvider->appDataProviderInstance();
-    shared_ptr<RestApi> restApi = diProvider->restApiInstance(appDataProvider.get()->apiUrl());
+    auto startCoordinator = make_shared<StartCoordinator>(pageStackCppWrapper, diProvider);
+    auto homeCoordinator = make_shared<HomeCoordinator>(pageStackCppWrapper, diProvider);
+    QObject::connect(startCoordinator.get(), &StartCoordinator::authorized, homeCoordinator.get(), &HomeCoordinator::restart);
+    QObject::connect(homeCoordinator.get(), &HomeCoordinator::logout, startCoordinator.get(), &StartCoordinator::restart);
 
-    QScopedPointer<StartCoordinator> startCoordinator(new StartCoordinator(pageStackCppWrapper, appDataProvider));
-    QScopedPointer<HomeCoordinator> homeCoordinator(new HomeCoordinator(pageStackCppWrapper, appDataProvider));
-    QObject::connect(startCoordinator.data(), &StartCoordinator::authorized, homeCoordinator.data(), &HomeCoordinator::restart);
-    QObject::connect(homeCoordinator.data(), &HomeCoordinator::logout, startCoordinator.data(), &StartCoordinator::restart);
-
-    if (appDataProvider.get()->isLoggedIn()){
+    if (diProvider->loginStateProvider()->isLoggedIn()){
         homeCoordinator->start();
     } else {
         startCoordinator->start();

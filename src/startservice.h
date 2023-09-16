@@ -10,7 +10,8 @@ class StartService {
 public:
     explicit StartService(shared_ptr<RestApi> restApi)
         : restApi { restApi }
-    {};
+    { qDebug(); };
+    ~StartService() { qDebug(); }
 
     void login(){
 

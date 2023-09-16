@@ -10,14 +10,28 @@ class DiProvider:
         public IStartDiProvider,
         public IHomeDiProvider
 {
+    shared_ptr<AppDataProvider> m_appDataProvider;
+    shared_ptr<RestApi> m_restApi;
 public:
-    unique_ptr<AppDataProvider> appDataProviderInstance() {
-        return make_unique<AppDataProvider>();
-    };
 
-    unique_ptr<RestApi> restApiInstance(QString const & apiUrl) {
-        return make_unique<RestApi>(apiUrl);
-    };
+    explicit DiProvider()
+        : m_appDataProvider { make_shared<AppDataProvider>() }
+        , m_restApi { make_shared<RestApi>(m_appDataProvider.get()->apiUrl()) }
+    { qDebug(); }
+
+    ~DiProvider() { qDebug(); }
+
+    shared_ptr<ILoginStateProvider> loginStateProvider() { return m_appDataProvider; };
+
+    // IStartDiProvide, IHomeDiProvider interface
+    shared_ptr<RestApi> restApi() override { return m_restApi; }
+
+    // IStartDiProvide interface
+    shared_ptr<ILoginTokenProvider> loginTokenProvider() override { return m_appDataProvider; };
+
+    // IHomeDiProvider interface
+    virtual QString token() override { return m_appDataProvider.get()->token(); }
+    shared_ptr<ILogoutTokenProvider> logoutTokenProvider() override { return m_appDataProvider; };
 };
 
 #endif // DIPROVIDER_H

@@ -1,61 +1,62 @@
 #ifndef STARTCOORDINATOR_H
 #define STARTCOORDINATOR_H
 
-#include "easy_import.h"
-
-#include <QObject>
-#include <QtQuick>
-
 #include "smoozyutils.h"
 #include "pagepaths.h"
 
-#include "startvm.h"
-#include "loginvm.h"
-#include "editprofilevm.h"
-
-#include "ilogintokenprovider.h"
+#include "istartdiprovider.h"
 
 class StartCoordinator : public QObject
 {
     Q_OBJECT
 
-    shared_ptr<QQuickItem> pageStackCppWrapper;
-    shared_ptr<ILoginTokenProvider> tokenProvider;
+    shared_ptr<QQuickItem> m_pageStackCppWrapper;
+
+    shared_ptr<IStartDiProvider> m_diProvider;
+
+    shared_ptr<StartService> m_startService;
+    shared_ptr<StartService> lazyStartService() {
+        if(!m_startService) {
+            m_startService = m_diProvider->startServiceInstance();
+        }
+        return m_startService;
+    };
 
 public:
-    explicit StartCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<ILoginTokenProvider> tokenProvider, QObject *parent = nullptr)
+    explicit StartCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<IStartDiProvider> diProvider, QObject *parent = nullptr)
         : QObject(parent)
-        , pageStackCppWrapper { pageStackCppWrapper }
-        , tokenProvider { tokenProvider }
-    {};
+        , m_pageStackCppWrapper { pageStackCppWrapper }
+        , m_diProvider { diProvider }
+    { qDebug(); };
 
-    ~StartCoordinator(){};
+    ~StartCoordinator() { qDebug(); };
 
-    void start(bool isReplace = false){
-        auto vm = new StartVM();
+    void start(bool isReplace = false) {
+        auto vm = unique_unwrap(m_diProvider->startVmInstance());
+
         QObject::connect(vm, &StartVM::login, this, &StartCoordinator::goToLogin);
         QObject::connect(vm, &StartVM::signup, this, &StartCoordinator::goSignup);
 
         if (isReplace) {
-            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
+            Smoozy::replaceAllWithNamedPage(m_pageStackCppWrapper.get(), PagePaths::startPage, vm);
         } else {
-            Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
+            Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::startPage, vm);
         }
     };
 
 public slots:
     void goToLogin() {
-        auto vm = new LoginVM(tokenProvider);
+        auto vm = unique_unwrap(m_diProvider->loginVmInstance(lazyStartService()));
         QObject::connect(vm, &LoginVM::authorized, this, &StartCoordinator::authDone);
 
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::loginPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::loginPage, vm);
     };
 
     void goSignup() {
-        auto vm = new EditProfileVM(tokenProvider);
+        auto vm = unique_unwrap(m_diProvider->editProfileInstance(lazyStartService()));
         QObject::connect(vm, &EditProfileVM::authorized, this, &StartCoordinator::authDone);
 
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editProfilePage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::editProfilePage, vm);
     };
 
     void authDone() { emit authorized(); };

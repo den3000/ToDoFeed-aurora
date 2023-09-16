@@ -13,7 +13,7 @@ namespace Smoozy
         return QSettings (QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation).append(fileName), QSettings::IniFormat);
     };
 
-    inline QQuickItem * findQuickViewChildByObjectName(QQuickView * quickView, const char * objectName) {
+    inline QQuickItem * findQuickViewChildByObjectName(QQuickView * quickView, QString const & objectName = "pageStackCppWrapper") {
         return quickView->rootObject()->findChild<QQuickItem *>(objectName);
     }
 
@@ -31,7 +31,10 @@ namespace Smoozy
                     );
     }
 
-    inline bool pushPage(QQuickItem * pageStackCppWrapper, QQmlComponent * page, QMap<QString, QVariant> properties){
+    template<typename T>
+    inline bool pushPage(QQuickItem * pageStackCppWrapper, QQmlComponent * page, T * vm){
+        QMap<QString, QVariant> properties;
+        properties["viewModel"] = QVariant::fromValue<T *>(vm);
         return QMetaObject::invokeMethod(
                     pageStackCppWrapper,
                     "push",
@@ -40,20 +43,26 @@ namespace Smoozy
                     );
     }
 
-    inline bool pushNamedPage(QQuickItem * pageStackCppWrapper, QUrl pageName, QMap<QString, QVariant> properties){
+    template<typename T>
+    inline bool pushNamedPage(QQuickItem * pageStackCppWrapper, QString const & pageName, T * vm){
+        QMap<QString, QVariant> properties;
+        properties["viewModel"] = QVariant::fromValue<T *>(vm);
         return QMetaObject::invokeMethod(
                     pageStackCppWrapper,
                     "push",
-                    Q_ARG(QVariant, QVariant::fromValue(pageName)),
+                    Q_ARG(QVariant, QVariant::fromValue(Aurora::Application::pathTo(pageName))),
                     Q_ARG(QVariant, QVariant::fromValue(properties))
                     );
     }
 
-    inline bool replaceAllWithNamedPage(QQuickItem * pageStackCppWrapper, QUrl pageName, QMap<QString, QVariant> properties){
+    template<typename T>
+    inline bool replaceAllWithNamedPage(QQuickItem * pageStackCppWrapper, QString const & pageName, T * vm){
+        QMap<QString, QVariant> properties;
+        properties["viewModel"] = QVariant::fromValue<T *>(vm);
         return QMetaObject::invokeMethod(
                     pageStackCppWrapper,
                     "replaceAll",
-                    Q_ARG(QVariant, QVariant::fromValue(pageName)),
+                    Q_ARG(QVariant, QVariant::fromValue(Aurora::Application::pathTo(pageName))),
                     Q_ARG(QVariant, QVariant::fromValue(properties))
                     );
     }
@@ -63,13 +72,6 @@ namespace Smoozy
                     pageStackCppWrapper,
                     "pop"
                     );
-    }
-
-    template<typename T>
-    inline QMap<QString, QVariant> wrapInProperties(T * vm){
-        QMap<QString, QVariant> properties;
-        properties["viewModel"] = QVariant::fromValue<T *>(vm);
-        return properties;
     }
 }
 

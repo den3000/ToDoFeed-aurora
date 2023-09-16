@@ -1,50 +1,51 @@
 #ifndef HOMECOORDINATOR_H
 #define HOMECOORDINATOR_H
 
-#include "easy_import.h"
-
-#include <QObject>
-#include <QtQuick>
-
 #include "smoozyutils.h"
 #include "pagepaths.h"
 
-#include "ilogouttokenprovider.h"
-
-#include "todolistvm.h"
-#include "tododetailsvm.h"
-#include "edittodovm.h"
-#include "userslistvm.h"
-#include "userdetailsvm.h"
-#include "editprofilevm.h"
+#include "ihomediprovider.h"
 
 class HomeCoordinator : public QObject
 {
     Q_OBJECT
 
-    shared_ptr<QQuickItem> pageStackCppWrapper;
-    shared_ptr<ILogoutTokenProvider> tokenProvider;
+    shared_ptr<QQuickItem> m_pageStackCppWrapper;
+
+    shared_ptr<IHomeDiProvider> m_diProvider;
+
+    shared_ptr<ToDosService> m_toDoService;
+    shared_ptr<UsersService> m_usersService;
+    shared_ptr<ProfileService> m_profileService;
+    shared_ptr<ProfileService> lazyProfileService() {
+        if(!m_profileService) {
+            m_profileService = m_diProvider->profileServiceInstance();
+        }
+        return m_profileService;
+    };
 
 public:
-    explicit HomeCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
+    explicit HomeCoordinator(shared_ptr<QQuickItem> pageStackCppWrapper, shared_ptr<IHomeDiProvider> diProvider, QObject *parent = nullptr)
         : QObject(parent)
-        , pageStackCppWrapper { pageStackCppWrapper }
-        , tokenProvider { tokenProvider }
-    {};
+        , m_pageStackCppWrapper { pageStackCppWrapper }
+        , m_diProvider { diProvider }
+        , m_toDoService { m_diProvider->todosServiceInstance() }
+        , m_usersService { m_diProvider->usersServiceInstance() }
+    { qDebug(); };
 
-    ~HomeCoordinator(){};
+    ~HomeCoordinator() { qDebug(); };
 
     void start(bool isReplace = false){
-        auto vm = new ToDoListVM();
+        auto vm = unique_unwrap(m_diProvider->toDoListVmInstance(m_toDoService));
         QObject::connect(vm, &ToDoListVM::showToDo, this, &HomeCoordinator::showToDo);
         QObject::connect(vm, &ToDoListVM::addToDo, this, &HomeCoordinator::addToDo);
         QObject::connect(vm, &ToDoListVM::showUsersList, this, &HomeCoordinator::showUsersList);
         QObject::connect(vm, &ToDoListVM::showSettings, this, &HomeCoordinator::showSettings);
 
         if (isReplace) {
-            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoListPage), Smoozy::wrapInProperties(vm));
+            Smoozy::replaceAllWithNamedPage(m_pageStackCppWrapper.get(), PagePaths::toDoListPage, vm);
         } else {
-            Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoListPage), Smoozy::wrapInProperties(vm));
+            Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::toDoListPage, vm);
         }
     };
 
@@ -54,40 +55,39 @@ public slots:
     void restart() { start(true); };
 
     void showToDo(QString const & toDoId) {
-        auto vm = new ToDoDetailsVM(toDoId);
+        auto vm = unique_unwrap(m_diProvider->toDoDetailsVmInstance(m_toDoService, toDoId));
         QObject::connect(vm, &ToDoDetailsVM::editToDo, this, &HomeCoordinator::editToDo);
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoDetailsPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::toDoDetailsPage, vm);
     };
 
     void addToDo(IEditToDoDelegate * delegate) { editToDo("", delegate); }
 
     void editToDo(QString const & toDoId, IEditToDoDelegate * delegate) {
-        auto vm = new EditToDoVM(toDoId, delegate);
+        auto vm = unique_unwrap(m_diProvider->editToDoVmInstance(m_toDoService, toDoId, delegate));
         QObject::connect(vm, &EditToDoVM::confirmed, this, &HomeCoordinator::confirmed);
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editToDoPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::editToDoPage, vm);
     };
 
     void showUsersList() {
-        auto vm = new UsersListVM();
+        auto vm = unique_unwrap(m_diProvider->usersListVmInstance(m_usersService));
         QObject::connect(vm, &UsersListVM::viewUserDetails, this, &HomeCoordinator::showUserDetails);
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::usersListPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::usersListPage, vm);
     };
 
     void showUserDetails(QString const & userId) {
-        auto vm = new UserDetailsVM(userId);
+        auto vm = unique_unwrap(m_diProvider->userDetailsVmInstance(m_usersService, userId));
         QObject::connect(vm, &UserDetailsVM::showToDo, this, &HomeCoordinator::showToDo);
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::userDetailsPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::userDetailsPage, vm);
     };
 
     void showSettings() {
-        auto vm = new EditProfileVM(tokenProvider);
+        auto vm = unique_unwrap(m_diProvider->editProfileVmInstance(lazyProfileService()));
         QObject::connect(vm, &EditProfileVM::unauthorized, this, &HomeCoordinator::logout);
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editProfilePage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::editProfilePage, vm);
     };
 
     void confirmed() {
-        Smoozy::popPage(pageStackCppWrapper.get());
+        Smoozy::popPage(m_pageStackCppWrapper.get());
     };
-
 };
 #endif // HOMECOORDINATOR_H

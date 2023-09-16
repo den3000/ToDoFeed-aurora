@@ -5,29 +5,43 @@
 
 #include "easy_import.h"
 #include "ilogintokenprovider.h"
+#include "startservice.h"
+
 #include "ilogouttokenprovider.h"
+#include "profileservice.h"
 
 class EditProfileVM : public QObject
 {
     Q_OBJECT
-    shared_ptr<ILoginTokenProvider> loginTokenProvider;
-    shared_ptr<ILogoutTokenProvider> logoutTokenProvider;
+    Q_PROPERTY(QObject * parent READ parent WRITE setParent)
+
+    shared_ptr<ILoginTokenProvider> m_loginTokenProvider;
+    shared_ptr<StartService> m_startService;
+
+    shared_ptr<ILogoutTokenProvider> m_logoutTokenProvider;
+    shared_ptr<ProfileService> m_profileService;
+
     bool isEditProfile = true;
     bool isAdmin = false;
+
 public:
-    explicit EditProfileVM(QObject *parent = nullptr): QObject(parent) { };
+    explicit EditProfileVM(QObject *parent = nullptr) : QObject(parent) { qDebug(); };
 
-    explicit EditProfileVM(shared_ptr<ILoginTokenProvider> tokenProvider, QObject *parent = nullptr)
+    explicit EditProfileVM(shared_ptr<ILoginTokenProvider> tokenProvider, shared_ptr<StartService> service, QObject *parent = nullptr)
         : QObject(parent)
-        , loginTokenProvider { tokenProvider }
+        , m_loginTokenProvider { tokenProvider }
+        , m_startService{ service }
         , isEditProfile { false }
-    { };
+    { qDebug(); };
 
-    explicit EditProfileVM(shared_ptr<ILogoutTokenProvider> tokenProvider, QObject *parent = nullptr)
+    explicit EditProfileVM(shared_ptr<ILogoutTokenProvider> tokenProvider, shared_ptr<ProfileService> service, QObject *parent = nullptr)
         : QObject(parent)
-        , logoutTokenProvider { tokenProvider }
+        , m_logoutTokenProvider { tokenProvider }
+        , m_profileService { service }
         , isAdmin { true }
-    { };
+    { qDebug(); };
+
+    ~EditProfileVM() { qDebug(); }
 
     Q_INVOKABLE bool edit() { return isEditProfile; }
 
@@ -48,13 +62,13 @@ public:
             qDebug() << "firstName: " << firstName;
             qDebug() << "lastName: " << lastName;
             qDebug() << "about: " << about;
-            loginTokenProvider.get()->login("signup_token_value");
+            m_loginTokenProvider->login("signup_token_value");
             emit authorized();
         }
     };
 
     Q_INVOKABLE void onLogOut() {
-        logoutTokenProvider.get()->logout();
+        m_logoutTokenProvider->logout();
         emit unauthorized();
     };
 

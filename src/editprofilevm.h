@@ -15,6 +15,11 @@ class EditProfileVM : public QObject
     Q_OBJECT
     Q_PROPERTY(QObject * parent READ parent WRITE setParent)
 
+signals:
+    void authorized();
+    void unauthorized();
+
+private:
     shared_ptr<ILoginTokenProvider> m_loginTokenProvider;
     shared_ptr<StartService> m_startService;
 
@@ -25,21 +30,28 @@ class EditProfileVM : public QObject
     bool isAdmin = false;
 
 public:
-    explicit EditProfileVM(QObject *parent = nullptr) : QObject(parent) { qDebug(); };
-
-    explicit EditProfileVM(shared_ptr<ILoginTokenProvider> tokenProvider, shared_ptr<StartService> service, QObject *parent = nullptr)
+    explicit EditProfileVM(QObject *parent = nullptr) : QObject(parent) { qDebug(); }
+    explicit EditProfileVM(
+            shared_ptr<ILoginTokenProvider> tokenProvider,
+            shared_ptr<StartService> service,
+            QObject *parent = nullptr
+    )
         : QObject(parent)
         , m_loginTokenProvider { tokenProvider }
-        , m_startService{ service }
+        , m_startService { service }
         , isEditProfile { false }
-    { qDebug(); };
+    { qDebug(); }
 
-    explicit EditProfileVM(shared_ptr<ILogoutTokenProvider> tokenProvider, shared_ptr<ProfileService> service, QObject *parent = nullptr)
+    explicit EditProfileVM(
+            shared_ptr<ILogoutTokenProvider> tokenProvider,
+            shared_ptr<ProfileService> service,
+            QObject *parent = nullptr
+    )
         : QObject(parent)
         , m_logoutTokenProvider { tokenProvider }
         , m_profileService { service }
         , isAdmin { true }
-    { qDebug(); };
+    { qDebug(); }
 
     ~EditProfileVM() { qDebug(); }
 
@@ -54,36 +66,50 @@ public:
             QString const & about
     ) {
         if (isEditProfile) {
-            qDebug() << "firstName: " << firstName;
-            qDebug() << "lastName: " << lastName;
-            qDebug() << "about: " << about;
+            update(firstName, lastName, about);
         } else {
-            resOrErr(m_startService->signup(password, firstName, lastName, about), this,
-            [this](auto * response) {
-                qDebug() << "sign up";
-                qDebug() << "user: token" << response->token;
-                qDebug() << "user\n" << response->user;
-
-                m_loginTokenProvider->login(response->token);
-                emit authorized();
-            }, [](auto * error){
-                Q_UNUSED(error)
-            });
+            signup(password, firstName, lastName, about);
         }
-    };
+    }
 
     Q_INVOKABLE void onLogOut() {
         m_logoutTokenProvider->logout();
         emit unauthorized();
-    };
+    }
 
     Q_INVOKABLE void onEraseAll() {
         qDebug();
-    };
+    }
 
-signals:
-    void authorized();
-    void unauthorized();
+private:
+    void signup(
+               QString const & password,
+               QString const & firstName,
+               QString const & lastName,
+               QString const & about
+    ) {
+        resOrErr(m_startService->signup(password, firstName, lastName, about), this,
+        [this](auto * response) {
+            qDebug() << "sign up";
+            qDebug() << "user: token" << response->token;
+            qDebug() << "user\n" << response->user;
+
+            m_loginTokenProvider->login(response->token);
+            emit authorized();
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
+    }
+
+    void update(
+               QString const & firstName,
+               QString const & lastName,
+               QString const & about
+    ) {
+        qDebug() << "firstName: " << firstName;
+        qDebug() << "lastName: " << lastName;
+        qDebug() << "about: " << about;
+    }
 };
 
 #endif // EDITPROFILEVM_H

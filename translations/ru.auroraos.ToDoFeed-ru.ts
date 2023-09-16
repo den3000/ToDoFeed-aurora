@@ -115,37 +115,37 @@
 <context>
     <name>ToDoListPage</name>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="14"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="15"/>
         <source>ToDoList Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="45"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="42"/>
         <source>Show All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="45"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="42"/>
         <source>Show My</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="49"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="46"/>
         <source>Add Todo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="41"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="38"/>
         <source>Go to users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="18"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="19"/>
         <source>My</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="18"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="19"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -155,12 +155,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="30"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="27"/>
         <source>toDoId_%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="37"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="34"/>
         <source>Go to settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -168,17 +168,17 @@
 <context>
     <name>UserDetailsPage</name>
     <message>
-        <location filename="../qml/pages/UserDetailsPage.qml" line="15"/>
+        <location filename="../qml/pages/UserDetailsPage.qml" line="16"/>
         <source>User Details %1 Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/UserDetailsPage.qml" line="20"/>
+        <location filename="../qml/pages/UserDetailsPage.qml" line="19"/>
         <source>ToDo %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/UserDetailsPage.qml" line="25"/>
+        <location filename="../qml/pages/UserDetailsPage.qml" line="21"/>
         <source>toDoId_%1</source>
         <translation type="unfinished"></translation>
     </message>

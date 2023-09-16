@@ -64,6 +64,13 @@ parse_optional(QJsonValue && value, Provider && provider) {
     }
 }
 
+template <typename R>
+R * unique_unwrap(unique_ptr<R> && unq) {
+    R * result = unq.get();
+    unq.release();
+    return result;
+}
+
 //template <typename T, typename Predicate, typename R, typename Provider>
 //constexpr optional<R>
 //parse_optional(T && value, Predicate && predicate, Provider && provider) {

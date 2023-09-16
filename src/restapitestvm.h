@@ -33,6 +33,10 @@ public:
             "John",
             "Doe",
             "Movie Star"
+//            "zxcv7890",
+//            "Jane",
+//            "Doe",
+//            "Celebrity"
         ));
         resOrErr(watcher, this, [](auto * response){
             qDebug() << "sign up";

@@ -54,16 +54,21 @@ public:
             QString const & about
     ) {
         if (isEditProfile) {
-            qDebug() << "password: " << password;
             qDebug() << "firstName: " << firstName;
             qDebug() << "lastName: " << lastName;
             qDebug() << "about: " << about;
         } else {
-            qDebug() << "firstName: " << firstName;
-            qDebug() << "lastName: " << lastName;
-            qDebug() << "about: " << about;
-            m_loginTokenProvider->login("signup_token_value");
-            emit authorized();
+            resOrErr(m_startService->signup(password, firstName, lastName, about), this,
+            [this](auto * response) {
+                qDebug() << "sign up";
+                qDebug() << "user: token" << response->token;
+                qDebug() << "user\n" << response->user;
+
+                m_loginTokenProvider->login(response->token);
+                emit authorized();
+            }, [](auto * error){
+                Q_UNUSED(error)
+            });
         }
     };
 

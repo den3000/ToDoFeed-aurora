@@ -15,8 +15,8 @@ template <typename Result>
 using RestResultWatcher = QFutureWatcher<RestResult<Result>>;
 
 template <typename Result, typename OnResult, typename OnError>
-void resOrErr(RestResultWatcher<Result> * watcher, QObject * obj, OnResult && onResult, OnError && onError, bool deleteLater = true) {
-    obj->connect(watcher, &QFutureWatcher<void>::finished, obj, [watcher, onResult, onError, deleteLater](){
+void resOrErr(RestResultWatcher<Result> * watcher, QObject * lifecycle, OnResult && onResult, OnError && onError, bool deleteLater = true) {
+    lifecycle->connect(watcher, &QFutureWatcher<void>::finished, lifecycle, [watcher, onResult, onError, deleteLater](){
         auto result = watcher->result();
         if (const auto * pResponse = get_if<Result>(&result)) {
             onResult(pResponse);

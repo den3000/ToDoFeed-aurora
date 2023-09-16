@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
     QScopedPointer<QQuickView> rootView(Aurora::Application::createView());
     rootView->setSource(Aurora::Application::pathTo(PagePaths::root));
-    auto pageStackCppWrapper = shared_ptr<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data(), "pageStackCppWrapper"));
+    auto pageStackCppWrapper = shared_ptr<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data()));
     rootView->show();
 
     auto diProvider = make_shared<DiProvider>();

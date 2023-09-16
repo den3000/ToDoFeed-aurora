@@ -42,9 +42,9 @@ public:
         QObject::connect(vm, &ToDoListVM::showSettings, this, &HomeCoordinator::showSettings);
 
         if (isReplace) {
-            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoListPage), Smoozy::wrapInProperties(vm));
+            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), PagePaths::toDoListPage, vm);
         } else {
-            Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoListPage), Smoozy::wrapInProperties(vm));
+            Smoozy::pushNamedPage(pageStackCppWrapper.get(), PagePaths::toDoListPage, vm);
         }
     };
 
@@ -56,7 +56,7 @@ public slots:
     void showToDo(QString const & toDoId) {
         auto vm = new ToDoDetailsVM(toDoId);
         QObject::connect(vm, &ToDoDetailsVM::editToDo, this, &HomeCoordinator::editToDo);
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::toDoDetailsPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), PagePaths::toDoDetailsPage, vm);
     };
 
     void addToDo(IEditToDoDelegate * delegate) { editToDo("", delegate); }
@@ -64,25 +64,25 @@ public slots:
     void editToDo(QString const & toDoId, IEditToDoDelegate * delegate) {
         auto vm = new EditToDoVM(toDoId, delegate);
         QObject::connect(vm, &EditToDoVM::confirmed, this, &HomeCoordinator::confirmed);
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editToDoPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), PagePaths::editToDoPage, vm);
     };
 
     void showUsersList() {
         auto vm = new UsersListVM();
         QObject::connect(vm, &UsersListVM::viewUserDetails, this, &HomeCoordinator::showUserDetails);
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::usersListPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), PagePaths::usersListPage, vm);
     };
 
     void showUserDetails(QString const & userId) {
         auto vm = new UserDetailsVM(userId);
         QObject::connect(vm, &UserDetailsVM::showToDo, this, &HomeCoordinator::showToDo);
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::userDetailsPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), PagePaths::userDetailsPage, vm);
     };
 
     void showSettings() {
         auto vm = new EditProfileVM(diProvider->logoutTokenProvider());
         QObject::connect(vm, &EditProfileVM::unauthorized, this, &HomeCoordinator::logout);
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editProfilePage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), PagePaths::editProfilePage, vm);
     };
 
     void confirmed() {

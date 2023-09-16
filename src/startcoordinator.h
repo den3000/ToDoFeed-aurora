@@ -41,9 +41,9 @@ public:
         QObject::connect(vm, &StartVM::signup, this, &StartCoordinator::goSignup);
 
         if (isReplace) {
-            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
+            Smoozy::replaceAllWithNamedPage(pageStackCppWrapper.get(), PagePaths::startPage, vm);
         } else {
-            Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::startPage), Smoozy::wrapInProperties(vm));
+            Smoozy::pushNamedPage(pageStackCppWrapper.get(), PagePaths::startPage, vm);
         }
     };
 
@@ -52,14 +52,14 @@ public slots:
         auto vm = unique_unwrap(diProvider->loginVmInstance(m_startService));
         QObject::connect(vm, &LoginVM::authorized, this, &StartCoordinator::authDone);
 
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::loginPage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), PagePaths::loginPage, vm);
     };
 
     void goSignup() {
         auto vm = unique_unwrap(diProvider->editProfileInstance(m_startService));
         QObject::connect(vm, &EditProfileVM::authorized, this, &StartCoordinator::authDone);
 
-        Smoozy::pushNamedPage(pageStackCppWrapper.get(), Aurora::Application::pathTo(PagePaths::editProfilePage), Smoozy::wrapInProperties(vm));
+        Smoozy::pushNamedPage(pageStackCppWrapper.get(), PagePaths::editProfilePage, vm);
     };
 
     void authDone() { emit authorized(); };

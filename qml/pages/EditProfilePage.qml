@@ -12,10 +12,10 @@ Page {
     PageHeader {
         objectName: "pageHeader"
         title: {
-            if (viewModel.signup()) {
-                return qsTr("Sign Up Page")
-            } else {
+            if (viewModel.edit()) {
                 return qsTr("Edit Profile Page")
+            } else {
+                return qsTr("Sign Up Page")
             }
         }
     }
@@ -26,16 +26,63 @@ Page {
         spacing: 16
         anchors.centerIn: parent
 
+
+        TextField {
+            id: tfPassword
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            placeholderText: "Password"
+            visible: !viewModel.edit()
+        }
+
+        TextField {
+            id: tfFirstName
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            placeholderText: "First Name"
+        }
+
+        TextField {
+            id: tfLastName
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            placeholderText: "Last Name"
+        }
+
+        TextField {
+            id: tfAbout
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            placeholderText: "About"
+        }
+
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: {
-                if (viewModel.signup()) {
-                    return qsTr("Sign Up")
+                if (viewModel.edit()) {
+                    return qsTr("Update")
                 } else {
-                    return qsTr("Log Out")
+                    return qsTr("Sign Up")
                 }
             }
-            onClicked: { viewModel.confirmPressed() }
+            onClicked: {
+                viewModel.onConfirm(
+                    tfPassword.text,
+                    tfFirstName.text,
+                    tfLastName.text,
+                    tfAbout.text
+                )
+            }
+        }
+
+        Button {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: qsTr("Log Out")
+            onClicked: { viewModel.onLogOut() }
+            visible: viewModel.edit()
+        }
+
+        Button {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: qsTr("Erase All")
+            onClicked: { viewModel.onEraseAll() }
+            visible: viewModel.admin()
         }
     }
 }

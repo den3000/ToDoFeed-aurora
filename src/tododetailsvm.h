@@ -16,16 +16,20 @@ public:
         , toDoId { toDoId }
     { };
 
+    Q_INVOKABLE QString title() { return "title" + toDoId; }
+    Q_INVOKABLE QString details() { return "details " + toDoId; }
+    Q_INVOKABLE QString status() { return "status " + toDoId; }
+    Q_INVOKABLE QString visibility() { return "visibility " + toDoId; }
+
+    Q_INVOKABLE void onEditToDo() {
+        emit editToDo(toDoId, this);
+    };
+
     // IEditToDoDelegate interface
     void onFinished(const QString &toDoId) override {
         Q_UNUSED(toDoId)
         qDebug();
     }
-
-    Q_INVOKABLE void callEditToDo(QString const & toDoId) {
-        emit editToDo(toDoId, this);
-    };
-
 signals:
     void editToDo(QString const & toDoId, IEditToDoDelegate * delegate);
 };

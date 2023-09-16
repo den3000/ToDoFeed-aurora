@@ -25,6 +25,11 @@ public:
 
     Q_INVOKABLE bool isEdit() { return !toDoId.isEmpty(); }
 
+    Q_INVOKABLE QString title() { return "title " + toDoId; }
+    Q_INVOKABLE QString details() { return "details " + toDoId; }
+    Q_INVOKABLE QString status() { return "status " + toDoId; }
+    Q_INVOKABLE QString visibility() { return "visibility " + toDoId; }
+
     Q_INVOKABLE void confirm() {
         delegate->onFinished(toDoId);
         emit confirmed();

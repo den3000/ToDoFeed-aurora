@@ -11,7 +11,7 @@ Page {
 
     PageHeader {
         objectName: "pageHeader"
-        title: qsTr("ToDo Details Page")
+        title: qsTr("ToDo Details %1 Page").arg(viewModel.title())
     }
 
     Column {
@@ -20,10 +20,25 @@ Page {
         spacing: 16
         anchors.centerIn: parent
 
+        Text {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: qsTr("%1").arg(viewModel.details())
+        }
+
+        Text {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: qsTr("%1").arg(viewModel.status())
+        }
+
+        Text {
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            text: qsTr("%1").arg(viewModel.visibility())
+        }
+
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Edit Todo"
-            onClicked: { viewModel.callEditToDo("some_id") }
+            onClicked: { viewModel.onEditToDo() }
         }
     }
 }

@@ -1,46 +1,51 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import CustomCppClasses.Module 1.0
+import "../items"
 
 Page {
+    property bool isOwn: true
     property ToDoListVM viewModel
     onViewModelChanged: viewModel.parent = this
-
-    objectName: "signupPage"
     allowedOrientations: Orientation.All
 
-    PageHeader {
-        objectName: "pageHeader"
-        title: qsTr("ToDo List Page")
-    }
-
-    Column {
-        id: layout
-        width: parent.width
-        spacing: 16
-        anchors.centerIn: parent
-
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Show ToDo"
-            onClicked: { viewModel.showToDo("some_id") }
+    SilicaListView {
+        anchors.fill: parent
+        header: PageHeader {
+            title: qsTr("ToDoList Page")
+            extraContent.children: [
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: isOwn ? qsTr("My") : qsTr("All")
+                }
+            ]
         }
-
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Add Todo"
-            onClicked: { viewModel.callAddToDo() }
+        delegate:
+        ToDoItem {
+            toDoTitle: qsTr("ToDo %1").arg(model.index + 1)
+            toDoStatus: "In Progress"
+            onClicked: { viewModel.showToDo(qsTr("toDoId_%1").arg(model.index + 1)) }
         }
+        model: 17
+        VerticalScrollDecorator { }
 
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Go to users"
-            onClicked: { viewModel.showUsersList() }
-        }
-        Button {
-            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: "Go to settings"
-            onClicked: { viewModel.showSettings() }
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Go to settings")
+                onClicked: viewModel.showSettings()
+            }
+            MenuItem {
+                text: qsTr("Go to users")
+                onClicked: viewModel.showUsersList()
+            }
+            MenuItem {
+                text: isOwn ? qsTr("Show All") : qsTr("Show My")
+                onClicked: isOwn = !isOwn
+            }
+            MenuItem {
+                text: qsTr("Add Todo")
+                onClicked: viewModel.callAddToDo()
+            }
         }
     }
 }

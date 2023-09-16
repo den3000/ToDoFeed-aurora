@@ -6,12 +6,18 @@
 class UserDetailsVM : public QObject
 {
     Q_OBJECT
+    QString userId;
 
 public:
     explicit UserDetailsVM(QObject *parent = nullptr): QObject(parent) { };
+    explicit UserDetailsVM(QString const & userId, QObject *parent = nullptr)
+        : QObject(parent)
+        , userId { userId }
+    { };
 
+    Q_INVOKABLE QString userName() { return userId; }
 signals:
-    void showToDo(QString const & toDoId);
+    void showToDo(QString toDoId);
 };
 
 #endif // USERDETAILSVM_H

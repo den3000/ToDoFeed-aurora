@@ -20,10 +20,16 @@ Page {
         spacing: 16
         anchors.centerIn: parent
 
+        TextField {
+            id: tfPassword
+            anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
+            placeholderText: "Password"
+        }
+
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "LogIn"
-            onClicked: { viewModel.loginPressed() }
+            onClicked: { viewModel.loginPressed(tfPassword.text) }
         }
     }
 }

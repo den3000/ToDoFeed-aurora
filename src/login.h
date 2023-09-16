@@ -12,8 +12,8 @@ struct LogInRequest: public RestApiRequest {
 
     RestReqType reqType() const override { return RestReqType::POST; };
 
-    LogInRequest(QString password)
-        : password { move(password) }
+    LogInRequest(QString const & password)
+        : password { password }
     {};
 
     void fill(QJsonObject &jo) const override {

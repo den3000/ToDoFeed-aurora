@@ -84,6 +84,7 @@ public:
 
             auto f = QtConcurrent::run([](QJsonDocument const &jd){
                     // TODO: probably mem usage might be imporved here with ptrs or refs
+                    QThread::sleep(5);
                     auto model = T();
                     auto result = model.parse(jd);
                     if (result) {

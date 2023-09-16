@@ -27,9 +27,16 @@ public:
     ~LoginVM() { qDebug(); };
 
     Q_INVOKABLE void loginPressed(QString const & password) {
-        qDebug () << "password: " << password;
-        m_tokenProvider->login("login_token_value");
-        emit authorized();
+        resOrErr(m_service->login(password), this, [this](auto * response){
+            qDebug() << "log in";
+            qDebug() << "user: token" << response->token;
+            qDebug() << "user\n" << response->user;
+
+            m_tokenProvider->login("login_token_value");
+            emit authorized();
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
     };
 
 signals:

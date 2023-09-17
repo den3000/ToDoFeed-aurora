@@ -33,13 +33,13 @@ Page {
                 }
             ]
         }
-        delegate:
-        ToDoItem {
-            toDoTitle: qsTr("ToDo %1").arg(model.index + 1)
-            toDoStatus: "In Progress"
-            onClicked: { viewModel.showToDo("2fec3dc0-a293-4dfe-99a4-f158cbb91fd2") }
+        delegate: ToDoItem {
+            toDoTitle: model.title
+            toDoStatus: model.status
+            onClicked: { viewModel.showToDo(model.toDoId) }
         }
-        model: 17
+        model: viewModel
+
         VerticalScrollDecorator { }
 
         PullDownMenu {

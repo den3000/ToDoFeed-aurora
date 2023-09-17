@@ -100,33 +100,18 @@
 <context>
     <name>ToDoListPage</name>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="28"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="33"/>
         <source>ToDoList Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="60"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="64"/>
         <source>Add Todo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="52"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="56"/>
         <source>Go to users</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="38"/>
-        <source>ToDo %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="48"/>
-        <source>Go to settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="64"/>
-        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -135,18 +120,30 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/pages/ToDoListPage.qml" line="19"/>
+        <source>Show My</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ToDoListPage.qml" line="52"/>
+        <source>Go to settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ToDoListPage.qml" line="68"/>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ToDoListPage.qml" line="13"/>
         <location filename="../qml/pages/ToDoListPage.qml" line="18"/>
         <source>My</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/pages/ToDoListPage.qml" line="14"/>
         <location filename="../qml/pages/ToDoListPage.qml" line="19"/>
         <source>Show All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="19"/>
-        <source>Show My</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

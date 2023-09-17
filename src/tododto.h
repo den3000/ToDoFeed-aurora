@@ -81,6 +81,9 @@ struct ToDoDto
         , visibility { parse_visibility(json["visibility"]) }
     {};
 
+    QString statusStr() const { return status != nullopt ? status_to_string(status.value()) : "undefined"; }
+    QString visibilityStr() const { return visibility != nullopt ? visibility_to_string(visibility.value()) : "undefined"; }
+
     friend QDebug & operator<<(QDebug & d, ToDoDto const & dto) {
         // TODO: Improve this
         QString statStr;

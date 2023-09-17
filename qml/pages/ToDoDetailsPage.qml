@@ -4,14 +4,17 @@ import CustomCppClasses.Module 1.0
 
 Page {
     property ToDoDetailsVM viewModel
-    onViewModelChanged: viewModel.parent = this
+    onViewModelChanged: {
+        viewModel.parent = this
+        viewModel.start()
+    }
 
     objectName: "signupPage"
     allowedOrientations: Orientation.All
 
     PageHeader {
+        id: header
         objectName: "pageHeader"
-        title: qsTr("ToDo Details %1 Page").arg(viewModel.title())
     }
 
     Column {
@@ -21,24 +24,37 @@ Page {
         anchors.centerIn: parent
 
         Text {
+            id: tDescription
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: qsTr("%1").arg(viewModel.details())
         }
 
         Text {
+            id: tStatus
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: qsTr("%1").arg(viewModel.status())
         }
 
         Text {
+            id: tVisibility
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: qsTr("%1").arg(viewModel.visibility())
         }
 
         Button {
+            id: btEdit
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Edit Todo"
+            visible: false
             onClicked: { viewModel.onEditToDo() }
+        }
+    }
+
+    Connections {
+        target: viewModel
+        onToDoDetailsLoaded: {
+            header.title = title
+            tDescription.text = description
+            tStatus.text = status
+            tVisibility.text = visibility
+            btEdit.visible = isEditable
         }
     }
 }

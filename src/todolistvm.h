@@ -18,6 +18,7 @@ signals:
     void showSettings();
 
 private:
+    bool isOwn = true;
     shared_ptr<ToDosService> m_service;
 
 public:
@@ -29,31 +30,45 @@ public:
     ~ToDoListVM() { qDebug(); }
 
     Q_INVOKABLE void start() {
-        resOrErr(m_service->getAllToDos(), this,
+        if (isOwn) {
+            loadOwnToDos();
+        } else {
+            loadAllToDos();
+        }
+    }
+
+    Q_INVOKABLE void callAddToDo() { emit addToDo(this); }
+
+    // IEditToDoDelegate interface
+    void onFinished(const QString &toDoId) override {
+        Q_UNUSED(toDoId)
+        qDebug();
+        start();
+    }
+
+private:
+    void loadOwnToDos() {
+        resOrErr(m_service->getMyToDos(), this,
         [](auto * response) {
             qDebug() << "get my todos";
             for(ToDoDto const & toDo : response->todos) {
                 qDebug() << "todo\n" << toDo << "\n";
             }
         }, [](auto * error){
-            switch (*error) {
-            case RestError::NetworkError: qDebug() << "NetworkError"; break;
-            case RestError::SslError: qDebug() << "SslError"; break;
-            case RestError::NullResponse: qDebug() << "NullResponse"; break;
-            case RestError::EmptyJsonResponse: qDebug() << "EmptyJsonResponse"; break;
-            case RestError::JsonParsingError: qDebug() << "JsonParsingError"; break;
-            }
+            Q_UNUSED(error)
         });
     }
 
-    Q_INVOKABLE void callAddToDo() {
-        emit addToDo(this);
-    }
-
-    // IEditToDoDelegate interface
-    void onFinished(const QString &toDoId) override {
-        Q_UNUSED(toDoId)
-        qDebug();
+    void loadAllToDos() {
+        resOrErr(m_service->getAllToDos(), this,
+        [](auto * response) {
+            qDebug() << "get all todos";
+            for(ToDoDto const & toDo : response->todos) {
+                qDebug() << "todo\n" << toDo << "\n";
+            }
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
     }
 };
 

@@ -10,7 +10,7 @@ struct GetToDoDetailsRequest: public RestApiRequest {
 
     QString endpoint() const override { return "/get_todo_details"; };
 
-    RestReqType reqType() const override { return RestReqType::GET; };
+    RestReqType reqType() const override { return RestReqType::POST; };
 
     GetToDoDetailsRequest(QString const & toDoId)
         : toDoId { toDoId }
@@ -23,7 +23,7 @@ struct GetToDoDetailsRequest: public RestApiRequest {
 
 struct GetToDoDetailsResponse: public RestApiResponse {
     ToDoDto toDo;
-    bool isEdiatabe;
+    bool isEditable;
     QString errorMsg = "";
 
     // required to make it work with variant
@@ -37,7 +37,7 @@ struct GetToDoDetailsResponse: public RestApiResponse {
             return false;
         }
         toDo = ToDoDto(jo);
-        isEdiatabe = jo["isEditable"].toBool();
+        isEditable = jo["isEditable"].toBool();
         return true;
     }
 

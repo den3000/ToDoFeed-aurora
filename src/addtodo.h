@@ -34,7 +34,7 @@ struct AddToDoRequest: public RestApiRequest {
 };
 
 struct AddToDoResponse: public RestApiResponse {
-    ToDoDto todo;
+    ToDoDto toDo;
     QString errorMsg;
 
     // required to make it work with variant
@@ -48,7 +48,7 @@ struct AddToDoResponse: public RestApiResponse {
             return false;
         }
 
-        todo = ToDoDto(jo);
+        toDo = ToDoDto(jo);
         return true;
     }
 

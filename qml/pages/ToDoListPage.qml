@@ -6,7 +6,10 @@ import "../items"
 Page {
     property bool isOwn: true
     property ToDoListVM viewModel
-    onViewModelChanged: viewModel.parent = this
+    onViewModelChanged: {
+        viewModel.parent = this
+        viewModel.start()
+    }
     allowedOrientations: Orientation.All
 
     SilicaListView {
@@ -45,6 +48,10 @@ Page {
             MenuItem {
                 text: qsTr("Add Todo")
                 onClicked: viewModel.callAddToDo()
+            }
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked: viewModel.start()
             }
         }
     }

@@ -11,7 +11,7 @@ struct GetToDosListRequest: public RestApiRequest {
 
     QString endpoint() const override { return "/get_todos_list"; };
 
-    RestReqType reqType() const override { return RestReqType::GET; };
+    RestReqType reqType() const override { return RestReqType::POST; };
 
     GetToDosListRequest(bool isOnlyMy = true, QString ownerId = "")
         : isOnlyMy { isOnlyMy }

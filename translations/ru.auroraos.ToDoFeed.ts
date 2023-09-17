@@ -55,20 +55,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="28"/>
-        <location filename="../qml/pages/EditToDoPage.qml" line="33"/>
-        <location filename="../qml/pages/EditToDoPage.qml" line="39"/>
-        <location filename="../qml/pages/EditToDoPage.qml" line="54"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="29"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="35"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="41"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="56"/>
         <source>%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="47"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="49"/>
         <source>new status index: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="61"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="63"/>
         <source>new visibility index: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -115,53 +115,58 @@
 <context>
     <name>ToDoListPage</name>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="15"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="18"/>
         <source>ToDoList Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="42"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="45"/>
         <source>Show All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="42"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="45"/>
         <source>Show My</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="46"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="49"/>
         <source>Add Todo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="38"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="41"/>
         <source>Go to users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="19"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="22"/>
         <source>My</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="19"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="22"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="25"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="28"/>
         <source>ToDo %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="27"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="30"/>
         <source>toDoId_%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="34"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="37"/>
         <source>Go to settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ToDoListPage.qml" line="53"/>
+        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

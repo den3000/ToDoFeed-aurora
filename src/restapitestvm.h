@@ -108,7 +108,7 @@ public:
         ), t);
         resOrErr(watcher, this, [](auto * response){
             qDebug() << "add todo";
-            qDebug() << "todo\n" << response->todo << "\n";
+            qDebug() << "todo\n" << response->toDo << "\n";
         }, [](auto * error){
             Q_UNUSED(error)
         });
@@ -157,7 +157,7 @@ public:
         ), t);
         resOrErr(watcher, this, [](auto * response){
             qDebug() << "edit todo";
-            qDebug() << "todo\n" << response->todo << "\n";
+            qDebug() << "todo\n" << response->toDo << "\n";
         }, [](auto * error){
             Q_UNUSED(error)
         });

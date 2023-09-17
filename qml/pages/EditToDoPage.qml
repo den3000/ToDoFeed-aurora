@@ -24,11 +24,13 @@ Page {
         anchors.centerIn: parent
 
         TextField {
+            id: tfTitle
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: qsTr("%1").arg(viewModel.title())
         }
 
         TextEdit {
+            id: tfDesciption
             anchors { left: parent.left; right: parent.right; margins: 2 * Theme.horizontalPageMargin }
             text: qsTr("%1").arg(viewModel.details())
         }
@@ -65,7 +67,12 @@ Page {
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Confirm"
-            onClicked: { viewModel.confirm() }
+            onClicked: { viewModel.confirm(
+                tfTitle.text,
+                tfDesciption.text,
+                cbStatus.currentIndex,
+                cbVisibility.currentIndex
+            )}
         }
     }
 }

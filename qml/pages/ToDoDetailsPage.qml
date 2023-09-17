@@ -9,7 +9,17 @@ Page {
         viewModel.start()
     }
 
-    objectName: "signupPage"
+    Connections {
+        target: viewModel
+        onToDoDetailsLoaded: {
+            header.title = title
+            tDescription.text = description
+            tStatus.text = status
+            tVisibility.text = visibility
+            btEdit.visible = isEditable
+        }
+    }
+
     allowedOrientations: Orientation.All
 
     PageHeader {
@@ -44,17 +54,6 @@ Page {
             text: "Edit Todo"
             visible: false
             onClicked: { viewModel.onEditToDo() }
-        }
-    }
-
-    Connections {
-        target: viewModel
-        onToDoDetailsLoaded: {
-            header.title = title
-            tDescription.text = description
-            tStatus.text = status
-            tVisibility.text = visibility
-            btEdit.visible = isEditable
         }
     }
 }

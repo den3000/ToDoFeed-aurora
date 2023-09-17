@@ -16,6 +16,7 @@ signals:
     void addToDo(IEditToDoDelegate * delegate);
     void showUsersList();
     void showSettings();
+    void visibilityChanged(bool isOwn);
 
 private:
     bool isOwn = true;
@@ -30,6 +31,27 @@ public:
     ~ToDoListVM() { qDebug(); }
 
     Q_INVOKABLE void start() {
+        emit visibilityChanged(isOwn);
+        loadToDos();
+    }
+
+    Q_INVOKABLE void callAddToDo() { emit addToDo(this); }
+
+    Q_INVOKABLE void changeVisibility() {
+        isOwn = !isOwn;
+        emit visibilityChanged(isOwn);
+        loadToDos();
+    }
+    
+    // IEditToDoDelegate interface
+    void onFinished(const QString &toDoId) override {
+        Q_UNUSED(toDoId)
+        qDebug();
+        loadToDos();
+    }
+
+private:
+    void loadToDos() {
         if (isOwn) {
             loadOwnToDos();
         } else {
@@ -37,16 +59,6 @@ public:
         }
     }
 
-    Q_INVOKABLE void callAddToDo() { emit addToDo(this); }
-
-    // IEditToDoDelegate interface
-    void onFinished(const QString &toDoId) override {
-        Q_UNUSED(toDoId)
-        qDebug();
-        start();
-    }
-
-private:
     void loadOwnToDos() {
         resOrErr(m_service->getMyToDos(), this,
         [](auto * response) {

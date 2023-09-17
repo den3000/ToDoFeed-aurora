@@ -15,8 +15,8 @@ struct AddToDoRequest: public RestApiRequest {
 
     RestReqType reqType() const override { return RestReqType::POST; };
 
-    AddToDoRequest(QString title,
-            QString description,
+    AddToDoRequest(QString const & title,
+            QString const & description,
             ToDoDto::Status status,
             ToDoDto::Visibility visibility)
         : title { move(title) }
@@ -38,7 +38,7 @@ struct AddToDoResponse: public RestApiResponse {
     QString errorMsg;
 
     // required to make it work with variant
-    explicit AddToDoResponse(){};
+    explicit AddToDoResponse() {};
 
     bool parse(const QJsonDocument &jd) override {
         auto jo= jd.object();

@@ -4,6 +4,11 @@
 #include "easy_import.h"
 #include "restapi.h"
 
+#include "addtodo.h"
+#include "edittodo.h"
+#include "gettododetails.h"
+#include "gettodoslist.h"
+
 class ToDosService {
     shared_ptr<RestApi> restApi;
     QString token;
@@ -14,20 +19,48 @@ public:
     { qDebug(); };
     ~ToDosService() { qDebug(); }
 
-    void addToDo(){
-
+    auto * addToDo(QString const & title,
+                   QString const & description,
+                   ToDoDto::Status status,
+                   ToDoDto::Visibility visibility
+    ) {
+        return restApi->execute<AddToDoResponse>(
+            AddToDoRequest(title, description, status, visibility),
+            token
+        );
     };
 
-    void editToDo(){
-
+    auto * getToDoDetails(QString const & toDoId){
+        return restApi->execute<GetToDoDetailsResponse>(
+            GetToDoDetailsRequest(toDoId),
+            token
+        );
     };
 
-    void getMyToDos(){
-
+    auto * editToDo(QString const & toDoId,
+                  QString const & title,
+                  QString const & description,
+                  ToDoDto::Status status,
+                  ToDoDto::Visibility visibility
+    ){
+        return restApi->execute<EditToDoResponse>(
+            EditToDoRequest(toDoId, title, description, status, visibility),
+            token
+        );
     };
 
-    void getAllToDos(){
+    auto * getMyToDos(){
+        return restApi->execute<GetToDosListResponse>(
+            GetToDosListRequest(),
+            token
+        );
+    };
 
+    auto * getAllToDos(){
+        return restApi->execute<GetToDosListResponse>(
+            GetToDosListRequest(false),
+            token
+        );
     };
 };
 

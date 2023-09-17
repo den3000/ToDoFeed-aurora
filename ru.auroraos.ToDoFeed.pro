@@ -61,9 +61,9 @@ HEADERS += \
     src/edittodo.h \
     src/edittodovm.h \
     src/eraseall.h \
-    src/getalltodos.h \
     src/getallusers.h \
-    src/getmytodos.h \
+    src/gettododetails.h \
+    src/gettodoslist.h \
     src/homecoordinator.h \
     src/ihomediprovider.h \
     src/ilogintokenprovider.h \

@@ -9,8 +9,8 @@
 #include "editprofile.h"
 #include "eraseall.h"
 #include "addtodo.h"
-#include "getmytodos.h"
-#include "getalltodos.h"
+#include "gettodoslist.h"
+#include "gettododetails.h"
 #include "edittodo.h"
 
 class RestApiTestVM : public QObject
@@ -115,33 +115,33 @@ public:
     };
     
     Q_INVOKABLE void executeGetMyToDos() {
-        QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
-        QString t = settings.value("token").toString();
+//        QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+//        QString t = settings.value("token").toString();
 
-        auto * watcher = restApi->execute<GetMyToDosResponse>(GetMyToDosRequest(), t);
-        resOrErr(watcher, this, [](auto * response){
-            qDebug() << "get my todos";
-            for(ToDoDto const & user : response->todos) {
-                qDebug() << "todo\n" << user << "\n";
-            }
-        }, [](auto * error){
-            Q_UNUSED(error)
-        });
+//        auto * watcher = restApi->execute<GetToDosListResponse>(GetToDosListRequest(), t);
+//        resOrErr(watcher, this, [](auto * response){
+//            qDebug() << "get my todos";
+//            for(ToDoDto const & user : response->todos) {
+//                qDebug() << "todo\n" << user << "\n";
+//            }
+//        }, [](auto * error){
+//            Q_UNUSED(error)
+//        });
     };
 
     Q_INVOKABLE void executeGetAllToDos() {
-        QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
-        QString t = settings.value("token").toString();
+//        QSettings settings(QSettings::UserScope, "den3000", "ToDo Feed");
+//        QString t = settings.value("token").toString();
 
-        auto * watcher = restApi->execute<GetAllToDosResponse>(GetAllToDosRequest(), t);
-        resOrErr(watcher, this, [](auto * response){
-            qDebug() << "get all todos";
-            for(ToDoDto const & user : response->todos) {
-                qDebug() << "todo\n" << user << "\n";
-            }
-        }, [](auto * error){
-            Q_UNUSED(error)
-        });
+//        auto * watcher = restApi->execute<GetAllToDosResponse>(GetAllToDosRequest(), t);
+//        resOrErr(watcher, this, [](auto * response){
+//            qDebug() << "get all todos";
+//            for(ToDoDto const & user : response->todos) {
+//                qDebug() << "todo\n" << user << "\n";
+//            }
+//        }, [](auto * error){
+//            Q_UNUSED(error)
+//        });
     };
     
     Q_INVOKABLE void executeEditToDo() {

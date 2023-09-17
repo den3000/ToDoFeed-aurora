@@ -1,26 +1,35 @@
-#ifndef GETALLTODOS_H
-#define GETALLTODOS_H
+#ifndef GETTODOSLIST_H
+#define GETTODOSLIST_H
 
 #include "restapitypes.h"
 #include "tododto.h"
 
-struct GetAllToDosRequest: public RestApiRequest {
+struct GetToDosListRequest: public RestApiRequest {
 
-    QString endpoint() const override { return "/get_my_and_public_todos"; };
+    bool isOnlyMy;
+    QString ownerId;
+
+    QString endpoint() const override { return "/get_todos_list"; };
 
     RestReqType reqType() const override { return RestReqType::GET; };
 
+    GetToDosListRequest(bool isOnlyMy = true, QString ownerId = "")
+        : isOnlyMy { isOnlyMy }
+        , ownerId { ownerId }
+    {}
+
     void fill(QJsonObject &jo) const override {
-        Q_UNUSED(jo);
+        jo["isOnlyMy"] = isOnlyMy;
+        jo["ownerId"] = ownerId;
     };
 };
 
-struct GetAllToDosResponse: public RestApiResponse {
+struct GetToDosListResponse: public RestApiResponse {
     vector<ToDoDto> todos;
     QString errorMsg = "";
 
     // required to make it work with variant
-    explicit GetAllToDosResponse(){};
+    explicit GetToDosListResponse() {};
 
     bool parse(const QJsonDocument &jd) override {
         auto ja= jd.array();
@@ -35,4 +44,4 @@ struct GetAllToDosResponse: public RestApiResponse {
     QString const & error() const override { return errorMsg; }
 };
 
-#endif // GETALLTODOS_H
+#endif // GETTODOSLIST_H

@@ -36,6 +36,8 @@ Page {
         delegate: ToDoItem {
             toDoTitle: model.title
             toDoStatus: model.status
+            userId: model.userId
+            visibility: model.visibility
             onClicked: { viewModel.showToDo(model.toDoId) }
         }
         model: viewModel

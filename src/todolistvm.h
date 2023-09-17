@@ -29,6 +29,8 @@ public:
         Title = Qt::UserRole + 1,
         Status = Qt::UserRole + 2,
         ToDoId = Qt::UserRole + 3,
+        UserId = Qt::UserRole + 4,
+        Visibility = Qt::UserRole + 5,
     };
     Q_ENUM(ToDoRoles)
 
@@ -61,6 +63,8 @@ public:
         case Title: return QVariant(m_todos[index.row()].title); break;
         case Status: return QVariant(m_todos[index.row()].statusStr()); break;
         case ToDoId: return QVariant(m_todos[index.row()].id); break;
+        case UserId: return QVariant(m_todos[index.row()].userId); break;
+        case Visibility: return QVariant(m_todos[index.row()].visibilityStr()); break;
         }
         return QVariant();
     }
@@ -70,6 +74,8 @@ public:
         roles[Title] = "title";
         roles[Status] = "status";
         roles[ToDoId] = "toDoId";
+        roles[UserId] = "userId";
+        roles[Visibility] = "visibility";
         return roles;
     }
 

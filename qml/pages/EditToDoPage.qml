@@ -14,7 +14,6 @@ Page {
         onToDoDetailsLoaded: {
             tfTitle.text = title
             tfDesciption.text = description
-            console.log(qsTr("s: %1 v: %2").arg(statusIdx).arg(visibilityIdx))
             cbStatus.currentIndex = statusIdx
             cbVisibility.currentIndex = visibilityIdx
         }

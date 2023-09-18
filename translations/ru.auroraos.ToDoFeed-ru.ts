@@ -45,27 +45,22 @@
 <context>
     <name>EditToDoPage</name>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="17"/>
-        <source>s: %1 v: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="28"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="27"/>
         <source>Edit ToDo Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="30"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="29"/>
         <source>Add ToDo Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="61"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="60"/>
         <source>new status index: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="74"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="73"/>
         <source>new visibility index: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -147,17 +142,12 @@
 <context>
     <name>UserDetailsPage</name>
     <message>
-        <location filename="../qml/pages/UserDetailsPage.qml" line="16"/>
-        <source>User Details %1 Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/UserDetailsPage.qml" line="19"/>
+        <location filename="../qml/pages/UserDetailsPage.qml" line="29"/>
         <source>ToDo %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/UserDetailsPage.qml" line="21"/>
+        <location filename="../qml/pages/UserDetailsPage.qml" line="31"/>
         <source>toDoId_%1</source>
         <translation type="unfinished"></translation>
     </message>

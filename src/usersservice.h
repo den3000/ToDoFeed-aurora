@@ -5,6 +5,7 @@
 #include "restapi.h"
 
 #include "getallusers.h"
+#include "getuserdetails.h"
 
 class UsersService {
     shared_ptr<RestApi> restApi;
@@ -23,8 +24,11 @@ public:
         );
     };
 
-    void getUserDetails(){
-
+    auto * getUserDetails(QString const & userId){
+        return restApi->execute<GetUserDetailsResponse>(
+            GetUserDetailsRequest(userId),
+            token
+        );
     };
 };
 

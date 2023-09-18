@@ -64,6 +64,7 @@ HEADERS += \
     src/getallusers.h \
     src/gettododetails.h \
     src/gettodoslist.h \
+    src/getuserdetails.h \
     src/homecoordinator.h \
     src/ihomediprovider.h \
     src/ilogintokenprovider.h \

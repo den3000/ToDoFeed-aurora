@@ -88,7 +88,13 @@ public:
     }
 
     Q_INVOKABLE void onEraseAll() {
-        qDebug();
+        resOrErr(m_profileService->eraseAll(), this,
+        [this](auto *) {
+            m_logoutTokenProvider->logout();
+            emit unauthorized();
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
     }
 
 private:
@@ -100,10 +106,6 @@ private:
     ) {
         resOrErr(m_startService->signup(password, firstName, lastName, about), this,
         [this](auto * response) {
-            qDebug() << "sign up";
-            qDebug() << "user: token" << response->token;
-            qDebug() << "user\n" << response->user;
-
             m_loginTokenProvider->login(response->token);
             emit authorized();
         }, [](auto * error){
@@ -116,16 +118,24 @@ private:
                QString const & lastName,
                QString const & about
     ) {
-        qDebug() << "firstName: " << firstName;
-        qDebug() << "lastName: " << lastName;
-        qDebug() << "about: " << about;
+        resOrErr(m_profileService->updateProfile(firstName, lastName, about), this,
+        [this](auto * response) {
+            emit profileLoaded(
+                isEditProfile,
+                isAdmin,
+                response->user.firstName,
+                response->user.lastName,
+                response->user.about
+            );
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
     }
 
     void loadProfile() {
         resOrErr(m_profileService->getProfile(), this,
         [this](auto * response) {
             isAdmin = response->isAdmin;
-            qDebug() << "user: \n" << response->user;
             emit profileLoaded(
                 isEditProfile,
                 isAdmin,

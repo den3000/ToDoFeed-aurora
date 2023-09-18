@@ -11,16 +11,23 @@ class HomeCoordinator : public QObject
     Q_OBJECT
 
     shared_ptr<QQuickItem> m_pageStackCppWrapper;
-
     shared_ptr<IHomeDiProvider> m_diProvider;
 
     shared_ptr<ToDosService> m_toDoService;
+    shared_ptr<ToDosService> lazyToDoService() {
+        if(!m_toDoService) { m_toDoService = m_diProvider->todosServiceInstance(); }
+        return m_toDoService;
+    };
+
     shared_ptr<UsersService> m_usersService;
+    shared_ptr<UsersService> lazyUsersService() {
+        if(!m_usersService) { m_usersService = m_diProvider->usersServiceInstance(); }
+        return m_usersService;
+    };
+
     shared_ptr<ProfileService> m_profileService;
     shared_ptr<ProfileService> lazyProfileService() {
-        if(!m_profileService) {
-            m_profileService = m_diProvider->profileServiceInstance();
-        }
+        if(!m_profileService) { m_profileService = m_diProvider->profileServiceInstance(); }
         return m_profileService;
     };
 
@@ -29,14 +36,12 @@ public:
         : QObject(parent)
         , m_pageStackCppWrapper { pageStackCppWrapper }
         , m_diProvider { diProvider }
-        , m_toDoService { m_diProvider->todosServiceInstance() }
-        , m_usersService { m_diProvider->usersServiceInstance() }
     { qDebug(); };
 
     ~HomeCoordinator() { qDebug(); };
 
     void start(bool isReplace = false){
-        auto vm = unique_unwrap(m_diProvider->toDoListVmInstance(m_toDoService));
+        auto vm = unique_unwrap(m_diProvider->toDoListVmInstance(lazyToDoService()));
         QObject::connect(vm, &ToDoListVM::showToDo, this, &HomeCoordinator::showToDo);
         QObject::connect(vm, &ToDoListVM::addToDo, this, &HomeCoordinator::addToDo);
         QObject::connect(vm, &ToDoListVM::showUsersList, this, &HomeCoordinator::showUsersList);
@@ -55,7 +60,7 @@ public slots:
     void restart() { start(true); };
 
     void showToDo(QString const & toDoId) {
-        auto vm = unique_unwrap(m_diProvider->toDoDetailsVmInstance(m_toDoService, toDoId));
+        auto vm = unique_unwrap(m_diProvider->toDoDetailsVmInstance(lazyToDoService(), toDoId));
         QObject::connect(vm, &ToDoDetailsVM::editToDo, this, &HomeCoordinator::editToDo);
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::toDoDetailsPage, vm);
     };
@@ -63,19 +68,19 @@ public slots:
     void addToDo(IEditToDoDelegate * delegate) { editToDo("", delegate); }
 
     void editToDo(QString const & toDoId, IEditToDoDelegate * delegate) {
-        auto vm = unique_unwrap(m_diProvider->editToDoVmInstance(m_toDoService, toDoId, delegate));
+        auto vm = unique_unwrap(m_diProvider->editToDoVmInstance(lazyToDoService(), toDoId, delegate));
         QObject::connect(vm, &EditToDoVM::confirmed, this, &HomeCoordinator::confirmed);
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::editToDoPage, vm);
     };
 
     void showUsersList() {
-        auto vm = unique_unwrap(m_diProvider->usersListVmInstance(m_usersService));
+        auto vm = unique_unwrap(m_diProvider->usersListVmInstance(lazyUsersService()));
         QObject::connect(vm, &UsersListVM::viewUserDetails, this, &HomeCoordinator::showUserDetails);
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::usersListPage, vm);
     };
 
     void showUserDetails(QString const & userId) {
-        auto vm = unique_unwrap(m_diProvider->userDetailsVmInstance(m_usersService, userId));
+        auto vm = unique_unwrap(m_diProvider->userDetailsVmInstance(lazyUsersService(), userId));
         QObject::connect(vm, &UserDetailsVM::showToDo, this, &HomeCoordinator::showToDo);
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::userDetailsPage, vm);
     };

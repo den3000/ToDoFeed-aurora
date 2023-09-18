@@ -71,6 +71,7 @@ HEADERS += \
     src/istartdiprovider.h \
     src/login.h \
     src/loginvm.h \
+    src/pagedestroyedlistener.h \
     src/pagepaths.h \
     src/profileservice.h \
     src/restapi.h \

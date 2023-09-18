@@ -14,11 +14,17 @@ class EditProfileVM : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QObject * parent READ parent WRITE setParent)
-
 signals:
     void authorized();
     void unauthorized();
     void finished();
+    void profileLoaded(
+        bool isEdit,
+        bool isAdmin,
+        QString firstName,
+        QString lastName,
+        QString about
+    );
 
 private:
     shared_ptr<ILoginTokenProvider> m_loginTokenProvider;
@@ -51,14 +57,17 @@ public:
         : QObject(parent)
         , m_logoutTokenProvider { tokenProvider }
         , m_profileService { service }
-        , isAdmin { true }
     { qDebug(); }
 
     ~EditProfileVM() { emit finished(); qDebug(); }
 
-    Q_INVOKABLE bool edit() { return isEditProfile; }
-
-    Q_INVOKABLE bool admin() { return isAdmin; }
+    Q_INVOKABLE void start() {
+        if (isEditProfile) {
+            loadProfile();
+        } else {
+            emit profileLoaded(isEditProfile, isAdmin, "", "", "");
+        }
+    }
 
     Q_INVOKABLE void onConfirm(
             QString const & password,
@@ -110,6 +119,23 @@ private:
         qDebug() << "firstName: " << firstName;
         qDebug() << "lastName: " << lastName;
         qDebug() << "about: " << about;
+    }
+
+    void loadProfile() {
+        resOrErr(m_profileService->getProfile(), this,
+        [this](auto * response) {
+            isAdmin = response->isAdmin;
+            qDebug() << "user: \n" << response->user;
+            emit profileLoaded(
+                isEditProfile,
+                isAdmin,
+                response->user.firstName,
+                response->user.lastName,
+                response->user.about
+            );
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
     }
 };
 

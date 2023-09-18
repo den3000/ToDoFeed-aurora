@@ -4,6 +4,8 @@
 #include "easy_import.h"
 #include "restapi.h"
 
+#include "getprofile.h"
+
 class ProfileService {
     shared_ptr<RestApi> restApi;
     QString token;
@@ -14,15 +16,18 @@ public:
     { qDebug(); };
     ~ProfileService() { qDebug(); };
 
-    void editProfile(){
+    auto * getProfile() {
+        return restApi->execute<GetProfileResponse>(
+            GetProfileRequest(),
+            token
+        );
+    }
+
+    void updateProfile(){
 
     };
 
     void eraseAll(){
-
-    };
-
-    void logout(){
 
     };
 };

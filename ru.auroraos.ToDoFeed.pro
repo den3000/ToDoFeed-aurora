@@ -62,6 +62,7 @@ HEADERS += \
     src/edittodovm.h \
     src/eraseall.h \
     src/getallusers.h \
+    src/getprofile.h \
     src/gettododetails.h \
     src/gettodoslist.h \
     src/getuserdetails.h \

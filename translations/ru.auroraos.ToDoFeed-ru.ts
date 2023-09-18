@@ -12,32 +12,32 @@
 <context>
     <name>EditProfilePage</name>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="18"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="33"/>
         <source>Sign Up Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="16"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="31"/>
         <source>Edit Profile Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="59"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="15"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="61"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="15"/>
         <source>Sign Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="76"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="84"/>
         <source>Log Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="83"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="91"/>
         <source>Erase All</source>
         <translation type="unfinished"></translation>
     </message>

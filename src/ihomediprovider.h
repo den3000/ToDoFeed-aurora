@@ -40,8 +40,8 @@ struct IHomeDiProvider {
     unique_ptr<UsersListVM> usersListVmInstance(shared_ptr<UsersService> service)
         { return make_unique<UsersListVM>(service); }
 
-    unique_ptr<UserDetailsVM> userDetailsVmInstance(shared_ptr<UsersService> service, QString const & userId)
-        { return make_unique<UserDetailsVM>(service, userId); }
+    unique_ptr<UserDetailsVM> userDetailsVmInstance(shared_ptr<UsersService> userService, shared_ptr<ToDosService> toDosService, QString const & userId)
+        { return make_unique<UserDetailsVM>(userService, toDosService, userId); }
 
     unique_ptr<EditProfileVM> editProfileVmInstance(shared_ptr<ProfileService> service)
         { return make_unique<EditProfileVM>(logoutTokenProvider(), service); }

@@ -80,7 +80,7 @@ public slots:
     };
 
     void showUserDetails(QString const & userId) {
-        auto vm = unique_unwrap(m_diProvider->userDetailsVmInstance(lazyUsersService(), userId));
+        auto vm = unique_unwrap(m_diProvider->userDetailsVmInstance(lazyUsersService(), lazyToDoService(), userId));
         QObject::connect(vm, &UserDetailsVM::showToDo, this, &HomeCoordinator::showToDo);
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::userDetailsPage, vm);
     };

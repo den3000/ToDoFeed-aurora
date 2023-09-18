@@ -62,6 +62,13 @@ public:
             token
         );
     };
+
+    auto * getUserToDos(QString const & userId){
+        return restApi->execute<GetToDosListResponse>(
+            GetToDosListRequest(false, userId),
+            token
+        );
+    };
 };
 
 #endif // TODOSSERVICE_H

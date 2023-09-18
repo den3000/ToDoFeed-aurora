@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "usersservice.h"
+#include "todosservice.h"
 
 class UserDetailsVM : public QObject
 {
@@ -15,13 +16,16 @@ signals:
 
 private:
     shared_ptr<UsersService> m_userService;
+    shared_ptr<ToDosService> m_toDosService;
     QString m_userId;
+    vector<ToDoDto> m_todos;
 
 public:
     explicit UserDetailsVM(QObject *parent = nullptr): QObject(parent) { qDebug(); };
-    explicit UserDetailsVM(shared_ptr<UsersService> userService, QString const & userId, QObject *parent = nullptr)
+    explicit UserDetailsVM(shared_ptr<UsersService> userService, shared_ptr<ToDosService> toDosService, QString const & userId, QObject *parent = nullptr)
         : QObject(parent)
         , m_userService { userService }
+        , m_toDosService { toDosService }
         , m_userId { userId }
     { qDebug(); };
     ~UserDetailsVM() { qDebug(); }
@@ -42,7 +46,15 @@ private:
     }
 
     void loadUserToDos() {
-
+        resOrErr(m_toDosService->getUserToDos(m_userId), this,
+        [this](auto * response) {
+            m_todos = move(response->todos);
+            for(ToDoDto & toDo : m_todos) {
+                qDebug() << "todo: " << toDo;
+            }
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
     }
 };
 

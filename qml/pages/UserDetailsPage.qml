@@ -26,11 +26,13 @@ Page {
             title: headerTitle
         }
         delegate: ToDoItem {
-            toDoTitle: qsTr("ToDo %1").arg(model.index + 1)
-            toDoStatus: "In Progress"
-            onClicked: { viewModel.showToDo(qsTr("toDoId_%1").arg(model.index + 1)) }
+            toDoTitle: model.title
+            toDoStatus: model.status
+            userId: model.userId
+            visibility: model.visibility
+            onClicked: { viewModel.showToDo(model.toDoId) }
         }
-        model: 17
+        model: viewModel
         VerticalScrollDecorator { }
     }
 }

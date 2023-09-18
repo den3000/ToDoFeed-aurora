@@ -54,6 +54,7 @@ public:
     }
     
     // QAbstractItemModel interface
+    // TODO: extract into separate class
     int rowCount(const QModelIndex &) const override { return m_todos.size(); }
 
     QVariant data(const QModelIndex &index, int role) const override {

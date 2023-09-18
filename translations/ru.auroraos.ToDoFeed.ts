@@ -140,19 +140,6 @@
     </message>
 </context>
 <context>
-    <name>UserDetailsPage</name>
-    <message>
-        <location filename="../qml/pages/UserDetailsPage.qml" line="29"/>
-        <source>ToDo %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/UserDetailsPage.qml" line="31"/>
-        <source>toDoId_%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>UsersListPage</name>
     <message>
         <location filename="../qml/pages/UsersListPage.qml" line="17"/>

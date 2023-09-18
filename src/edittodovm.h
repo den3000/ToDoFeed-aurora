@@ -13,8 +13,13 @@ class EditToDoVM : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QObject * parent READ parent WRITE setParent)
-
 signals:
+    void toDoDetailsLoaded(
+        QString title,
+        QString description,
+        int statusIdx,
+        int visibilityIdx
+    );
     void confirmed();
 
 private:
@@ -32,12 +37,9 @@ public:
     { qDebug(); };
     ~EditToDoVM() { qDebug(); }
 
-    Q_INVOKABLE bool isEdit() { return !m_toDoId.isEmpty(); }
+    Q_INVOKABLE void start() { loadToDoDetails(); }
 
-    Q_INVOKABLE QString title() { return "title " + m_toDoId; }
-    Q_INVOKABLE QString details() { return "details " + m_toDoId; }
-    Q_INVOKABLE QString status() { return "status " + m_toDoId; }
-    Q_INVOKABLE QString visibility() { return "visibility " + m_toDoId; }
+    Q_INVOKABLE bool isEdit() { return !m_toDoId.isEmpty(); }
 
     Q_INVOKABLE void confirm(
         QString const & title,
@@ -45,31 +47,37 @@ public:
         int statusIdx,
         int visibilityIdx
     ) {
-        ToDoDto::Status status;
-        switch(statusIdx) {
-            case 1: status = ToDoDto::Status::Todo; break;
-            case 2: status = ToDoDto::Status::InProgress; break;
-            case 3: status = ToDoDto::Status::Done; break;
-            default: status = ToDoDto::Status::Todo; break;
-        }
+        auto status = ToDoDto::statusFromIdx(statusIdx);
+        auto visibility = ToDoDto::visibilityFromIdx(visibilityIdx);
 
-        ToDoDto::Visibility visibility;
-        switch(visibilityIdx) {
-            case 1: visibility = ToDoDto::Visibility::Own; break;
-            case 2: visibility = ToDoDto::Visibility::ForAll; break;
-            default: visibility = ToDoDto::Visibility::Own; break;
-        }
+        if (!status.has_value() || !visibility.has_value()) { return; }
 
         if(m_toDoId.isEmpty()) {
-            addToDo(title, details, status, visibility);
+            addToDo(title, details, status.value(), visibility.value());
         } else {
-            editToDo(title, details, status, visibility);
+            editToDo(title, details, status.value(), visibility.value());
         }
-
-        
-
     };
+
 private:
+    void loadToDoDetails() {
+        if (m_toDoId.isEmpty()) { return; }
+
+        resOrErr(m_service->getToDoDetails(m_toDoId), this,
+        [this](auto * response) {
+            qDebug() << "get todo details";
+            qDebug() << "todo" << response->toDo;
+            emit toDoDetailsLoaded(
+                response->toDo.title,
+                response->toDo.description,
+                response->toDo.statusIdx(),
+                response->toDo.visibilityIdx()
+            );
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
+    };
+
     void addToDo(QString const & title,
                  QString const & details,
                  ToDoDto::Status status,

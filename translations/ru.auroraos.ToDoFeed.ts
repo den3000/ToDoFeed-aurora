@@ -45,30 +45,27 @@
 <context>
     <name>EditToDoPage</name>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="13"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="17"/>
+        <source>s: %1 v: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditToDoPage.qml" line="28"/>
         <source>Edit ToDo Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="15"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="30"/>
         <source>Add ToDo Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="29"/>
-        <location filename="../qml/pages/EditToDoPage.qml" line="35"/>
-        <location filename="../qml/pages/EditToDoPage.qml" line="41"/>
-        <location filename="../qml/pages/EditToDoPage.qml" line="56"/>
-        <source>%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="49"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="61"/>
         <source>new status index: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditToDoPage.qml" line="63"/>
+        <location filename="../qml/pages/EditToDoPage.qml" line="74"/>
         <source>new visibility index: %1</source>
         <translation type="unfinished"></translation>
     </message>

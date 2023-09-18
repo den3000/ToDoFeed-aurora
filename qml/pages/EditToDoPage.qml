@@ -4,7 +4,22 @@ import CustomCppClasses.Module 1.0
 
 Page {
     property EditToDoVM viewModel
-    onViewModelChanged: viewModel.parent = this
+    onViewModelChanged: {
+        viewModel.parent = this
+        viewModel.start()
+    }
+
+    Connections {
+        target: viewModel
+        onToDoDetailsLoaded: {
+            tfTitle.text = title
+            tfDesciption.text = description
+            console.log(qsTr("s: %1 v: %2").arg(statusIdx).arg(visibilityIdx))
+            cbStatus.currentIndex = statusIdx
+            cbVisibility.currentIndex = visibilityIdx
+        }
+    }
+
     allowedOrientations: Orientation.All
 
     PageHeader {
@@ -26,19 +41,16 @@ Page {
         TextField {
             id: tfTitle
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: qsTr("%1").arg(viewModel.title())
         }
 
         TextEdit {
             id: tfDesciption
             anchors { left: parent.left; right: parent.right; margins: 2 * Theme.horizontalPageMargin }
-            text: qsTr("%1").arg(viewModel.details())
         }
 
         ComboBox {
             id: cbStatus
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            label: qsTr("%1").arg(viewModel.status())
             menu: ContextMenu {
                 anchors { left: parent.left; right: parent.right; margins: 0 }
                 MenuItem { text: "ToDo" }
@@ -53,7 +65,6 @@ Page {
         ComboBox {
             id: cbVisibility
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            label: qsTr("%1").arg(viewModel.visibility())
             menu: ContextMenu {
                 anchors { left: parent.left; right: parent.right; margins: 0 }
                 MenuItem { text: "Own" }

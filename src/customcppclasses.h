@@ -1,7 +1,9 @@
 #ifndef CUSTOMCPPCLASSES_H
 #define CUSTOMCPPCLASSES_H
 
-#include "QtQuick"
+#include <QtQuick>
+
+#include "pagedestroyedlistener.h"
 #include "restapitestvm.h"
 #include "startvm.h"
 #include "loginvm.h"
@@ -14,6 +16,8 @@
 
 namespace CustomCppClasses {
     void registerModuleInQml() {
+        qmlRegisterType<PageDestroyedListener>("CustomCppClasses.Module", 1, 0, "PageDestroyedListener");
+        qmlRegisterType<PageDestroyedEmitter>("CustomCppClasses.Module", 1, 0, "PageDestroyedEmitter");
         qmlRegisterType<RestApiTestVM>("CustomCppClasses.Module", 1, 0, "RestApiTestVM");
         qmlRegisterType<StartVM>("CustomCppClasses.Module", 1, 0, "StartVM");
         qmlRegisterType<LoginVM>("CustomCppClasses.Module", 1, 0, "LoginVM");

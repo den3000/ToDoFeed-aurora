@@ -6,7 +6,6 @@
 
 struct EditProfileRequest: public RestApiRequest {
 
-    QString password;
     QString firstName;
     QString lastName;
     QString about;
@@ -15,12 +14,12 @@ struct EditProfileRequest: public RestApiRequest {
 
     RestReqType reqType() const override { return RestReqType::POST; };
 
-    EditProfileRequest( QString firstName,
-            QString lastName,
-            QString about)
-        : firstName { move(firstName) }
-        , lastName { move(lastName) }
-        , about { move(about) }
+    EditProfileRequest(QString const & firstName,
+            QString const & lastName,
+            QString const & about)
+        : firstName { firstName }
+        , lastName { lastName }
+        , about { about }
     {};
 
     void fill(QJsonObject &jo) const override {

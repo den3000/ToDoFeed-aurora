@@ -2,29 +2,46 @@
 #define PROFILESERVICE_H
 
 #include "easy_import.h"
+#include "itokenvalueprovider.h"
 #include "restapi.h"
+
+#include "getprofile.h"
+#include "eraseall.h"
+#include "editprofile.h"
 
 class ProfileService {
     shared_ptr<RestApi> restApi;
-    QString token;
+    shared_ptr<ITokenValueProvider> tokenValueProvider;
 public:
-    explicit ProfileService(shared_ptr<RestApi> restApi, QString const & token)
+    explicit ProfileService(shared_ptr<RestApi> restApi, shared_ptr<ITokenValueProvider> tokenValueProvider)
         : restApi { restApi }
-        , token { token }
-    { qDebug(); };
-    ~ProfileService() { qDebug(); };
+        , tokenValueProvider { tokenValueProvider }
+    { qDebug(); }
+    ~ProfileService() { qDebug(); }
 
-    void editProfile(){
+    auto * getProfile() {
+        return restApi->execute<GetProfileResponse>(
+            GetProfileRequest(),
+            tokenValueProvider->tokenValue()
+        );
+    }
 
-    };
+    auto * updateProfile(QString const & firstName,
+                         QString const & lastName,
+                         QString const & about
+    ) {
+        return restApi->execute<EditProfileResponse>(
+            EditProfileRequest(firstName, lastName, about),
+            tokenValueProvider->tokenValue()
+        );
+    }
 
-    void eraseAll(){
-
-    };
-
-    void logout(){
-
-    };
+    auto * eraseAll() {
+        return restApi->execute<EraseAllResponse>(
+            EraseAllRequest(),
+            tokenValueProvider->tokenValue()
+        );
+    }
 };
 
 #endif // PROFILESERVICE_H

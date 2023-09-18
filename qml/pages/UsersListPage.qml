@@ -4,7 +4,11 @@ import CustomCppClasses.Module 1.0
 
 Page {
     property UsersListVM viewModel
-    onViewModelChanged: viewModel.parent = this
+    onViewModelChanged: {
+        viewModel.parent = this
+        viewModel.start()
+    }
+
     allowedOrientations: Orientation.All
 
     SilicaListView {
@@ -15,16 +19,16 @@ Page {
         delegate: ListItem {
             Label {
                 id: label
-                text: qsTr("User %1").arg(model.index + 1)
+                text: model.title
                 anchors.verticalCenter: parent.verticalCenter
                 x: Theme.horizontalPageMargin
                 color: Theme.primaryColor
             }
             onClicked: {
-                viewModel.viewUserDetails(qsTr("userId_%1").arg(model.index + 1))
+                viewModel.viewUserDetails(model.userId)
             }
         }
-        model: 17
+        model: viewModel
         VerticalScrollDecorator { }
     }
 }

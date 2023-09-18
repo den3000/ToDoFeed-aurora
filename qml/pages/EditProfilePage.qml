@@ -6,18 +6,25 @@ Page {
     property EditProfileVM viewModel
     onViewModelChanged: viewModel.parent = this
 
-    objectName: "signupPage"
+    Connections {
+        target: viewModel
+        onProfileLoaded: {
+            pageHeader.title = isEdit ? qsTr("Edit Profile Page") : qsTr("Sign Up Page")
+            btConfirm.text = isEdit ? qsTr("Update") : qsTr("Sign Up")
+            btLogout.visible = isEdit
+            btEraseAll.visible = isAdmin
+            tfPassword.visible = !isEdit
+            tfFirstName.text = firstName
+            tfLastName.text = lastName
+            tfAbout.text = about
+        }
+    }
+
     allowedOrientations: Orientation.All
 
     PageHeader {
+        id: pageHeader
         objectName: "pageHeader"
-        title: {
-            if (viewModel.edit()) {
-                return qsTr("Edit Profile Page")
-            } else {
-                return qsTr("Sign Up Page")
-            }
-        }
     }
 
     Column {
@@ -26,12 +33,10 @@ Page {
         spacing: 16
         anchors.centerIn: parent
 
-
         TextField {
             id: tfPassword
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             placeholderText: "Password"
-            visible: !viewModel.edit()
         }
 
         TextField {
@@ -53,14 +58,8 @@ Page {
         }
 
         Button {
+            id: btConfirm
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: {
-                if (viewModel.edit()) {
-                    return qsTr("Update")
-                } else {
-                    return qsTr("Sign Up")
-                }
-            }
             onClicked: {
                 viewModel.onConfirm(
                     tfPassword.text,
@@ -72,17 +71,32 @@ Page {
         }
 
         Button {
+            id: btLogout
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: qsTr("Log Out")
             onClicked: { viewModel.onLogOut() }
-            visible: viewModel.edit()
         }
 
         Button {
+            id: btEraseAll
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: qsTr("Erase All")
             onClicked: { viewModel.onEraseAll() }
-            visible: viewModel.admin()
+        }
+    }
+
+
+    onStatusChanged: {
+        switch (status) {
+        case PageStatus.Inactive:
+            return console.log("Inactive");
+        case PageStatus.Activating:
+            viewModel.start()
+            return console.log("Activating");
+        case PageStatus.Active:
+            return console.log("Active");
+        case PageStatus.Deactivating:
+            return console.log("Deactivating");
         }
     }
 }

@@ -61,16 +61,20 @@ HEADERS += \
     src/edittodo.h \
     src/edittodovm.h \
     src/eraseall.h \
-    src/getalltodos.h \
     src/getallusers.h \
-    src/getmytodos.h \
+    src/getprofile.h \
+    src/gettododetails.h \
+    src/gettodoslist.h \
+    src/getuserdetails.h \
     src/homecoordinator.h \
     src/ihomediprovider.h \
     src/ilogintokenprovider.h \
     src/ilogouttokenprovider.h \
     src/istartdiprovider.h \
+    src/itokenvalueprovider.h \
     src/login.h \
     src/loginvm.h \
+    src/pagedestroyedlistener.h \
     src/pagepaths.h \
     src/profileservice.h \
     src/restapi.h \

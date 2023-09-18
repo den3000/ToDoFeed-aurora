@@ -5,7 +5,7 @@
 
 struct ToDoDto
 {
-    // TODO: improve enums handling
+    // TODO: improve enums handling with variants
     enum class Status { Todo, InProgress, Done };
     enum class Visibility { Own, ForAll };
 
@@ -28,7 +28,14 @@ struct ToDoDto
             return nullopt;
         }
     }
-
+    static optional<ToDoDto::Status> statusFromIdx(int index) {
+        switch(index) {
+            case 0: return ToDoDto::Status::Todo;
+            case 1: return ToDoDto::Status::InProgress;
+            case 2: return ToDoDto::Status::Done;
+            default: return nullopt;
+        }
+    }
     static QString visibility_to_string(ToDoDto::Visibility status) {
         switch (status) {
         case ToDoDto::Visibility::Own: return "private"; break;
@@ -43,6 +50,13 @@ struct ToDoDto
             return ToDoDto::Visibility::Own;
         } else {
             return nullopt;
+        }
+    }
+    static optional<ToDoDto::Visibility> visibilityFromIdx(int index) {
+        switch(index) {
+        case 0: return ToDoDto::Visibility::Own;
+        case 1: return ToDoDto::Visibility::ForAll;
+        default: return nullopt;
         }
     }
 
@@ -81,6 +95,30 @@ struct ToDoDto
         , visibility { parse_visibility(json["visibility"]) }
     {};
 
+    QString statusStr() const { return status != nullopt ? status_to_string(status.value()) : "undefined"; }
+    int statusIdx() const {
+        if (status.has_value()) {
+            switch(status.value()) {
+                case ToDoDto::Status::Todo: return 0;
+                case ToDoDto::Status::InProgress: return 1;
+                case ToDoDto::Status::Done: return 2;
+            }
+        } else {
+            return -1;
+        }
+    }
+
+    QString visibilityStr() const { return visibility != nullopt ? visibility_to_string(visibility.value()) : "undefined"; }
+    int visibilityIdx() const {
+        if (visibility.has_value()) {
+            switch(visibility.value()) {
+            case  ToDoDto::Visibility::Own: return 0;
+            case  ToDoDto::Visibility::ForAll: return 1;
+            }
+        } else {
+            return -1;
+        }
+    }
     friend QDebug & operator<<(QDebug & d, ToDoDto const & dto) {
         // TODO: Improve this
         QString statStr;

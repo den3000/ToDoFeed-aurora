@@ -13,27 +13,40 @@ class LoginVM : public QObject
     Q_OBJECT
     Q_PROPERTY(QObject * parent READ parent WRITE setParent)
 
+signals:
+    void authorized();
+
+private:
     shared_ptr<ILoginTokenProvider> m_tokenProvider;
     shared_ptr<StartService> m_service;
 
 public:
-    explicit LoginVM(QObject *parent = nullptr): QObject(parent) { qDebug(); };
-    explicit LoginVM(shared_ptr<ILoginTokenProvider> tokenProvider, shared_ptr<StartService> service, QObject *parent = nullptr)
+    explicit LoginVM(QObject *parent = nullptr): QObject(parent) { qDebug(); }
+    explicit LoginVM(
+            shared_ptr<ILoginTokenProvider> tokenProvider,
+            shared_ptr<StartService> service,
+            QObject *parent = nullptr
+    )
         : QObject(parent)
         , m_tokenProvider { tokenProvider }
         , m_service { service }
-    { qDebug(); };
+    { qDebug(); }
 
-    ~LoginVM() { qDebug(); };
+    ~LoginVM() { qDebug(); }
 
     Q_INVOKABLE void loginPressed(QString const & password) {
-        qDebug () << "password: " << password;
-        m_tokenProvider->login("login_token_value");
-        emit authorized();
-    };
+        resOrErr(m_service->login(password), this,
+        [this](auto * response){
+            qDebug() << "log in";
+            qDebug() << "user: token" << response->token;
+            qDebug() << "user\n" << response->user;
 
-signals:
-    void authorized();
+            m_tokenProvider->login(response->token);
+            emit authorized();
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
+    }
 };
 
 #endif // LOGINVM_H

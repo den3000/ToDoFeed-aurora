@@ -15,14 +15,14 @@ struct SignUpRequest: public RestApiRequest {
 
     RestReqType reqType() const override { return RestReqType::POST; };
 
-    SignUpRequest(QString password,
-            QString firstName,
-            QString lastName,
-            QString about)
-        : password { move(password) }
-        , firstName { move(firstName) }
-        , lastName { move(lastName) }
-        , about { move(about) }
+    SignUpRequest(QString const & password,
+            QString const & firstName,
+            QString const & lastName,
+            QString const & about)
+        : password { password }
+        , firstName { firstName }
+        , lastName { lastName }
+        , about { about }
     {};
 
     void fill(QJsonObject &jo) const override {

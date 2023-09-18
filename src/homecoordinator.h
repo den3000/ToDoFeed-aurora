@@ -11,16 +11,14 @@ class HomeCoordinator : public QObject
     Q_OBJECT
 
     shared_ptr<QQuickItem> m_pageStackCppWrapper;
-
     shared_ptr<IHomeDiProvider> m_diProvider;
 
     shared_ptr<ToDosService> m_toDoService;
     shared_ptr<UsersService> m_usersService;
+
     shared_ptr<ProfileService> m_profileService;
     shared_ptr<ProfileService> lazyProfileService() {
-        if(!m_profileService) {
-            m_profileService = m_diProvider->profileServiceInstance();
-        }
+        if(!m_profileService) { m_profileService = m_diProvider->profileServiceInstance(); }
         return m_profileService;
     };
 
@@ -29,8 +27,8 @@ public:
         : QObject(parent)
         , m_pageStackCppWrapper { pageStackCppWrapper }
         , m_diProvider { diProvider }
-        , m_toDoService { m_diProvider->todosServiceInstance() }
-        , m_usersService { m_diProvider->usersServiceInstance() }
+        , m_toDoService { diProvider->todosServiceInstance() }
+        , m_usersService { diProvider->usersServiceInstance() }
     { qDebug(); };
 
     ~HomeCoordinator() { qDebug(); };
@@ -75,7 +73,7 @@ public slots:
     };
 
     void showUserDetails(QString const & userId) {
-        auto vm = unique_unwrap(m_diProvider->userDetailsVmInstance(m_usersService, userId));
+        auto vm = unique_unwrap(m_diProvider->userDetailsVmInstance(m_usersService, m_toDoService, userId));
         QObject::connect(vm, &UserDetailsVM::showToDo, this, &HomeCoordinator::showToDo);
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::userDetailsPage, vm);
     };
@@ -83,11 +81,12 @@ public slots:
     void showSettings() {
         auto vm = unique_unwrap(m_diProvider->editProfileVmInstance(lazyProfileService()));
         QObject::connect(vm, &EditProfileVM::unauthorized, this, &HomeCoordinator::logout);
+        QObject::connect(vm, &EditProfileVM::finished, this, &HomeCoordinator::finishedSettings);
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::editProfilePage, vm);
     };
 
-    void confirmed() {
-        Smoozy::popPage(m_pageStackCppWrapper.get());
-    };
+    void finishedSettings() { qDebug(); };
+
+    void confirmed() { Smoozy::popPage(m_pageStackCppWrapper.get()); };
 };
 #endif // HOMECOORDINATOR_H

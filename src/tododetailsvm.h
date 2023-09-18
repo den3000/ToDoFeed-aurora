@@ -11,9 +11,18 @@ class ToDoDetailsVM : public QObject, public IEditToDoDelegate
 {
     Q_OBJECT
     Q_PROPERTY(QObject * parent READ parent WRITE setParent)
+signals:
+    void editToDo(QString const & toDoId, IEditToDoDelegate * delegate);
+    void toDoDetailsLoaded(
+        QString title,
+        QString description,
+        QString status,
+        QString visibility,
+        bool isEditable
+    );
 
+private:
     shared_ptr<ToDosService> m_service;
-
     QString m_toDoId;
 
 public:
@@ -25,22 +34,30 @@ public:
     { qDebug(); };
     ~ToDoDetailsVM() { qDebug(); }
 
-    Q_INVOKABLE QString title() { return "title" + m_toDoId; }
-    Q_INVOKABLE QString details() { return "details " + m_toDoId; }
-    Q_INVOKABLE QString status() { return "status " + m_toDoId; }
-    Q_INVOKABLE QString visibility() { return "visibility " + m_toDoId; }
+    Q_INVOKABLE void start() { loadToDoDetails(); }
 
-    Q_INVOKABLE void onEditToDo() {
-        emit editToDo(m_toDoId, this);
-    };
+    Q_INVOKABLE void onEditToDo() { emit editToDo(m_toDoId, this); };
 
     // IEditToDoDelegate interface
-    void onFinished(const QString &toDoId) override {
-        Q_UNUSED(toDoId)
-        qDebug();
-    }
-signals:
-    void editToDo(QString const & toDoId, IEditToDoDelegate * delegate);
+    void onFinished(const QString &) override { loadToDoDetails(); }
+
+private:
+    void loadToDoDetails() {
+        resOrErr(m_service->getToDoDetails(m_toDoId), this,
+        [this](auto * response) {
+            qDebug() << "get todo details";
+            qDebug() << "todo" << response->toDo;
+            emit toDoDetailsLoaded(
+                response->toDo.title,
+                response->toDo.description,
+                response->toDo.statusStr(),
+                response->toDo.visibilityStr(),
+                response->isEditable
+            );
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
+    };
 };
 
 #endif // TODODETAILSVM_H

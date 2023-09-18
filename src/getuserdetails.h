@@ -1,43 +1,40 @@
-#ifndef LOGIN_H
-#define LOGIN_H
+#ifndef GETUSERDETAILS_H
+#define GETUSERDETAILS_H
 
 #include "restapitypes.h"
 #include "userdto.h"
 
-struct LogInRequest: public RestApiRequest {
+struct GetUserDetailsRequest: public RestApiRequest {
 
-    QString password;
+    QString userId;
 
-    QString endpoint() const override { return "/login"; };
+    QString endpoint() const override { return "/get_user_details"; };
 
     RestReqType reqType() const override { return RestReqType::POST; };
 
-    LogInRequest(QString const & password)
-        : password { password }
-    {};
+    GetUserDetailsRequest(QString const & userId)
+        : userId { userId }
+    {}
 
     void fill(QJsonObject &jo) const override {
-        jo["password"] = password;
+        jo["userId"] = userId;
     };
 };
 
-struct LogInResponse: public RestApiResponse {
+struct GetUserDetailsResponse: public RestApiResponse {
     UserDto user;
-    QString token;
-    QString errorMsg;
+    QString errorMsg = "";
 
     // required to make it work with variant
-    explicit LogInResponse(){};
+    explicit GetUserDetailsResponse() {};
 
     bool parse(const QJsonDocument &jd) override {
-        auto jo= jd.object();
+        auto jo = jd.object();
         if (jo.isEmpty()) { return false; }
         if (jo.contains("error")) {
             errorMsg = jo["error"].toString();
             return false;
         }
-
-        token = jo["token"].toString();
         user = UserDto(jo);
         return true;
     }
@@ -45,4 +42,4 @@ struct LogInResponse: public RestApiResponse {
     QString const & error() const override { return errorMsg; }
 };
 
-#endif // LOGIN_H
+#endif // GETUSERDETAILS_H

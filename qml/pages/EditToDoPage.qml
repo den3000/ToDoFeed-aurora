@@ -4,7 +4,21 @@ import CustomCppClasses.Module 1.0
 
 Page {
     property EditToDoVM viewModel
-    onViewModelChanged: viewModel.parent = this
+    onViewModelChanged: {
+        viewModel.parent = this
+        viewModel.start()
+    }
+
+    Connections {
+        target: viewModel
+        onToDoDetailsLoaded: {
+            tfTitle.text = title
+            tfDesciption.text = description
+            cbStatus.currentIndex = statusIdx
+            cbVisibility.currentIndex = visibilityIdx
+        }
+    }
+
     allowedOrientations: Orientation.All
 
     PageHeader {
@@ -24,19 +38,18 @@ Page {
         anchors.centerIn: parent
 
         TextField {
+            id: tfTitle
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            text: qsTr("%1").arg(viewModel.title())
         }
 
         TextEdit {
+            id: tfDesciption
             anchors { left: parent.left; right: parent.right; margins: 2 * Theme.horizontalPageMargin }
-            text: qsTr("%1").arg(viewModel.details())
         }
 
         ComboBox {
             id: cbStatus
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            label: qsTr("%1").arg(viewModel.status())
             menu: ContextMenu {
                 anchors { left: parent.left; right: parent.right; margins: 0 }
                 MenuItem { text: "ToDo" }
@@ -51,7 +64,6 @@ Page {
         ComboBox {
             id: cbVisibility
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
-            label: qsTr("%1").arg(viewModel.visibility())
             menu: ContextMenu {
                 anchors { left: parent.left; right: parent.right; margins: 0 }
                 MenuItem { text: "Own" }
@@ -65,7 +77,12 @@ Page {
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Confirm"
-            onClicked: { viewModel.confirm() }
+            onClicked: { viewModel.confirm(
+                tfTitle.text,
+                tfDesciption.text,
+                cbStatus.currentIndex,
+                cbVisibility.currentIndex
+            )}
         }
     }
 }

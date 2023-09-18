@@ -5,12 +5,18 @@
 
 #include "usersservice.h"
 
+#include "userdto.h"
+
 class UsersListVM : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QObject * parent READ parent WRITE setParent)
+signals:
+    void viewUserDetails(QString userId);
 
+private:
     shared_ptr<UsersService> m_service;
+    vector<UserDto> m_users;
 
 public:
     explicit UsersListVM(QObject *parent = nullptr): QObject(parent) { qDebug(); };
@@ -20,8 +26,23 @@ public:
     { qDebug(); };
     ~UsersListVM() { qDebug(); }
 
-signals:
-    void viewUserDetails(QString userId);
+    Q_INVOKABLE void start() {
+        loadUsers();
+    }
+
+private:
+    void loadUsers() {
+        resOrErr(m_service->getUsers(), this,
+        [this](auto * response) {
+            qDebug() << "get all users";
+            m_users = move(response->users);
+            for(UserDto const & user : m_users) {
+                qDebug() << "user\n" << user << "\n";
+            }
+        }, [](auto * error){
+            Q_UNUSED(error)
+        });
+    }
 };
 
 

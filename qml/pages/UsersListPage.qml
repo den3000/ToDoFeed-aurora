@@ -4,7 +4,11 @@ import CustomCppClasses.Module 1.0
 
 Page {
     property UsersListVM viewModel
-    onViewModelChanged: viewModel.parent = this
+    onViewModelChanged: {
+        viewModel.parent = this
+        viewModel.start()
+    }
+
     allowedOrientations: Orientation.All
 
     SilicaListView {

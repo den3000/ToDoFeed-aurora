@@ -19,7 +19,6 @@ signals:
     void visibilityChanged(bool isOwn);
 
 private:
-
     shared_ptr<ToDosService> m_service;
     bool isOwn = true;
     vector<ToDoDto> m_todos;

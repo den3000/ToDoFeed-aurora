@@ -4,6 +4,8 @@
 #include "easy_import.h"
 #include "restapi.h"
 
+#include "getallusers.h"
+
 class UsersService {
     shared_ptr<RestApi> restApi;
     QString token;
@@ -14,7 +16,14 @@ public:
     { qDebug(); };
     ~UsersService() { qDebug(); }
 
-    void getUsers(){
+    auto * getUsers(){
+        return restApi->execute<GetAllUsersResponse>(
+            GetAllUsersRequest(),
+            token
+        );
+    };
+
+    void getUserDetails(){
 
     };
 };

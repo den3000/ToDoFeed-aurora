@@ -1,13 +1,13 @@
 #ifndef USERSLISTVM_H
 #define USERSLISTVM_H
 
-#include <QObject>
+#include <QAbstractListModel>
 
 #include "usersservice.h"
 
 #include "userdto.h"
 
-class UsersListVM : public QObject
+class UsersListVM : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QObject * parent READ parent WRITE setParent)
@@ -19,9 +19,15 @@ private:
     vector<UserDto> m_users;
 
 public:
-    explicit UsersListVM(QObject *parent = nullptr): QObject(parent) { qDebug(); };
+    enum ToDoRoles {
+        Title = Qt::UserRole + 1,
+        UserId = Qt::UserRole + 2,
+    };
+    Q_ENUM(ToDoRoles)
+
+    explicit UsersListVM(QObject *parent = nullptr): QAbstractListModel(parent) { qDebug(); };
     explicit UsersListVM(shared_ptr<UsersService> service, QObject *parent = nullptr)
-        : QObject(parent)
+        : QAbstractListModel(parent)
         , m_service { service }
     { qDebug(); };
     ~UsersListVM() { qDebug(); }
@@ -30,15 +36,33 @@ public:
         loadUsers();
     }
 
+    // QAbstractItemModel interface
+    int rowCount(const QModelIndex &) const override { return m_users.size(); }
+
+    QVariant data(const QModelIndex &index, int role) const override {
+        if(!index.isValid()) return QVariant();
+        switch (role) {
+        case Title: return QVariant(m_users[index.row()].fullName()); break;
+        case UserId: return QVariant(m_users[index.row()].id); break;
+        }
+        return QVariant();
+    }
+
+    QHash<int, QByteArray> roleNames() const override {
+        QHash<int, QByteArray> roles;
+        roles[Title] = "title";
+        roles[UserId] = "userId";
+        return roles;
+    }
+
 private:
     void loadUsers() {
         resOrErr(m_service->getUsers(), this,
         [this](auto * response) {
             qDebug() << "get all users";
+            beginResetModel();
             m_users = move(response->users);
-            for(UserDto const & user : m_users) {
-                qDebug() << "user\n" << user << "\n";
-            }
+            endResetModel();
         }, [](auto * error){
             Q_UNUSED(error)
         });

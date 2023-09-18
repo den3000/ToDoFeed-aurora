@@ -32,6 +32,8 @@ struct UserDto
         , about { json["about"].toString() }
     {};
 
+    QString fullName() const { return firstName + " " + lastName; }
+
     friend QDebug & operator<<(QDebug & d, UserDto const & dto) {
         d << "id: " << dto.id << "\n"
             << "firstName: " << dto.firstName << "\n"

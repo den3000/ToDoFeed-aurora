@@ -168,18 +168,8 @@
 <context>
     <name>UsersListPage</name>
     <message>
-        <location filename="../qml/pages/UsersListPage.qml" line="13"/>
+        <location filename="../qml/pages/UsersListPage.qml" line="17"/>
         <source>Users List Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/UsersListPage.qml" line="18"/>
-        <source>User %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/UsersListPage.qml" line="24"/>
-        <source>userId_%1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

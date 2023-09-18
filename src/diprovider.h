@@ -30,7 +30,7 @@ public:
     shared_ptr<ILoginTokenProvider> loginTokenProvider() override { return m_appDataProvider; };
 
     // IHomeDiProvider interface
-    virtual QString token() override { return m_appDataProvider.get()->token(); }
+    shared_ptr<ITokenValueProvider> tokenValueProvider() override { return m_appDataProvider; }
     shared_ptr<ILogoutTokenProvider> logoutTokenProvider() override { return m_appDataProvider; };
 };
 

@@ -3,6 +3,7 @@
 
 #include "easy_import.h"
 
+#include "itokenvalueprovider.h"
 #include "ilogouttokenprovider.h"
 #include "restapi.h"
 
@@ -20,13 +21,13 @@
 struct IHomeDiProvider {
     // provide
     unique_ptr<ToDosService> todosServiceInstance()
-        { return make_unique<ToDosService>(restApi(), token()); }
+        { return make_unique<ToDosService>(restApi(), tokenValueProvider()); }
 
     unique_ptr<UsersService> usersServiceInstance()
-        { return make_unique<UsersService>(restApi(), token()); }
+        { return make_unique<UsersService>(restApi(), tokenValueProvider()); }
 
     unique_ptr<ProfileService> profileServiceInstance()
-        { return make_unique<ProfileService>(restApi(), token()); }
+        { return make_unique<ProfileService>(restApi(), tokenValueProvider()); }
 
     unique_ptr<ToDoListVM> toDoListVmInstance(shared_ptr<ToDosService> service)
         { return make_unique<ToDoListVM>(service); }
@@ -47,10 +48,10 @@ struct IHomeDiProvider {
         { return make_unique<EditProfileVM>(logoutTokenProvider(), service); }
 
     // require
-    virtual shared_ptr<ILogoutTokenProvider> logoutTokenProvider() = 0;
 protected:
     virtual shared_ptr<RestApi> restApi() = 0;
-    virtual QString token() = 0;
+    virtual shared_ptr<ILogoutTokenProvider> logoutTokenProvider() = 0;
+    virtual shared_ptr<ITokenValueProvider> tokenValueProvider() = 0;
 };
 
 #endif // IHOMEDIPROVIDER_H

@@ -71,6 +71,7 @@ HEADERS += \
     src/ilogintokenprovider.h \
     src/ilogouttokenprovider.h \
     src/istartdiprovider.h \
+    src/itokenvalueprovider.h \
     src/login.h \
     src/loginvm.h \
     src/pagedestroyedlistener.h \

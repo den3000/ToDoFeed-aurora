@@ -5,6 +5,7 @@
 
 #include "easy_import.h"
 
+#include "itokenvalueprovider.h"
 #include "ilogintokenprovider.h"
 #include "ilogouttokenprovider.h"
 
@@ -20,13 +21,15 @@ struct IApiUrlProvider{
 
 class AppDataProvider:
         public ILoginStateProvider,
+        public ITokenValueProvider,
         public ILoginTokenProvider,
         public ILogoutTokenProvider,
         public IApiUrlProvider
 {
 public:
 
-    QString token() { return Smoozy::settings().value("token").toString(); };
+    // ITokenValueProvider interface
+    QString tokenValue() override { return Smoozy::settings().value("token").toString(); };
 
     // ILoginStateProvider interface
     bool isLoggedIn() override { return Smoozy::settings().contains("token"); };

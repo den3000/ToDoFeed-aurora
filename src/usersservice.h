@@ -2,6 +2,7 @@
 #define USERSSERVICE_H
 
 #include "easy_import.h"
+#include "itokenvalueprovider.h"
 #include "restapi.h"
 
 #include "getallusers.h"
@@ -9,25 +10,25 @@
 
 class UsersService {
     shared_ptr<RestApi> restApi;
-    QString token;
+    shared_ptr<ITokenValueProvider> tokenValueProvider;
 public:
-    UsersService(shared_ptr<RestApi> restApi, QString const & token)
+    UsersService(shared_ptr<RestApi> restApi, shared_ptr<ITokenValueProvider> tokenValueProvider)
         : restApi { restApi }
-        , token { token }
+        , tokenValueProvider { tokenValueProvider }
     { qDebug(); };
     ~UsersService() { qDebug(); }
 
     auto * getUsers(){
         return restApi->execute<GetAllUsersResponse>(
             GetAllUsersRequest(),
-            token
+            tokenValueProvider->tokenValue()
         );
     };
 
     auto * getUserDetails(QString const & userId){
         return restApi->execute<GetUserDetailsResponse>(
             GetUserDetailsRequest(userId),
-            token
+            tokenValueProvider->tokenValue()
         );
     };
 };

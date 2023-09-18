@@ -5,7 +5,7 @@
 
 struct ToDoDto
 {
-    // TODO: improve enums handling
+    // TODO: improve enums handling with variants
     enum class Status { Todo, InProgress, Done };
     enum class Visibility { Own, ForAll };
 

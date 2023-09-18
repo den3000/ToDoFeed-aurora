@@ -2,6 +2,7 @@
 #define TODOSSERVICE_H
 
 #include "easy_import.h"
+#include "itokenvalueprovider.h"
 #include "restapi.h"
 
 #include "addtodo.h"
@@ -11,11 +12,11 @@
 
 class ToDosService {
     shared_ptr<RestApi> restApi;
-    QString token;
+    shared_ptr<ITokenValueProvider> tokenValueProvider;
 public:
-    ToDosService(shared_ptr<RestApi> restApi, QString const & token)
+    ToDosService(shared_ptr<RestApi> restApi, shared_ptr<ITokenValueProvider> tokenValueProvider)
         : restApi { restApi }
-        , token { token }
+        , tokenValueProvider { tokenValueProvider }
     { qDebug(); };
     ~ToDosService() { qDebug(); }
 
@@ -26,14 +27,14 @@ public:
     ) {
         return restApi->execute<AddToDoResponse>(
             AddToDoRequest(title, description, status, visibility),
-            token
+            tokenValueProvider->tokenValue()
         );
     };
 
     auto * getToDoDetails(QString const & toDoId){
         return restApi->execute<GetToDoDetailsResponse>(
             GetToDoDetailsRequest(toDoId),
-            token
+            tokenValueProvider->tokenValue()
         );
     };
 
@@ -45,28 +46,28 @@ public:
     ){
         return restApi->execute<EditToDoResponse>(
             EditToDoRequest(toDoId, title, description, status, visibility),
-            token
+            tokenValueProvider->tokenValue()
         );
     };
 
     auto * getMyToDos(){
         return restApi->execute<GetToDosListResponse>(
             GetToDosListRequest(),
-            token
+            tokenValueProvider->tokenValue()
         );
     };
 
     auto * getAllToDos(){
         return restApi->execute<GetToDosListResponse>(
             GetToDosListRequest(false),
-            token
+            tokenValueProvider->tokenValue()
         );
     };
 
     auto * getUserToDos(QString const & userId){
         return restApi->execute<GetToDosListResponse>(
             GetToDosListRequest(false, userId),
-            token
+            tokenValueProvider->tokenValue()
         );
     };
 };

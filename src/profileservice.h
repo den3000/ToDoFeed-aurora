@@ -2,6 +2,7 @@
 #define PROFILESERVICE_H
 
 #include "easy_import.h"
+#include "itokenvalueprovider.h"
 #include "restapi.h"
 
 #include "getprofile.h"
@@ -10,18 +11,18 @@
 
 class ProfileService {
     shared_ptr<RestApi> restApi;
-    QString token;
+    shared_ptr<ITokenValueProvider> tokenValueProvider;
 public:
-    explicit ProfileService(shared_ptr<RestApi> restApi, QString const & token)
+    explicit ProfileService(shared_ptr<RestApi> restApi, shared_ptr<ITokenValueProvider> tokenValueProvider)
         : restApi { restApi }
-        , token { token }
+        , tokenValueProvider { tokenValueProvider }
     { qDebug(); }
     ~ProfileService() { qDebug(); }
 
     auto * getProfile() {
         return restApi->execute<GetProfileResponse>(
             GetProfileRequest(),
-            token
+            tokenValueProvider->tokenValue()
         );
     }
 
@@ -31,14 +32,14 @@ public:
     ) {
         return restApi->execute<EditProfileResponse>(
             EditProfileRequest(firstName, lastName, about),
-            token
+            tokenValueProvider->tokenValue()
         );
     }
 
     auto * eraseAll() {
         return restApi->execute<EraseAllResponse>(
             EraseAllRequest(),
-            token
+            tokenValueProvider->tokenValue()
         );
     }
 };

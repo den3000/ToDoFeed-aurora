@@ -22,7 +22,6 @@ signals:
     );
 
 private:
-
     shared_ptr<ToDosService> m_service;
     QString m_toDoId;
 
@@ -35,7 +34,15 @@ public:
     { qDebug(); };
     ~ToDoDetailsVM() { qDebug(); }
 
-    Q_INVOKABLE void start() {
+    Q_INVOKABLE void start() { loadToDoDetails(); }
+
+    Q_INVOKABLE void onEditToDo() { emit editToDo(m_toDoId, this); };
+
+    // IEditToDoDelegate interface
+    void onFinished(const QString &) override { loadToDoDetails(); }
+
+private:
+    void loadToDoDetails() {
         resOrErr(m_service->getToDoDetails(m_toDoId), this,
         [this](auto * response) {
             qDebug() << "get todo details";
@@ -43,24 +50,14 @@ public:
             emit toDoDetailsLoaded(
                 response->toDo.title,
                 response->toDo.description,
-                "_status_",
-                "_visibility_",
+                response->toDo.statusStr(),
+                response->toDo.visibilityStr(),
                 response->isEditable
             );
         }, [](auto * error){
             Q_UNUSED(error)
         });
-    }
-
-    Q_INVOKABLE void onEditToDo() {
-        emit editToDo(m_toDoId, this);
     };
-
-    // IEditToDoDelegate interface
-    void onFinished(const QString &toDoId) override {
-        Q_UNUSED(toDoId)
-        qDebug();
-    }
 };
 
 #endif // TODODETAILSVM_H

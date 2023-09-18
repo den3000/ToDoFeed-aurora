@@ -83,11 +83,12 @@ public slots:
     void showSettings() {
         auto vm = unique_unwrap(m_diProvider->editProfileVmInstance(lazyProfileService()));
         QObject::connect(vm, &EditProfileVM::unauthorized, this, &HomeCoordinator::logout);
+        QObject::connect(vm, &EditProfileVM::finished, this, &HomeCoordinator::finishedSettings);
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::editProfilePage, vm);
     };
 
-    void confirmed() {
-        Smoozy::popPage(m_pageStackCppWrapper.get());
-    };
+    void finishedSettings() { qDebug(); };
+
+    void confirmed() { Smoozy::popPage(m_pageStackCppWrapper.get()); };
 };
 #endif // HOMECOORDINATOR_H

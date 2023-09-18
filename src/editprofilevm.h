@@ -18,6 +18,7 @@ class EditProfileVM : public QObject
 signals:
     void authorized();
     void unauthorized();
+    void finished();
 
 private:
     shared_ptr<ILoginTokenProvider> m_loginTokenProvider;
@@ -53,7 +54,7 @@ public:
         , isAdmin { true }
     { qDebug(); }
 
-    ~EditProfileVM() { qDebug(); }
+    ~EditProfileVM() { emit finished(); qDebug(); }
 
     Q_INVOKABLE bool edit() { return isEditProfile; }
 

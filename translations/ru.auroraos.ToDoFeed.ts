@@ -100,17 +100,17 @@
 <context>
     <name>ToDoListPage</name>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="33"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="28"/>
         <source>ToDoList Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="64"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="61"/>
         <source>Add Todo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="56"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="53"/>
         <source>Go to users</source>
         <translation type="unfinished"></translation>
     </message>
@@ -125,12 +125,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="52"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="49"/>
         <source>Go to settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ToDoListPage.qml" line="68"/>
+        <location filename="../qml/pages/ToDoListPage.qml" line="65"/>
         <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>

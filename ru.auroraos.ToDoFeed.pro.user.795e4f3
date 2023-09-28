@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.15.2, 2023-09-28T12:48:26. -->
+<!-- Written by QtCreator 4.15.2, 2023-09-28T11:02:25. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{d9f2cc06-6569-4b80-95a5-825975321333}</value>
+  <value type="QByteArray">{795e4f31-7a87-463b-a36f-bce55abf2e87}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -406,7 +406,7 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="bool" key="MerRunConfiguration.DebugBypassOpenSslArmCapEnabled">true</value>
     <value type="QString" key="MerRunConfiguration.QmlLiveBenchWorkspace">C:/Users/supru/AuroraSdkProjects/ToDoFeed/ToDoFeed</value>
-    <value type="bool" key="MerRunConfiguration.QmlLiveEnabled">true</value>
+    <value type="bool" key="MerRunConfiguration.QmlLiveEnabled">false</value>
     <value type="int" key="MerRunConfiguration.QmlLiveIpcPort">-1</value>
     <value type="int" key="MerRunConfiguration.QmlLiveOptions">3</value>
     <value type="QString" key="MerRunConfiguration.QmlLiveTargetWorkspace"></value>

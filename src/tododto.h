@@ -14,6 +14,7 @@ struct ToDoDto
         case ToDoDto::Status::Todo: return "todo"; break;
         case ToDoDto::Status::InProgress: return "in_progress"; break;
         case ToDoDto::Status::Done: return "done"; break;
+        default: return "undefined";
         }
     }
     static optional<ToDoDto::Status> parse_status(QJsonValue && value) {
@@ -40,6 +41,7 @@ struct ToDoDto
         switch (status) {
         case ToDoDto::Visibility::Own: return "private"; break;
         case ToDoDto::Visibility::ForAll: return "public"; break;
+        default: return "undefined";
         }
     }
     static optional<ToDoDto::Visibility> parse_visibility(QJsonValue && value) {
@@ -102,6 +104,7 @@ struct ToDoDto
                 case ToDoDto::Status::Todo: return 0;
                 case ToDoDto::Status::InProgress: return 1;
                 case ToDoDto::Status::Done: return 2;
+                default: return -1;
             }
         } else {
             return -1;
@@ -114,6 +117,7 @@ struct ToDoDto
             switch(visibility.value()) {
             case  ToDoDto::Visibility::Own: return 0;
             case  ToDoDto::Visibility::ForAll: return 1;
+            default: return -1;
             }
         } else {
             return -1;

@@ -47,19 +47,17 @@ public:
 public slots:
     void goToLogin() {
         auto vm = unique_unwrap(m_diProvider->loginVmInstance(lazyStartService()));
-        QObject::connect(vm, &LoginVM::authorized, this, &StartCoordinator::authDone);
+        QObject::connect(vm, &LoginVM::authorized, this, &StartCoordinator::authorized);
 
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::loginPage, vm);
     };
 
     void goSignup() {
         auto vm = unique_unwrap(m_diProvider->editProfileInstance(lazyStartService()));
-        QObject::connect(vm, &EditProfileVM::authorized, this, &StartCoordinator::authDone);
+        QObject::connect(vm, &EditProfileVM::authorized, this, &StartCoordinator::authorized);
 
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::editProfilePage, vm);
     };
-
-    void authDone() { emit authorized(); };
 
 signals:
     void authorized();

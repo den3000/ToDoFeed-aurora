@@ -65,7 +65,11 @@ ApplicationWindow {
         startCoordinator.authorized.connect(homeCoordinator.restart)
         homeCoordinator.unauthorized.connect(startCoordinator.restart)
 
-        startCoordinator.start(false)
+        if (diProvider.isLoggedIn()) {
+            homeCoordinator.start(false)
+        } else {
+            startCoordinator.start(false)
+        }
     }
 
     function foo() {

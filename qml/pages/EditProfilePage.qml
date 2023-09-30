@@ -21,8 +21,6 @@ Page {
         }
     }
 
-
-
     PageHeader {
         id: pageHeader
         objectName: "pageHeader"

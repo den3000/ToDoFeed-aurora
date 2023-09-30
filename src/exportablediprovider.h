@@ -13,6 +13,7 @@
 #include "loginvm.h"
 #include "editprofilevm.h"
 
+// TODO: split this and finish
 class ExportableDiProvider: public QObject
 {
     Q_OBJECT
@@ -57,6 +58,8 @@ public:
 
     shared_ptr<ITokenValueProvider> tokenValueProvider() { return m_appDataProvider; };
 
+    Q_INVOKABLE bool isLoggedIn() { return m_appDataProvider->isLoggedIn(); }
+
     Q_INVOKABLE StartVM * startVmInstance()
         { return new StartVM(); }
 
@@ -68,5 +71,7 @@ public:
 
     Q_INVOKABLE EditProfileVM * editProfileVmInstance()
         { return new EditProfileVM(logoutTokenProvider(), lazyProfileService()); }
+
+
 };
 #endif // EXPORTABLEDIPROVIDER_H

@@ -3,22 +3,24 @@ import Sailfish.Silica 1.0
 import CustomCppClasses.Module 1.0
 
 Page {
-    property EditProfileVM viewModel
-    onViewModelChanged: viewModel.parent = this
+//    property EditProfileVM viewModel
+//    onViewModelChanged: viewModel.parent = this
 
-    Connections {
-        target: viewModel
-        onProfileLoaded: {
-            pageHeader.title = isEdit ? qsTr("Edit Profile Page") : qsTr("Sign Up Page")
-            btConfirm.text = isEdit ? qsTr("Update") : qsTr("Sign Up")
-            btLogout.visible = isEdit
-            btEraseAll.visible = isAdmin
-            tfPassword.visible = !isEdit
-            tfFirstName.text = firstName
-            tfLastName.text = lastName
-            tfAbout.text = about
-        }
-    }
+//    Connections {
+//        target: viewModel
+//        onProfileLoaded: {
+//            pageHeader.title = isEdit ? qsTr("Edit Profile Page") : qsTr("Sign Up Page")
+//            btConfirm.text = isEdit ? qsTr("Update") : qsTr("Sign Up")
+//            btLogout.visible = isEdit
+//            btEraseAll.visible = isAdmin
+//            tfPassword.visible = !isEdit
+//            tfFirstName.text = firstName
+//            tfLastName.text = lastName
+//            tfAbout.text = about
+//        }
+//    }
+
+    signal navLogout
 
     allowedOrientations: Orientation.All
 
@@ -61,12 +63,12 @@ Page {
             id: btConfirm
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             onClicked: {
-                viewModel.onConfirm(
-                    tfPassword.text,
-                    tfFirstName.text,
-                    tfLastName.text,
-                    tfAbout.text
-                )
+//                viewModel.onConfirm(
+//                    tfPassword.text,
+//                    tfFirstName.text,
+//                    tfLastName.text,
+//                    tfAbout.text
+//                )
             }
         }
 
@@ -74,14 +76,19 @@ Page {
             id: btLogout
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: qsTr("Log Out")
-            onClicked: { viewModel.onLogOut() }
+            onClicked: {
+//                viewModel.onLogOut()
+                navLogout()
+            }
         }
 
         Button {
             id: btEraseAll
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: qsTr("Erase All")
-            onClicked: { viewModel.onEraseAll() }
+            onClicked: {
+//                viewModel.onEraseAll()
+            }
         }
     }
 
@@ -91,7 +98,7 @@ Page {
         case PageStatus.Inactive:
             return console.log("Inactive");
         case PageStatus.Activating:
-            viewModel.start()
+//            viewModel.start()
             return console.log("Activating");
         case PageStatus.Active:
             return console.log("Active");

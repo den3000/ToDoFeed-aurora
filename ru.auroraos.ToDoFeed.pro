@@ -97,6 +97,8 @@ HEADERS += \
 DISTFILES += \
     qml/PageStackCppWrapper.qml \
     qml/QmlCoordinator.qml \
+    qml/QmlHomeCoordinator.qml \
+    qml/QmlStartCoordinator.qml \
     qml/items/ToDoItem.qml \
     qml/pages/EditProfilePage.qml \
     qml/pages/EditToDoPage.qml \

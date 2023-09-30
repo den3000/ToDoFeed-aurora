@@ -51,8 +51,24 @@ ApplicationWindow {
     cover: Qt.resolvedUrl("cover/DefaultCoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
 
-    QmlCoordinator {
-        id: coordinator
+    QmlStartCoordinator {
+        id: startCoordinator
         pageStack: applicationWindow.pageStack
+    }
+
+    QmlHomeCoordinator {
+        id: homeCoordinator
+        pageStack: applicationWindow.pageStack
+    }
+
+    Component.onCompleted: {
+        startCoordinator.authorized.connect(homeCoordinator.restart)
+        homeCoordinator.unauthorized.connect(startCoordinator.restart)
+
+        startCoordinator.start(false)
+    }
+
+    function foo() {
+        console.log("PAM")
     }
 }

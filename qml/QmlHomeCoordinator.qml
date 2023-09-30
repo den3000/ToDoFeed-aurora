@@ -5,13 +5,14 @@ QmlCoordinator {
     signal unauthorized
 
     function start(isRestart) {
-        var page = instantiatePage("pages/EditProfilePage.qml")
-        page.navLogout.connect(unauthorized)
+        var vm = diProvider.editProfileVmInstance()
+        vm.unauthorized.connect(unauthorized)
+        var path = "pages/EditProfilePage.qml"
 
         if (isRestart) {
-            pageStack.replaceAbove(null, page)
+            replaceAllPagesWithPageAndVm(path, vm)
         } else {
-            pageStack.push(page)
+            pushPageWithVm(path, vm)
         }
     }
 

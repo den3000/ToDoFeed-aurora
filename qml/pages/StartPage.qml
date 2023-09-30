@@ -3,14 +3,9 @@ import Sailfish.Silica 1.0
 import CustomCppClasses.Module 1.0
 
 Page {
-//    property StartVM viewModel                  // !!! IMPORTANT !!!
-//    onViewModelChanged: viewModel.parent = this // !!! IMPORTANT !!!
-
-    objectName: "startPage"
+    property StartVM viewModel                  // !!! IMPORTANT !!!
+    onViewModelChanged: viewModel.parent = this // !!! IMPORTANT !!!
     allowedOrientations: Orientation.All
-
-    signal navLogin
-    signal navSignup
 
     PageHeader {
         objectName: "pageHeader"

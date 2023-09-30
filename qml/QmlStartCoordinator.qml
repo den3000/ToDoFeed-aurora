@@ -1,29 +1,35 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import CustomCppClasses.Module 1.0
 
 QmlCoordinator {
     signal authorized
 
     function start(isRestart) {
-        var page = instantiatePage("pages/StartPage.qml")
-        page.navLogin.connect(login)
-        page.navSignup.connect(signup)
+        var vm = diProvider.startVmInstance()
+        vm.login.connect(login)
+        vm.signup.connect(signup)
+        var path = "pages/StartPage.qml"
 
         if (isRestart) {
-            pageStack.replaceAbove(null, page)
+            replaceAllPagesWithPageAndVm(path, vm)
         } else {
-            pageStack.push(page)
+            pushPageWithVm(path, vm)
         }
     }
 
     function login() {
-        console.log("PAM")
-        authorized()
+        var vm = diProvider.loginVmInstance()
+        vm.authorized.connect(authorized)
+        var path = "pages/LoginPage.qml"
+        pushPageWithVm(path, vm)
     }
 
     function signup() {
-        console.log("PAM")
-        authorized()
+        var vm = diProvider.signupVmInstance()
+        vm.authorized.connect(authorized)
+        var path = "pages/EditProfilePage.qml"
+        pushPageWithVm(path, vm)
     }
 
     function restart() {

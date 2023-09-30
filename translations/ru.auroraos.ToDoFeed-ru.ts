@@ -12,12 +12,32 @@
 <context>
     <name>EditProfilePage</name>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="78"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="13"/>
+        <source>Edit Profile Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="13"/>
+        <source>Sign Up Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="14"/>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="14"/>
+        <source>Sign Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/EditProfilePage.qml" line="77"/>
         <source>Log Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="88"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="86"/>
         <source>Erase All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -48,7 +68,7 @@
 <context>
     <name>LoginPage</name>
     <message>
-        <location filename="../qml/pages/LoginPage.qml" line="14"/>
+        <location filename="../qml/pages/LoginPage.qml" line="12"/>
         <source>LoginPage</source>
         <translation type="unfinished"></translation>
     </message>
@@ -64,7 +84,7 @@
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../qml/pages/StartPage.qml" line="17"/>
+        <location filename="../qml/pages/StartPage.qml" line="12"/>
         <source>Start Page</source>
         <translation type="unfinished"></translation>
     </message>

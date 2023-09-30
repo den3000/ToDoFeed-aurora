@@ -65,7 +65,7 @@ parse_optional(QJsonValue && value, Provider && provider) {
 }
 
 template <typename R>
-R * unique_unwrap(unique_ptr<R> && unq) {
+constexpr inline R * unique_unwrap(unique_ptr<R> && unq) {
     R * result = unq.get();
     unq.release();
     return result;

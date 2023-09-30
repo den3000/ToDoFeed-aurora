@@ -27,8 +27,8 @@ struct IStartDiProvider {
         { return make_unique<EditProfileVM>(loginTokenProvider(), service); }
 
     // require
-    virtual shared_ptr<ILoginTokenProvider> loginTokenProvider() = 0;
 protected:
+    virtual shared_ptr<ILoginTokenProvider> loginTokenProvider() = 0;
     virtual shared_ptr<RestApi> restApi() = 0;
 };
 

@@ -47,9 +47,12 @@ ApplicationWindow {
         RootCoordinatorQml through C++
     */
 
-    PageStackCppWrapper { pageStack: applicationWindow.pageStack }
-
     id: applicationWindow
     cover: Qt.resolvedUrl("cover/DefaultCoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
+
+    QmlCoordinator {
+        id: coordinator
+        pageStack: applicationWindow.pageStack
+    }
 }

@@ -84,7 +84,7 @@
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../qml/pages/StartPage.qml" line="14"/>
+        <location filename="../qml/pages/StartPage.qml" line="17"/>
         <source>Start Page</source>
         <translation type="unfinished"></translation>
     </message>

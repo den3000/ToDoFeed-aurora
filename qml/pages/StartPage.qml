@@ -3,11 +3,14 @@ import Sailfish.Silica 1.0
 import CustomCppClasses.Module 1.0
 
 Page {
-    property StartVM viewModel                  // !!! IMPORTANT !!!
-    onViewModelChanged: viewModel.parent = this // !!! IMPORTANT !!!
+//    property StartVM viewModel                  // !!! IMPORTANT !!!
+//    onViewModelChanged: viewModel.parent = this // !!! IMPORTANT !!!
 
     objectName: "startPage"
     allowedOrientations: Orientation.All
+
+    signal navLogin
+    signal navSignup
 
     PageHeader {
         objectName: "pageHeader"
@@ -23,13 +26,14 @@ Page {
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "LogIn"
-            onClicked: { viewModel.login() }
+            onClicked: login()
         }
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Signup"
-            onClicked: { viewModel.signup() }
+            onClicked: signup()
         }
     }
+
 }

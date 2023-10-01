@@ -12,7 +12,7 @@ class ToDoDetailsVM : public QObject
     Q_OBJECT
     Q_PROPERTY(QObject * parent READ parent WRITE setParent)
 signals:
-    void editToDo(QString const & toDoId, ToDoDetailsVM * delegate);
+    void editToDo(QString const & toDoId);
     void toDoDetailsLoaded(
         QString title,
         QString description,
@@ -38,7 +38,7 @@ public:
 
     Q_INVOKABLE void start() { loadToDoDetails(); }
 
-    Q_INVOKABLE void onEditToDo() { emit editToDo(m_toDoId, this); };
+    Q_INVOKABLE void onEditToDo() { emit editToDo(m_toDoId); };
 
 private:
     void loadToDoDetails() {

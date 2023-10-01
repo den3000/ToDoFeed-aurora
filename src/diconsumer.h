@@ -1,10 +1,10 @@
-#ifndef EXPORTABLEDIPROVIDER_H
-#define EXPORTABLEDIPROVIDER_H
+#ifndef DICONSUMER_H
+#define DICONSUMER_H
 
 #include <QObject>
 #include "diprovider.h"
 
-class ExportableDiProvider: public QObject {
+class DiConsumer: public QObject {
     Q_OBJECT
 
     DiProvider diProvider;
@@ -29,10 +29,12 @@ class ExportableDiProvider: public QObject {
 
 public:
 
-    explicit ExportableDiProvider(QObject * parent = nullptr)
+    explicit DiConsumer(QObject * parent = nullptr)
         : QObject(parent)
     { qDebug(); }
-    ~ExportableDiProvider() { qDebug(); }
+    ~DiConsumer() { qDebug(); }
+
+    // Start flow -------------------
 
     Q_INVOKABLE bool isLoggedIn() { return diProvider.loginStateProvider()->isLoggedIn(); }
 
@@ -45,7 +47,7 @@ public:
     Q_INVOKABLE EditProfileVM * signupVmInstance()
         { return unique_unwrap(diProvider.editProfileInstance(lazyStartService())); }
 
-    // ------------------------------
+    // Home flow --------------------
 
     Q_INVOKABLE ToDoListVM * toDoListVmInstance()
         { return unique_unwrap(diProvider.toDoListVmInstance(m_toDoService)); }
@@ -65,4 +67,4 @@ public:
     Q_INVOKABLE EditProfileVM * editProfileVmInstance()
         { return unique_unwrap(diProvider.editProfileVmInstance(lazyProfileService())); }
 };
-#endif // EXPORTABLEDIPROVIDER_H
+#endif // DICONSUMER_H

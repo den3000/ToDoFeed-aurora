@@ -54,6 +54,7 @@ HEADERS += \
     src/addtodo.h \
     src/appdataprovider.h \
     src/customcppclasses.h \
+    src/diconsumer.h \
     src/diprovider.h \
     src/easy_import.h \
     src/editprofile.h \
@@ -61,7 +62,6 @@ HEADERS += \
     src/edittodo.h \
     src/edittodovm.h \
     src/eraseall.h \
-    src/exportablediprovider.h \
     src/getallusers.h \
     src/getprofile.h \
     src/gettododetails.h \

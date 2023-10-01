@@ -65,7 +65,7 @@ ApplicationWindow {
         startCoordinator.authorized.connect(homeCoordinator.restart)
         homeCoordinator.unauthorized.connect(startCoordinator.restart)
 
-        if (diProvider.isLoggedIn()) {
+        if (diConsumer.isLoggedIn()) {
             homeCoordinator.start(false)
         } else {
             startCoordinator.start(false)

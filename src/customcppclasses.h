@@ -3,7 +3,7 @@
 
 #include <QtQuick>
 
-#include "exportablediprovider.h"
+#include "diconsumer.h"
 
 #include "pagedestroyedlistener.h"
 #include "restapitestvm.h"
@@ -18,7 +18,7 @@
 
 namespace CustomCppClasses {
     void registerModuleInQml() {
-        qmlRegisterType<ExportableDiProvider>("CustomCppClasses.Module", 1, 0, "DiProvider");
+        qmlRegisterType<DiConsumer>("CustomCppClasses.Module", 1, 0, "DiConsumer");
         qmlRegisterType<PageDestroyedListener>("CustomCppClasses.Module", 1, 0, "PageDestroyedListener");
         qmlRegisterType<PageDestroyedEmitter>("CustomCppClasses.Module", 1, 0, "PageDestroyedEmitter");
         qmlRegisterType<RestApiTestVM>("CustomCppClasses.Module", 1, 0, "RestApiTestVM");

@@ -6,7 +6,7 @@ QmlCoordinator {
     signal authorized
 
     function start(isRestart) {
-        var vm = diProvider.startVmInstance()
+        var vm = diConsumer.startVmInstance()
         vm.login.connect(login)
         vm.signup.connect(signup)
 
@@ -18,13 +18,13 @@ QmlCoordinator {
     }
 
     function login() {
-        var vm = diProvider.loginVmInstance()
+        var vm = diConsumer.loginVmInstance()
         vm.authorized.connect(authorized)
         pushPageWithVm(loginPage, vm)
     }
 
     function signup() {
-        var vm = diProvider.signupVmInstance()
+        var vm = diConsumer.signupVmInstance()
         vm.authorized.connect(authorized)
         pushPageWithVm(editProfilePage, vm)
     }

@@ -7,7 +7,7 @@ QmlCoordinator {
     signal finishedToDoEditing
 
     function start(isRestart) {
-        var vm = diProvider.toDoListVmInstance()
+        var vm = diConsumer.toDoListVmInstance()
         vm.showToDo.connect(showToDo)
         vm.addToDo.connect(addToDo)
         vm.showUsersList.connect(showUsersList)
@@ -22,7 +22,7 @@ QmlCoordinator {
     }
 
     function showToDo(toDoId) {
-        var vm = diProvider.toDoDetailsVmInstance(toDoId)
+        var vm = diConsumer.toDoDetailsVmInstance(toDoId)
         vm.editToDo.connect(editToDo)
         finishedToDoEditing.connect(vm.reloadRequired)
         pushPageWithVm(toDoDetailsPage, vm)
@@ -31,25 +31,25 @@ QmlCoordinator {
     function addToDo() { editToDo("") }
 
     function editToDo(toDoId) {
-        var vm = diProvider.editToDoVmInstance(toDoId)
+        var vm = diConsumer.editToDoVmInstance(toDoId)
         vm.finishedEditing.connect(handleToDoEditingFinished)
         pushPageWithVm(editToDoPage, vm)
     }
 
     function showUsersList() {
-        var vm = diProvider.usersListVmInstance()
+        var vm = diConsumer.usersListVmInstance()
         vm.viewUserDetails.connect(showUserDetails)
         pushPageWithVm(usersListPage, vm)
     }
 
     function showUserDetails(userId) {
-        var vm = diProvider.usersDetailsVmInstance(userId)
+        var vm = diConsumer.usersDetailsVmInstance(userId)
         vm.showToDo.connect(showToDo)
         pushPageWithVm(userDetailsPage, vm)
     }
 
     function showSettings() {
-        var vm = diProvider.editProfileVmInstance()
+        var vm = diConsumer.editProfileVmInstance()
         vm.unauthorized.connect(unauthorized)
         pushPageWithVm(editProfilePage, vm)
     }

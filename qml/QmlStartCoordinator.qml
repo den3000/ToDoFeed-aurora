@@ -9,31 +9,27 @@ QmlCoordinator {
         var vm = diProvider.startVmInstance()
         vm.login.connect(login)
         vm.signup.connect(signup)
-        var path = "pages/StartPage.qml"
 
         if (isRestart) {
-            replaceAllPagesWithPageAndVm(path, vm)
+            replaceAllPagesWithPageAndVm(startPage, vm)
         } else {
-            pushPageWithVm(path, vm)
+            pushPageWithVm(startPage, vm)
         }
     }
 
     function login() {
         var vm = diProvider.loginVmInstance()
         vm.authorized.connect(authorized)
-        var path = "pages/LoginPage.qml"
-        pushPageWithVm(path, vm)
+        pushPageWithVm(loginPage, vm)
     }
 
     function signup() {
         var vm = diProvider.signupVmInstance()
         vm.authorized.connect(authorized)
-        var path = "pages/EditProfilePage.qml"
-        pushPageWithVm(path, vm)
+        pushPageWithVm(editProfilePage, vm)
     }
 
     function restart() {
-        console.log("PAM")
         start(true)
     }
 }

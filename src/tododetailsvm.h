@@ -21,7 +21,7 @@ signals:
         bool isEditable
     );
 public slots:
-    void reloadRequired()  { loadToDoDetails(); }
+    void reloadRequired(QString const & toDoId)  { loadToDoDetails(); }
 
 private:
     shared_ptr<ToDosService> m_service;

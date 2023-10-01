@@ -16,7 +16,7 @@ signals:
         int statusIdx,
         int visibilityIdx
     );
-    void finishedEditing();
+    void finishedEditing(QString const & toDoId);
 
 private:
     shared_ptr<ToDosService> m_service;
@@ -80,7 +80,7 @@ private:
         [this](auto * response){
             qDebug() << "add todo";
             qDebug() << "todo\n" << response->toDo << "\n";
-            emit finishedEditing();
+            emit finishedEditing(m_toDoId);
         }, [](auto * error){
             Q_UNUSED(error)
         });
@@ -94,7 +94,7 @@ private:
         [this](auto * response){
             qDebug() << "edit todo";
             qDebug() << "todo\n" << response->toDo << "\n";
-            emit finishedEditing();
+            emit finishedEditing(m_toDoId);
         }, [](auto * error){
             Q_UNUSED(error)
         });

@@ -19,7 +19,7 @@ signals:
     void visibilityChanged(bool isOwn);
 
 public slots:
-    void reloadRequired() { loadToDos(); }
+    void reloadRequired(QString const & toDoId) { loadToDos(); }
 
 private:
     shared_ptr<ToDosService> m_service;

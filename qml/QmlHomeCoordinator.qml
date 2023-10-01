@@ -4,7 +4,7 @@ import Sailfish.Silica 1.0
 QmlCoordinator {
     signal unauthorized
 
-    signal finishedToDoEditing
+    signal toDoEdited(string toDoId)
 
     function start(isRestart) {
         var vm = diConsumer.toDoListVmInstance()
@@ -12,7 +12,7 @@ QmlCoordinator {
         vm.addToDo.connect(addToDo)
         vm.showUsersList.connect(showUsersList)
         vm.showSettings.connect(this.showSettings)
-        finishedToDoEditing.connect(vm.reloadRequired)
+        toDoEdited.connect(vm.reloadRequired)
 
         if (isRestart) {
             replaceAllPagesWithPageAndVm(toDoListPage, vm)
@@ -24,7 +24,7 @@ QmlCoordinator {
     function showToDo(toDoId) {
         var vm = diConsumer.toDoDetailsVmInstance(toDoId)
         vm.editToDo.connect(editToDo)
-        finishedToDoEditing.connect(vm.reloadRequired)
+        toDoEdited.connect(vm.reloadRequired)
         pushPageWithVm(toDoDetailsPage, vm)
     }
 
@@ -32,7 +32,7 @@ QmlCoordinator {
 
     function editToDo(toDoId) {
         var vm = diConsumer.editToDoVmInstance(toDoId)
-        vm.finishedEditing.connect(handleToDoEditingFinished)
+        vm.finishedEditing.connect(toDoEditingFinished)
         pushPageWithVm(editToDoPage, vm)
     }
 
@@ -54,11 +54,11 @@ QmlCoordinator {
         pushPageWithVm(editProfilePage, vm)
     }
 
-    function handleToDoEditingFinished(toDoId) {
-        console.log("editToDo " + toDoId)
-        finishedToDoEditing()
+    function toDoEditingFinished(toDoId) {
+        toDoEdited(toDoId)
         popCurrentPage()
     }
+
     function restart() {
         start(true)
     }

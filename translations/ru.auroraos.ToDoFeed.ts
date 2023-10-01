@@ -37,7 +37,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="84"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="82"/>
         <source>Erase All</source>
         <translation type="unfinished"></translation>
     </message>

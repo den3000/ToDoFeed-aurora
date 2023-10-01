@@ -71,8 +71,4 @@ ApplicationWindow {
             startCoordinator.start(false)
         }
     }
-
-    function foo() {
-        console.log("PAM")
-    }
 }

@@ -57,7 +57,7 @@ QmlCoordinator {
     function handleToDoEditingFinished(toDoId) {
         console.log("editToDo " + toDoId)
         finishedToDoEditing()
-        pageStack.pop()
+        popCurrentPage()
     }
     function restart() {
         start(true)

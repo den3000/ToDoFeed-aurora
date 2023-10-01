@@ -21,6 +21,10 @@ Item {
         return pageStack.replaceAbove(null, instantiatePage(path), {"viewModel": vm})
     }
 
+    function popCurrentPage() {
+        pageStack.pop()
+    }
+
     function instantiatePage(path) {
         return Qt.createComponent(Qt.resolvedUrl(path))
     }

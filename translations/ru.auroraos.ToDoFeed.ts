@@ -32,12 +32,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="77"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="75"/>
         <source>Log Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/EditProfilePage.qml" line="86"/>
+        <location filename="../qml/pages/EditProfilePage.qml" line="84"/>
         <source>Erase All</source>
         <translation type="unfinished"></translation>
     </message>

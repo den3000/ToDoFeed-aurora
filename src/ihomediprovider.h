@@ -35,8 +35,8 @@ struct IHomeDiProvider {
     unique_ptr<ToDoDetailsVM> toDoDetailsVmInstance(shared_ptr<ToDosService> service, QString const & todoId)
         { return make_unique<ToDoDetailsVM>(service, todoId); }
 
-    unique_ptr<EditToDoVM> editToDoVmInstance(shared_ptr<ToDosService> service, QString const & toDoId, IEditToDoDelegate * delegate)
-        { return make_unique<EditToDoVM>(service, toDoId, delegate); }
+    unique_ptr<EditToDoVM> editToDoVmInstance(shared_ptr<ToDosService> service, QString const & toDoId)
+        { return make_unique<EditToDoVM>(service, toDoId); }
 
     unique_ptr<UsersListVM> usersListVmInstance(shared_ptr<UsersService> service)
         { return make_unique<UsersListVM>(service); }

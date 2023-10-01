@@ -58,11 +58,10 @@ public slots:
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::toDoDetailsPage, vm);
     };
 
-    void addToDo(IEditToDoDelegate * delegate) { editToDo("", delegate); }
+    void addToDo() { editToDo(""); }
 
-    void editToDo(QString const & toDoId, IEditToDoDelegate * delegate) {
-        auto vm = unique_unwrap(m_diProvider->editToDoVmInstance(m_toDoService, toDoId, delegate));
-        QObject::connect(vm, &EditToDoVM::confirmed, this, &HomeCoordinator::confirmed);
+    void editToDo(QString const & toDoId) {
+        auto vm = unique_unwrap(m_diProvider->editToDoVmInstance(m_toDoService, toDoId));
         Smoozy::pushNamedPage(m_pageStackCppWrapper.get(), PagePaths::editToDoPage, vm);
     };
 

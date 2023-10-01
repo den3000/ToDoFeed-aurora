@@ -7,12 +7,12 @@
 
 #include "edittodovm.h"
 
-class ToDoDetailsVM : public QObject, public IEditToDoDelegate
+class ToDoDetailsVM : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QObject * parent READ parent WRITE setParent)
 signals:
-    void editToDo(QString const & toDoId, IEditToDoDelegate * delegate);
+    void editToDo(QString const & toDoId, ToDoDetailsVM * delegate);
     void toDoDetailsLoaded(
         QString title,
         QString description,
@@ -20,6 +20,8 @@ signals:
         QString visibility,
         bool isEditable
     );
+public slots:
+    void reloadRequired()  { loadToDoDetails(); }
 
 private:
     shared_ptr<ToDosService> m_service;
@@ -37,9 +39,6 @@ public:
     Q_INVOKABLE void start() { loadToDoDetails(); }
 
     Q_INVOKABLE void onEditToDo() { emit editToDo(m_toDoId, this); };
-
-    // IEditToDoDelegate interface
-    void onFinished(const QString &) override { loadToDoDetails(); }
 
 private:
     void loadToDoDetails() {

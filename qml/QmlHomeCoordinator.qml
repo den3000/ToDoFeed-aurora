@@ -32,7 +32,10 @@ QmlCoordinator {
 
     function editToDo(toDoId) {
         var vm = diConsumer.editToDoVmInstance(toDoId)
-        vm.finishedEditing.connect(toDoEditingFinished)
+        vm.finishedEditing.connect(function onFinishedEditing (toDoId) {
+            toDoEdited(toDoId)
+            popCurrentPage()
+        })
         pushPageWithVm(editToDoPage, vm)
     }
 
@@ -52,11 +55,6 @@ QmlCoordinator {
         var vm = diConsumer.editProfileVmInstance()
         vm.unauthorized.connect(unauthorized)
         pushPageWithVm(editProfilePage, vm)
-    }
-
-    function toDoEditingFinished(toDoId) {
-        toDoEdited(toDoId)
-        popCurrentPage()
     }
 
     function restart() {

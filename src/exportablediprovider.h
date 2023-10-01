@@ -2,37 +2,27 @@
 #define EXPORTABLEDIPROVIDER_H
 
 #include <QObject>
+#include "diprovider.h"
 
-#include "appdataprovider.h"
-#include "ilogouttokenprovider.h"
-#include "restapi.h"
-
-#include "startservice.h"
-#include "profileservice.h"
-#include "startvm.h"
-#include "loginvm.h"
-#include "editprofilevm.h"
-
-// TODO: split this and finish
-class ExportableDiProvider: public QObject
-{
+class ExportableDiProvider: public QObject {
     Q_OBJECT
 
-    shared_ptr<AppDataProvider> m_appDataProvider;
-    shared_ptr<RestApi> m_restApi;
+    DiProvider diProvider;
 
     shared_ptr<StartService> m_startService;
     shared_ptr<StartService> lazyStartService() {
         if(!m_startService) {
-            m_startService = startServiceInstance();
+            m_startService = diProvider.startServiceInstance();
         }
         return m_startService;
     };
 
+    shared_ptr<ToDosService> m_toDoService = diProvider.todosServiceInstance();
+    shared_ptr<UsersService> m_usersService = diProvider.usersServiceInstance();
     shared_ptr<ProfileService> m_profileService;
     shared_ptr<ProfileService> lazyProfileService() {
         if(!m_profileService) {
-            m_profileService = profileServiceInstance();
+            m_profileService = diProvider.profileServiceInstance();
         }
         return m_profileService;
     };
@@ -41,37 +31,38 @@ public:
 
     explicit ExportableDiProvider(QObject * parent = nullptr)
         : QObject(parent)
-        , m_appDataProvider { make_shared<AppDataProvider>() }
-        , m_restApi { make_shared<RestApi>(m_appDataProvider.get()->apiUrl()) }
     { qDebug(); }
     ~ExportableDiProvider() { qDebug(); }
 
-    unique_ptr<StartService> startServiceInstance()
-        { return make_unique<StartService>(m_restApi); }
-
-    unique_ptr<ProfileService> profileServiceInstance()
-        { return make_unique<ProfileService>(m_restApi, tokenValueProvider()); }
-
-    shared_ptr<ILoginTokenProvider> loginTokenProvider() { return m_appDataProvider; };
-
-    shared_ptr<ILogoutTokenProvider> logoutTokenProvider() { return m_appDataProvider; };
-
-    shared_ptr<ITokenValueProvider> tokenValueProvider() { return m_appDataProvider; };
-
-    Q_INVOKABLE bool isLoggedIn() { return m_appDataProvider->isLoggedIn(); }
+    Q_INVOKABLE bool isLoggedIn() { return diProvider.loginStateProvider()->isLoggedIn(); }
 
     Q_INVOKABLE StartVM * startVmInstance()
-        { return new StartVM(); }
+        { return unique_unwrap(diProvider.startVmInstance()); }
 
     Q_INVOKABLE LoginVM * loginVmInstance()
-        { return new LoginVM(loginTokenProvider(), lazyStartService()); }
+        { return unique_unwrap(diProvider.loginVmInstance(lazyStartService())); }
 
     Q_INVOKABLE EditProfileVM * signupVmInstance()
-        { return new EditProfileVM(loginTokenProvider(), lazyStartService()); }
+        { return unique_unwrap(diProvider.editProfileInstance(lazyStartService())); }
+
+    // ------------------------------
+
+    Q_INVOKABLE ToDoListVM * toDoListVmInstance()
+        { return unique_unwrap(diProvider.toDoListVmInstance(m_toDoService)); }
+
+    Q_INVOKABLE ToDoDetailsVM * toDoDetailsVmInstance(QString const & todoId)
+        { return unique_unwrap(diProvider.toDoDetailsVmInstance(m_toDoService, todoId)); }
+
+    Q_INVOKABLE EditToDoVM * editToDoVmInstance(QString const & toDoId)
+        { return unique_unwrap(diProvider.editToDoVmInstance(m_toDoService, toDoId)); }
+
+    Q_INVOKABLE UsersListVM * usersListVmInstance()
+        { return unique_unwrap(diProvider.usersListVmInstance(m_usersService)); }
+
+    Q_INVOKABLE UserDetailsVM * usersDetailsVmInstance(QString const & userId)
+        { return unique_unwrap(diProvider.userDetailsVmInstance(m_usersService, m_toDoService, userId)); }
 
     Q_INVOKABLE EditProfileVM * editProfileVmInstance()
-        { return new EditProfileVM(logoutTokenProvider(), lazyProfileService()); }
-
-
+        { return unique_unwrap(diProvider.editProfileVmInstance(lazyProfileService())); }
 };
 #endif // EXPORTABLEDIPROVIDER_H

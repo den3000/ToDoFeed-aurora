@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
     QScopedPointer<QQuickView> rootView(Aurora::Application::createView());
     rootView->rootContext()->setContextProperty("diConsumer", diConsumer.get());
-    rootView->setSource(Aurora::Application::pathTo(PagePaths::root));
+    rootView->setSource(Aurora::Application::pathTo("qml/ToDoFeed.qml"));
     rootView->show();
 
     return application->exec();

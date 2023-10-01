@@ -67,7 +67,6 @@ HEADERS += \
     src/gettododetails.h \
     src/gettodoslist.h \
     src/getuserdetails.h \
-    src/homecoordinator.h \
     src/ihomediprovider.h \
     src/ilogintokenprovider.h \
     src/ilogouttokenprovider.h \
@@ -76,14 +75,12 @@ HEADERS += \
     src/login.h \
     src/loginvm.h \
     src/pagedestroyedlistener.h \
-    src/pagepaths.h \
     src/profileservice.h \
     src/restapi.h \
     src/restapitestvm.h \
     src/restapitypes.h \
     src/signup.h \
     src/smoozyutils.h \
-    src/startcoordinator.h \
     src/startservice.h \
     src/startvm.h \
     src/tododetailsvm.h \
@@ -96,7 +93,6 @@ HEADERS += \
     src/usersservice.h
 
 DISTFILES += \
-    qml/PageStackCppWrapper.qml \
     qml/QmlCoordinator.qml \
     qml/QmlHomeCoordinator.qml \
     qml/QmlStartCoordinator.qml \

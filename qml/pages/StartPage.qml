@@ -5,8 +5,6 @@ import CustomCppClasses.Module 1.0
 Page {
     property StartVM viewModel                  // !!! IMPORTANT !!!
     onViewModelChanged: viewModel.parent = this // !!! IMPORTANT !!!
-
-    objectName: "startPage"
     allowedOrientations: Orientation.All
 
     PageHeader {

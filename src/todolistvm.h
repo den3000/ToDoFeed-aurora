@@ -7,16 +7,19 @@
 
 #include "edittodovm.h"
 
-class ToDoListVM : public QAbstractListModel, public IEditToDoDelegate
+class ToDoListVM : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QObject * parent READ parent WRITE setParent)
 signals:
     void showToDo(QString toDoId);
-    void addToDo(IEditToDoDelegate * delegate);
+    void addToDo();
     void showUsersList();
     void showSettings();
     void visibilityChanged(bool isOwn);
+
+public slots:
+    void reloadRequired(QString const & toDoId) { loadToDos(); }
 
 private:
     shared_ptr<ToDosService> m_service;
@@ -45,7 +48,7 @@ public:
         loadToDos();
     }
 
-    Q_INVOKABLE void callAddToDo() { emit addToDo(this); }
+    Q_INVOKABLE void callAddToDo() { emit addToDo(); }
 
     Q_INVOKABLE void changeVisibility() {
         isOwn = !isOwn;
@@ -77,13 +80,6 @@ public:
         roles[UserId] = "userId";
         roles[Visibility] = "visibility";
         return roles;
-    }
-
-    // IEditToDoDelegate interface
-    void onFinished(const QString &toDoId) override {
-        Q_UNUSED(toDoId)
-        qDebug();
-        loadToDos();
     }
 
 private:

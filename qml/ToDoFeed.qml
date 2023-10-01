@@ -47,9 +47,28 @@ ApplicationWindow {
         RootCoordinatorQml through C++
     */
 
-    PageStackCppWrapper { pageStack: applicationWindow.pageStack }
-
     id: applicationWindow
     cover: Qt.resolvedUrl("cover/DefaultCoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
+
+    QmlStartCoordinator {
+        id: startCoordinator
+        pageStack: applicationWindow.pageStack
+    }
+
+    QmlHomeCoordinator {
+        id: homeCoordinator
+        pageStack: applicationWindow.pageStack
+    }
+
+    Component.onCompleted: {
+        startCoordinator.authorized.connect(homeCoordinator.restart)
+        homeCoordinator.unauthorized.connect(startCoordinator.restart)
+
+        if (diConsumer.isLoggedIn()) {
+            homeCoordinator.start(false)
+        } else {
+            startCoordinator.start(false)
+        }
+    }
 }

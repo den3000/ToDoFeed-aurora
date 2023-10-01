@@ -3,6 +3,8 @@
 
 #include <QtQuick>
 
+#include "diconsumer.h"
+
 #include "pagedestroyedlistener.h"
 #include "restapitestvm.h"
 #include "startvm.h"
@@ -16,6 +18,7 @@
 
 namespace CustomCppClasses {
     void registerModuleInQml() {
+        qmlRegisterType<DiConsumer>("CustomCppClasses.Module", 1, 0, "DiConsumer");
         qmlRegisterType<PageDestroyedListener>("CustomCppClasses.Module", 1, 0, "PageDestroyedListener");
         qmlRegisterType<PageDestroyedEmitter>("CustomCppClasses.Module", 1, 0, "PageDestroyedEmitter");
         qmlRegisterType<RestApiTestVM>("CustomCppClasses.Module", 1, 0, "RestApiTestVM");

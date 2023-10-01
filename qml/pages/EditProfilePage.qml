@@ -5,6 +5,7 @@ import CustomCppClasses.Module 1.0
 Page {
     property EditProfileVM viewModel
     onViewModelChanged: viewModel.parent = this
+    allowedOrientations: Orientation.All
 
     Connections {
         target: viewModel
@@ -19,8 +20,6 @@ Page {
             tfAbout.text = about
         }
     }
-
-    allowedOrientations: Orientation.All
 
     PageHeader {
         id: pageHeader

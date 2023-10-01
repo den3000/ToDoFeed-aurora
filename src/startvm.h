@@ -13,9 +13,6 @@ public:
     explicit StartVM(QObject *parent = nullptr): QObject(parent) { qDebug(); };
     ~StartVM() { qDebug(); }
 
-    Q_INVOKABLE void loginPressed() { emit login(); };
-    Q_INVOKABLE void signupPressed() { emit signup(); };
-
 signals:
     void login();
     void signup();

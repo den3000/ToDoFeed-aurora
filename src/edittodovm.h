@@ -5,10 +5,6 @@
 
 #include "todosservice.h"
 
-struct IEditToDoDelegate {
-    virtual void onFinished(QString const & toDoId) = 0;
-};
-
 class EditToDoVM : public QObject
 {
     Q_OBJECT
@@ -20,20 +16,18 @@ signals:
         int statusIdx,
         int visibilityIdx
     );
-    void confirmed();
+    void finishedEditing(QString const & toDoId);
 
 private:
     shared_ptr<ToDosService> m_service;
     QString m_toDoId;
-    IEditToDoDelegate * m_delegate;
 
 public:
     explicit EditToDoVM(QObject *parent = nullptr): QObject(parent) { qDebug(); };
-    explicit EditToDoVM(shared_ptr<ToDosService> service, QString const & toDoId, IEditToDoDelegate * delegate, QObject *parent = nullptr)
+    explicit EditToDoVM(shared_ptr<ToDosService> service, QString const & toDoId, QObject *parent = nullptr)
         : QObject(parent)
         , m_service{ service }
         , m_toDoId { toDoId }
-        , m_delegate { delegate }
     { qDebug(); };
     ~EditToDoVM() { qDebug(); }
 
@@ -86,8 +80,7 @@ private:
         [this](auto * response){
             qDebug() << "add todo";
             qDebug() << "todo\n" << response->toDo << "\n";
-            m_delegate->onFinished(m_toDoId);
-            emit confirmed();
+            emit finishedEditing(m_toDoId);
         }, [](auto * error){
             Q_UNUSED(error)
         });
@@ -101,8 +94,7 @@ private:
         [this](auto * response){
             qDebug() << "edit todo";
             qDebug() << "todo\n" << response->toDo << "\n";
-            m_delegate->onFinished(m_toDoId);
-            emit confirmed();
+            emit finishedEditing(m_toDoId);
         }, [](auto * error){
             Q_UNUSED(error)
         });

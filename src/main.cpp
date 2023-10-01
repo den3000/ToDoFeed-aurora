@@ -41,9 +41,7 @@
 #include "easy_import.h"
 
 #include "customcppclasses.h"
-#include "diprovider.h"
-#include "startcoordinator.h"
-#include "homecoordinator.h"
+#include "diconsumer.h"
 
 int main(int argc, char *argv[])
 {
@@ -53,22 +51,12 @@ int main(int argc, char *argv[])
     application->setOrganizationName(QStringLiteral("ru.auroraos"));
     application->setApplicationName(QStringLiteral("ToDoFeed"));
 
+    auto diConsumer = make_shared<DiConsumer>();
+
     QScopedPointer<QQuickView> rootView(Aurora::Application::createView());
-    rootView->setSource(Aurora::Application::pathTo(PagePaths::root));
-    auto pageStackCppWrapper = shared_ptr<QQuickItem>(Smoozy::findQuickViewChildByObjectName(rootView.data()));
+    rootView->rootContext()->setContextProperty("diConsumer", diConsumer.get());
+    rootView->setSource(Aurora::Application::pathTo("qml/ToDoFeed.qml"));
     rootView->show();
-
-    auto diProvider = make_shared<DiProvider>();
-    auto startCoordinator = make_shared<StartCoordinator>(pageStackCppWrapper, diProvider);
-    auto homeCoordinator = make_shared<HomeCoordinator>(pageStackCppWrapper, diProvider);
-    QObject::connect(startCoordinator.get(), &StartCoordinator::authorized, homeCoordinator.get(), &HomeCoordinator::restart);
-    QObject::connect(homeCoordinator.get(), &HomeCoordinator::logout, startCoordinator.get(), &StartCoordinator::restart);
-
-    if (diProvider->loginStateProvider()->isLoggedIn()){
-        homeCoordinator->start();
-    } else {
-        startCoordinator->start();
-    }
 
     return application->exec();
 }

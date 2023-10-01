@@ -21,13 +21,13 @@ Page {
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "LogIn"
-            onClicked: login()
+            onClicked: viewModel.login()
         }
 
         Button {
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: "Signup"
-            onClicked: signup()
+            onClicked: viewModel.signup()
         }
     }
 

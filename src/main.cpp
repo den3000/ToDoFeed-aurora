@@ -42,9 +42,6 @@
 
 #include "customcppclasses.h"
 #include "diconsumer.h"
-#include "diprovider.h"
-#include "startcoordinator.h"
-#include "homecoordinator.h"
 
 int main(int argc, char *argv[])
 {

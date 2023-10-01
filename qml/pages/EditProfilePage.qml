@@ -73,18 +73,14 @@ Page {
             id: btLogout
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: qsTr("Log Out")
-            onClicked: {
-                viewModel.onLogOut()
-            }
+            onClicked: { viewModel.onLogOut() }
         }
 
         Button {
             id: btEraseAll
             anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
             text: qsTr("Erase All")
-            onClicked: {
-                viewModel.onEraseAll()
-            }
+            onClicked: { viewModel.onEraseAll() }
         }
     }
 

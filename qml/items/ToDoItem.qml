@@ -15,6 +15,7 @@ ListItem {
         leftPadding: Theme.horizontalPageMargin
         text: toDoTitle
         color: Theme.primaryColor
+        wrapMode: Text.Wrap
     }
 
     Label {
@@ -46,7 +47,7 @@ ListItem {
         anchors.right: parent.right
         rightPadding: Theme.horizontalPageMargin
         horizontalAlignment: Text.AlignRight
-        text: userId
+//        text: userId // uncomment this when needed
         color: Theme.primaryColor
         fontSizeMode: "Fit"
     }

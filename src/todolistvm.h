@@ -95,33 +95,6 @@ private:
         resOrErr(m_service->getMyToDos(), this,
         [this](auto * response) {
             updateNecessary(move(response->todos));
-
-//            auto oldNum = m_todos.size();
-//            if (oldNum == 0) {
-//                qDebug() << "own 1";
-//                beginResetModel();
-//                m_todos = move(response->todos);
-//                endResetModel();
-//                return;
-//            }
-
-//            auto newNum = response->todos.size();
-//            if (oldNum > newNum) {
-//                qDebug() << "own 2";
-//                beginRemoveRows(QModelIndex(), newNum, oldNum - 1);
-//                m_todos = move(response->todos);
-//                endRemoveRows();
-//            } else if (oldNum < newNum) {
-//                qDebug() << "own 3";
-//                beginInsertRows(QModelIndex(), oldNum, newNum-1);
-//                m_todos = move(response->todos);
-//                endInsertRows();
-//            }
-//            emit dataChanged(createIndex(0, 0), createIndex(newNum, 0));
-
-//            beginResetModel();
-//            m_todos = move(response->todos);
-//            endResetModel();
         }, [](auto * error){
             Q_UNUSED(error)
         });
@@ -131,33 +104,6 @@ private:
         resOrErr(m_service->getAllToDos(), this,
         [this](auto * response) {
             updateNecessary(move(response->todos));
-//            auto oldNum = m_todos.size();
-//            if (oldNum == 0) {
-//                qDebug() << "all 1";
-//                beginResetModel();
-//                m_todos = move(response->todos);
-//                endResetModel();
-//                return;
-//            }
-
-//            auto newNum = response->todos.size();
-//            if (oldNum > newNum) {
-//                qDebug() << "all 2";
-//                beginRemoveRows(QModelIndex(), newNum, oldNum - 1);
-//                m_todos = move(response->todos);
-//                endRemoveRows();
-//            } else if (oldNum < newNum) {
-//                qDebug() << "all 3";
-//                beginInsertRows(QModelIndex(), oldNum, newNum - 1);
-//                m_todos = move(response->todos);
-//                endInsertRows();
-//            }
-//            emit dataChanged(createIndex(0, 0), createIndex(newNum, 0));
-
-
-//            beginResetModel();
-//            m_todos = move(response->todos);
-//            endResetModel();
         }, [](auto * error){
             Q_UNUSED(error)
         });

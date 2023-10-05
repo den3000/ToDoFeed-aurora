@@ -1,30 +1,15 @@
-# My Aurora OS Application
+# Трекер Задач для Аврора ОС с Omsk DevFest2023
 
-Short description of my Aurora OS Application
+Данный код является развитием идей заложенных в https://github.com/den3000/BasicApp
 
-The source code of the project is provided under
-[the license](LICENSE.BSD-3-CLAUSE.md),
-that allows it to be used in third-party applications.
+Приложение имеет следующие возможности: 
 
-## Project Structure
+1. Onboarding с возможностью входа или регистрации
+2. Список задач: только наших или вообще всех в команде
+3. Добавлять новые задачи
+4. Просматривать и/или редактировать детали задачи
+5. Видеть список участников и задачи каждого участника
 
-The project has a common structure
-of an application based on C++ and QML for Aurora OS.
+Для того, чтобы пример работал исправно, в корень проекта надо будет добавить один файл с именем `api.endpoint` и в этом файле указать URL к вашей версии бэкенда, например, на https://amvera.ru Сам код для бэкенда лежит по адресу: https://github.com/den3000/ToDoFeed-python
 
-* **[ru.auroraos.ToDoFeed.pro](ru.auroraos.ToDoFeed.pro)** file
-  describes the project structure for the qmake build system.
-* **[icons](icons)** directory contains application icons for different screen resolutions.
-* **[qml](qml)** directory contains the QML source code and the UI resources.
-  * **[cover](qml/cover)** directory contains the application cover implementations.
-  * **[icons](qml/icons)** directory contains the custom UI icons.
-  * **[pages](qml/pages)** directory contains the application pages.
-  * **[ToDoFeed.qml](qml/ToDoFeed.qml)** file
-    provides the application window implementation.
-* **[rpm](rpm)** directory contains the rpm-package build settings.
-  **[ru.auroraos.ToDoFeed.spec](rpm/ru.auroraos.ToDoFeed.spec)** file is used by rpmbuild tool.
-  It is generated from **[ru.auroraos.ToDoFeed.yaml](rpm/ru.auroraos.ToDoFeed.yaml)** file.
-* **[src](src)** directory contains the C++ source code.
-  * **[main.cpp](src/main.cpp)** file is the application entry point.
-* **[translations](translations)** directory contains the UI translation files.
-* **[ru.auroraos.ToDoFeed.desktop](ru.auroraos.ToDoFeed.desktop)** file
-  defines the display and parameters for launching the application.
+Данный код не являтеся прямым руководством к тому, как надо программировать на Аврора ОС с помощью C++/Qt. Это всего лишь попытка перенести подходы выработанные с годами Android и iOS разработчиками (в частности CLEAN) на новую платформу и начать дискуссию о том, как мы будем строить архитектуру приложений на Аврора ОС.
